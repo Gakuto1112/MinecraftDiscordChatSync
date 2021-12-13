@@ -9,16 +9,30 @@ const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m
 if(fs.existsSync("Settings.json")) {
     settings = JSON.parse(fs.readFileSync("Settings.json", "utf-8"));
     //設定ファイルの検証
+    //ログファイルへのパス
     if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToLogFile) || !settings.pathToLogFile.endsWith("latest.log")) {
         console.error(colors.red + "ログファイルへのパスが正しくありません。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
         process.exit(1);
     }
-    else if(typeof(settings.token) != "string") {
+    //ログファイルの文字コード
+    else if(typeof(settings.logEncode) != "string") {
+        console.error(colors.red + "文字コードの指定が正しくありません。" + colors.reset);
+        process.exit(1);
+    }
+    settings.logEncode = settings.logEncode.toLowerCase();
+    const validEncode: string[] = ["utf-8", "shift-jis"];
+    if(validEncode.indexOf(settings.logEncode) == -1) {
+        console.error(colors.red + "指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。" + colors.reset);
+        process.exit(1);
+    }
+
+    //トークン
+    if(typeof(settings.token) != "string") {
         console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
         process.exit(1);
     }
 } else {
-    const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "token": "" };
+    const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "token": "" };
     fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4))
     console.error(colors.yellow + "設定ファイルの「Settings.json」が存在しません。" + colors.reset);
     console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");

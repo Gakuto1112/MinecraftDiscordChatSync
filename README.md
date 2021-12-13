@@ -1,1 +1,2 @@
-# MinecraftDiscordChaySync
+# MinecraftDiscordChatSync
+マインクラフトとDiscrodのチャット等を相互的に送受信できるDiscordのBotです。

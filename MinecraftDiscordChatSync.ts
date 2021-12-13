@@ -14,6 +14,11 @@ if(fs.existsSync("Settings.json")) {
     process.exit(0);
 }
 
+//Botがログインした時のイベント
+client.on("ready", () => {
+    console.log(colors.green + client.user.tag + colors.reset + " でログインしました。")
+});
+
 //Botへのログイン
 client.login(settings.token).catch((error: any) => {
     const errorName: string = error.name;

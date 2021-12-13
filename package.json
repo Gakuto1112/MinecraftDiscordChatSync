@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "chokidar": "^3.5.2",
+    "discord.js": "^13.3.1",
+    "iconv": "^3.0.1",
+    "iconv-lite": "^0.6.3",
+    "text-encoding": "^0.7.0"
+  }
+}

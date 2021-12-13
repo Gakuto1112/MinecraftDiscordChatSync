@@ -1,8 +1,10 @@
 const fs = require("fs");
 const { Client } = require("discord.js");
 const chokidar = require("chokidar");
+const iconv = require("iconv").Iconv;
 const client = new Client({ intents: ["GUILD_MESSAGES"] });
-let settings: { [key: string]: any } = { };
+let settings: { [key: string]: any }; //設定ファイルからの設定情報
+let logLines: number; //読み取ったログファイルの行数
 const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
 //設定ファイルの存在確認
@@ -41,6 +43,13 @@ if(fs.existsSync("Settings.json")) {
 
 //ログファイルの読み取り
 const watcher = chokidar.watch(settings.pathToLogFile, { ignored:/[\/\\]\./, persistent:true, usePolling:true });
+watcher.on("ready", () => {
+    const iconvConvert = new iconv(settings.logEncode, "utf-8");
+    fs.readFile(settings.pathToLogFile, (error: string, body: string) => {
+        logLines = iconvConvert.convert(body).toString().split("\n").length;
+        console.log(logLines);
+    });
+});
 
 //Botへのログイン
 client.login(settings.token).catch((error: any) => {

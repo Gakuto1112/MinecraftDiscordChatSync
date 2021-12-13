@@ -7,6 +7,16 @@ let settings: { [key: string]: any }; //設定ファイルからの設定情報
 let logLines: number; //読み取ったログファイルの行数
 const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
+//ログの読み取り
+function readLog(): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const iconvConvert = new iconv(settings.logEncode, "utf-8");
+        fs.readFile(settings.pathToLogFile, (error: string, body: Buffer) => {
+            resolve(iconvConvert.convert(body).toString());
+        });
+    });
+}
+
 //設定ファイルの存在確認
 if(fs.existsSync("Settings.json")) {
     settings = JSON.parse(fs.readFileSync("Settings.json", "utf-8"));
@@ -43,11 +53,20 @@ if(fs.existsSync("Settings.json")) {
 
 //ログファイルの読み取り
 const watcher = chokidar.watch(settings.pathToLogFile, { ignored:/[\/\\]\./, persistent:true, usePolling:true });
+
+//ログファイルの初期処理
 watcher.on("ready", () => {
-    const iconvConvert = new iconv(settings.logEncode, "utf-8");
-    fs.readFile(settings.pathToLogFile, (error: string, body: string) => {
-        logLines = iconvConvert.convert(body).toString().split("\n").length;
+    readLog().then((resolve) => {
+        logLines = resolve.split("\n").length;
         console.log(logLines);
+    });
+});
+
+//ログファイル更新時の処理
+watcher.on("change", () => {
+    readLog().then((resolve) => {
+        const readLines = resolve.split("\n").length;
+        console.log(readLines);
     });
 });
 

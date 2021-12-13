@@ -17,6 +17,7 @@ if(fs.existsSync("Settings.json")) {
 //Botへのログイン
 client.login(settings.token).catch((error: any) => {
     const errorName: string = error.name;
-    if(errorName == "Error [TOKEN_INVALID]") console.log(colors.red + "エラーが発生しました。トークンが無効です。正しいトークンが設定されているか確認して下さい。" + colors.reset);
+    if(errorName == "Error [TOKEN_INVALID]") console.log(colors.red + "トークンが無効です。正しいトークンが設定されているか確認して下さい。" + colors.reset);
+    else if(errorName == "Error [DISALLOWED_INTENTS]") console.log(colors.red + "インテントが無効または許可されていません。開発者ページからインテントが有効か確認して下さい。ただし、100を超えるサーバーで使用されるBotの場合は、インテントの有効化に審査が必要となります。" + colors.reset);
     process.exit(1);
 });

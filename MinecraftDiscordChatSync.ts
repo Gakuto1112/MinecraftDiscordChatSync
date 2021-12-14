@@ -65,8 +65,15 @@ watcher.on("ready", () => {
 //ログファイル更新時の処理
 watcher.on("change", () => {
     readLog().then((resolve) => {
-        const readLines = resolve.split("\n").length;
-        console.log(readLines);
+        const logBodies: string[] = resolve.split("\n");
+        if(logBodies.length < logLines) {
+            logLines = logBodies.length;
+            return;
+        }
+        for(let i: number = logLines; i < logBodies.length; i++) {
+            //差分読み取りしたログの処理
+        }
+        logLines = logBodies.length;
     });
 });
 

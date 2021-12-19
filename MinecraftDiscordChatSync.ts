@@ -1,13 +1,20 @@
 import { PluginBase } from "./plugins/PluginBase";
 
 const fs = require("fs");
-const { Client } = require("discord.js");
+const { Client, Intents } = require("discord.js");
 const chokidar = require("chokidar");
 const iconv = require("iconv").Iconv;
-const client = new Client({ intents: ["GUILD_MESSAGES"] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 let settings: { [key: string]: any }; //設定ファイルからの設定情報
 let logLines: number; //読み取ったログファイルの行数
 const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
+
+//Botにメッセージを送信させる。
+export function sendMessageToDiscord(message: string) {
+    settings.botSendChannels.forEach((channel: number) => {
+        client.channels.cache.get(channel).send(message);
+    });
+}
 
 //ログの読み取り
 function readLog(): Promise<string> {
@@ -50,7 +57,7 @@ if(fs.existsSync("Settings.json")) {
         process.exit(1);
     }
 } else {
-    const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "token": "" };
+    const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "timeOffset": 0, "token": "", "botSendChannel": [] };
     fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4))
     console.error(colors.yellow + "設定ファイルの「Settings.json」が存在しません。" + colors.reset);
     console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");
@@ -124,5 +131,5 @@ client.login(settings.token).catch((error: any) => {
 
 //Botがログインした時のイベント
 client.on("ready", () => {
-    console.info(colors.green + client.user.tag + colors.reset + " でログインしました。")
+    console.info(colors.green + client.user.tag + colors.reset + " でログインしました。");
 });

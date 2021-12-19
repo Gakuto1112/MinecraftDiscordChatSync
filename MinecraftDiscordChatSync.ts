@@ -1,3 +1,5 @@
+import { PluginBase } from "./plugins/PluginBase";
+
 const fs = require("fs");
 const { Client } = require("discord.js");
 const chokidar = require("chokidar");
@@ -6,8 +8,6 @@ const client = new Client({ intents: ["GUILD_MESSAGES"] });
 let settings: { [key: string]: any }; //設定ファイルからの設定情報
 let logLines: number; //読み取ったログファイルの行数
 const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
-
-export type MessageType = ["INFO", "WARN", "ERROR", "FATAL"];
 
 //ログの読み取り
 function readLog(): Promise<string> {
@@ -58,13 +58,13 @@ if(fs.existsSync("Settings.json")) {
 }
 
 //プラグインファイルの読み取りとインスタンス化
-const plugins: object[] = [];
+const plugins: PluginBase[] = [];
 fs.readdir("./plugins", (error: string, files: string[]) => {
     files.forEach((file: string) => {
         const ignoreFiles: string[] = ["PluginBase.ts"];
         if(file.endsWith(".ts") && !ignoreFiles.includes(file)) {
             import("./plugins/" + file.split(".")[0]).then((plugin) => {
-                const pluginClass: object = new plugin.Plugin();
+                const pluginClass: PluginBase = new plugin.Plugin();
                 plugins.push(pluginClass);
             });
         }
@@ -98,6 +98,16 @@ watcher.on("change", () => {
                 messageTime.setHours(Number(messageTimeParse[0]) +  Math.floor(settings.timeOffset));
                 messageTime.setMinutes(Number(messageTimeParse[1]) + (settings.timeOffset % 1) * 60);
                 messageTime.setSeconds(Number(messageTimeParse[2]));
+                const processInfo: string[] = squareBracketString![1].split("/");
+                const messageBodyPart: string[] = [];
+                logBodies[i].split(": ").forEach((part: string, j: number) => {
+                    if(j >= 1) {
+                        messageBodyPart.push(part);
+                    }
+                });
+                plugins.forEach((plugin: PluginBase) => {
+                    plugin.onMinecraftMessage(messageTime, processInfo[0], processInfo[1], messageBodyPart.join(": "));
+                });
             }
         }
         logLines = logBodies.length;

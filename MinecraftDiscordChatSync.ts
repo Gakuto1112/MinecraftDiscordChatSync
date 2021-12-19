@@ -56,7 +56,8 @@ if(fs.existsSync("Settings.json")) {
         console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
         process.exit(1);
     }
-} else {
+}
+else {
     const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "timeOffset": 0, "token": "", "botSendChannel": [] };
     fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4))
     console.error(colors.yellow + "設定ファイルの「Settings.json」が存在しません。" + colors.reset);

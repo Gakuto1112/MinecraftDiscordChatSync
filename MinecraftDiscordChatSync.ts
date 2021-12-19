@@ -39,9 +39,13 @@ if(fs.existsSync("Settings.json")) {
         console.error(colors.red + "指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。" + colors.reset);
         process.exit(1);
     }
-
+    //時差
+    else if(typeof(settings.timeOffset) != "number") {
+        console.error(colors.red + "時差の指定が正しくありません。" + colors.reset);
+        process.exit(1);
+    }
     //トークン
-    if(typeof(settings.token) != "string") {
+    else if(typeof(settings.token) != "string") {
         console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
         process.exit(1);
     }
@@ -54,15 +58,15 @@ if(fs.existsSync("Settings.json")) {
 }
 
 //プラグインファイルの読み取りとインスタンス化
-const plugins: Object[] = [];
+const plugins: object[] = [];
 fs.readdir("./plugins", (error: string, files: string[]) => {
     files.forEach((file: string) => {
         const ignoreFiles: string[] = ["PluginBase.ts"];
         if(file.endsWith(".ts") && !ignoreFiles.includes(file)) {
             import("./plugins/" + file.split(".")[0]).then((plugin) => {
-                const pluginClass: Object = new plugin.Plugin();
+                const pluginClass: object = new plugin.Plugin();
                 plugins.push(pluginClass);
-            })
+            });
         }
     });
 });
@@ -87,8 +91,13 @@ watcher.on("change", () => {
         }
         for(let i: number = logLines - 1; i < logBodies.length - 1; i++) {
             //差分読み取りしたログの処理
-            if(/^\\[\\d{2}:\\d{2}:\\d{2}\\] \\[.+/[A-Z]+\\]: .+$/) {
-
+            if(/^\[\d{2}:\d{2}:\d{2}\] \[.+\/[A-Z]+\]: /.test(logBodies[i])) {
+                const squareBracketString: string[] | null = logBodies[i].match(/(?<=\[).*?(?=\])/g);
+                const messageTime: Date = new Date();
+                const messageTimeParse = squareBracketString![0].split(":");
+                messageTime.setHours(Number(messageTimeParse[0]) +  Math.floor(settings.timeOffset));
+                messageTime.setMinutes(Number(messageTimeParse[1]) + (settings.timeOffset % 1) * 60);
+                messageTime.setSeconds(Number(messageTimeParse[2]));
             }
         }
         logLines = logBodies.length;

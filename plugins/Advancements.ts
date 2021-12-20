@@ -89,7 +89,6 @@ export class Plugin extends PluginBase {
                             embed.setColor("#E6B422");
                             break;
                     }
-                    embed.setTimestamp();
                     sendMessageToDiscord(messageContent, embed);
                 }
                 else {

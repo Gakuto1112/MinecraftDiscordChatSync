@@ -27,13 +27,11 @@ export class Plugin extends PluginBase {
                     if(response.statusCode == 200) {
                         response.on("data", (data: any) => {
                             embed.setThumbnail("https://minotar.net/helm/" + JSON.parse(data).id + "/64");
-                            embed.setTimestamp();
                             sendMessageToDiscord(messageContent, embed);
                         });
                     }
                     else {
                         console.warn(colors.yellow + "プレイヤー \"" + playerName + "\" のUUIDを取得できませんでした。" + colors.reset);
-                        embed.setTimestamp();
                         sendMessageToDiscord(messageContent, embed);
                     }
                 });

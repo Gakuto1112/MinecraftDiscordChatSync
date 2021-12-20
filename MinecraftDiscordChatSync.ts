@@ -105,37 +105,34 @@ loadPlugin().then((resolve: PluginBase[]) => {
         process.exit(1);
     }
     let errorFlag = false;
-    //ログファイルの文字コード
-    if(typeof(settings.logEncode) != "string") {
-        console.error(colors.red + "文字コードの指定が正しくありません。" + colors.reset);
+    //設定ファイルの検証時のエラー時の関数
+    function settingsError(message: string): void {
+        console.error(colors.red + message + colors.reset);
         errorFlag = true;
     }
+    //ログファイルの文字コード
+    if(typeof(settings.logEncode) != "string") settingsError("文字コードの指定が正しくありません。");
     settings.logEncode = settings.logEncode.toLowerCase();
     const validEncode: string[] = ["utf-8", "shift-jis"];
-    if(validEncode.indexOf(settings.logEncode) == -1) {
-        console.error(colors.red + "指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。" + colors.reset);
-        errorFlag = true;
-    }
+    if(validEncode.indexOf(settings.logEncode) == -1) settingsError("指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。");
     //時差
-    if(typeof(settings.timeOffset) != "number") {
-        console.error(colors.red + "時差の指定が正しくありません。" + colors.reset);
-        errorFlag = true;
-    }
+    if(typeof(settings.timeOffset) != "number") settingsError("時差の指定が正しくありません。");
     //トークン
-    if(typeof(settings.token) != "string") {
-        console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
-        errorFlag = true;
-    }
-    //チャネルID
+    if(typeof(settings.token) != "string") settingsError("トークンの設定が正しくありません。");
+    //チャンネルID
     settings.botSendChannels.forEach((channel : string | number) => {
-        if(typeof(channel) == "number") {
-            console.error(colors.red + "チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel + colors.reset);
-            errorFlag = true;
+        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
+        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
+    });
+    //Embed設定
+    embeds.forEach((embed: string) => {
+        if(!(embed in settings.embeds)) settingsError("Embed \"" + embed + "\" がありません。");
+    });
+    Object.keys(settings.embeds).forEach((key: string) => {
+        if(typeof(settings.embeds[key]) == "string") {
+            if(settings.embeds[key].toLowerCase() != "true" && settings.embeds[key].toLowerCase() != "false") settingsError("Embed \"" + key + "\" の値 \"" + settings.embeds[key] + "\" が不正です。");
         }
-        else if(/[^\d]/.test(channel)) {
-            console.error(colors.red + "チャンネルIDが不正です。対象チャンネルID：" + channel + colors.reset);
-            errorFlag = true;
-        }
+        else settingsError("Embed \"" + settings.embeds[key] + "\" が不正です。");
     });
     if(errorFlag) process.exit(1); //エラーフラグがtrueならプログラム終了
 

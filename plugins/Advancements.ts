@@ -1,5 +1,6 @@
+import { MessageEmbed } from "discord.js";
 import { PluginBase } from "./PluginBase";
-import { colors, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
+import { colors, addEmbed, getSettings, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 interface AdvancementObject {
     id: string;
@@ -10,6 +11,7 @@ interface AdvancementObject {
 export class Plugin extends PluginBase {
 
     private advancements: AdvancementObject[] = [];
+    private settings: any = undefined;
 
     constructor() {
         super();
@@ -54,14 +56,46 @@ export class Plugin extends PluginBase {
         return result;
     }
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
-        if(/^\w{2,16} has made the advancement \[.+?\]/.test(message)) {
-            sendMessageToDiscord(":third_place: " + message.split(" ")[0] + " は進捗 [" + this.convertAdvancements(message.match(/\[.+?\]/)![0].slice(1, -1)).name + "] を達成した");
-        }
-        else if(/^\w{2,16} has reached the goal \[.+?\]/.test(message)) {
-            sendMessageToDiscord(":second_place: " + message.split(" ")[0] + " は目標 [" + this.convertAdvancements(message.match(/\[.+?\]/)![0].slice(1, -1)).name + "] を達成した");
-        }
-        else if(/^\w{2,16} has completed the challenge \[.+?\]/.test(message)) {
-            sendMessageToDiscord(":first_place: " + message.split(" ")[0] + " は挑戦 [" + this.convertAdvancements(message.match(/\[.+?\]/)![0].slice(1, -1)).name + "] を完了した");
-        }
+        const advancementLogs: RegExp[] = [/^\w{2,16} has made the advancement \[.+?\]/, /^\w{2,16} has reached the goal \[.+?\]/, /^\w{2,16} has completed the challenge \[.+?\]/];
+        advancementLogs.forEach((advancementLog: RegExp, i: number) => {
+            if(advancementLog.test(message)) {
+                const targetAdvancement: AdvancementObject = this.convertAdvancements(message.match(/\[.+?\]/)![0].slice(1, -1));
+                let messageContent: string = "";
+                switch(i) {
+                    case 0:
+                        messageContent = ":third_place: " + message.split(" ")[0] + " は進捗 [" + targetAdvancement.name + "] を達成した";
+                        break;
+                    case 1:
+                        messageContent = ":second_place: " + message.split(" ")[0] + " は目標 [" + targetAdvancement.name + "] を達成した";
+                        break;
+                    case 2:
+                        messageContent = ":first_place: " + message.split(" ")[0] + " は挑戦 [" + targetAdvancement.name + "] を完了した";
+                }
+                if(typeof(this.settings) == "undefined") {
+                    this.settings = getSettings();
+                }
+                if(this.settings.embeds.advancements == "true") {
+                    const embed = new MessageEmbed();
+                    embed.setTitle(targetAdvancement.name);
+                    embed.setDescription(targetAdvancement.description);
+                    switch(i) {
+                        case 0:
+                            embed.setColor("#B87333");
+                            break;
+                        case 1:
+                            embed.setColor("#C0C0C0");
+                            break;
+                        case 2:
+                            embed.setColor("#E6B422");
+                            break;
+                    }
+                    embed.setTimestamp();
+                    sendMessageToDiscord(messageContent, embed);
+                }
+                else {
+                    sendMessageToDiscord(messageContent);
+                }
+            }
+        });
     }
 }

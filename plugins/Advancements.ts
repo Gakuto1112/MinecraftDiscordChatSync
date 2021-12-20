@@ -1,5 +1,5 @@
 import { PluginBase } from "./PluginBase";
-import { colors, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
+import { colors, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 interface AdvancementObject {
     id: string;
@@ -13,6 +13,7 @@ export class Plugin extends PluginBase {
 
     constructor() {
         super();
+        addEmbed("advancements")
         const fs = require("fs");
         let data: string;
         try {

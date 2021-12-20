@@ -10,9 +10,14 @@ let logLines: number; //読み取ったログファイルの行数
 export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
 //Botにメッセージを送信させる。
-export function sendMessageToDiscord(message: string) {
-    settings.botSendChannels.forEach((channel: number) => {
-        client.channels.cache.get(channel).send(message);
+export function sendMessageToDiscord(message: string): void {
+    settings.botSendChannels.forEach((channel: string) => {
+        try {
+            client.channels.cache.get(channel).send(message);
+        }
+        catch {
+            console.error(colors.red + "チャンネルID \"" + channel + "\" を持つチャンネルにメッセージを送信できません。" + colors.reset);
+        }
     });
 }
 
@@ -33,7 +38,7 @@ try {
 catch(error: any) {
     if(error.code == "ENOENT") {
         console.error(colors.red + "設定ファイル「Settings.json」が存在しません。" + colors.reset);
-        const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "timeOffset": 0, "token": "", "botSendChannel": [] };
+        const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "timeOffset": 0, "token": "", "botSendChannel": [""] };
         try {
             fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
         }
@@ -64,27 +69,40 @@ if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToL
     console.error(colors.red + "ログファイルへのパスが正しくありません。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
     process.exit(1);
 }
+let errorFlag = false;
 //ログファイルの文字コード
-else if(typeof(settings.logEncode) != "string") {
+if(typeof(settings.logEncode) != "string") {
     console.error(colors.red + "文字コードの指定が正しくありません。" + colors.reset);
-    process.exit(1);
+    errorFlag = true;
 }
 settings.logEncode = settings.logEncode.toLowerCase();
 const validEncode: string[] = ["utf-8", "shift-jis"];
 if(validEncode.indexOf(settings.logEncode) == -1) {
     console.error(colors.red + "指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。" + colors.reset);
-    process.exit(1);
+    errorFlag = true;
 }
 //時差
-else if(typeof(settings.timeOffset) != "number") {
+if(typeof(settings.timeOffset) != "number") {
     console.error(colors.red + "時差の指定が正しくありません。" + colors.reset);
-    process.exit(1);
+    errorFlag = true;
 }
 //トークン
-else if(typeof(settings.token) != "string") {
+if(typeof(settings.token) != "string") {
     console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
-    process.exit(1);
+    errorFlag = true;
 }
+//チャネルID
+settings.botSendChannels.forEach((channel : string | number) => {
+    if(typeof(channel) == "number") {
+        console.error(colors.red + "チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel + colors.reset);
+        errorFlag = true;
+    }
+    else if(/[^\d]/.test(channel)) {
+        console.error(colors.red + "チャンネルIDが不正です。対象チャンネルID：" + channel + colors.reset);
+        errorFlag = true;
+    }
+});
+if(errorFlag) process.exit(1); //エラーフラグがtrueならプログラム終了
 
 //プラグインファイルの読み取りとインスタンス化
 const plugins: PluginBase[] = [];

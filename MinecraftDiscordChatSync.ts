@@ -1,3 +1,4 @@
+import { MessageEmbed } from "discord.js";
 import { PluginBase } from "./plugins/PluginBase";
 
 const fs = require("fs");
@@ -15,11 +16,20 @@ export function addEmbed(embedName: string): void {
     }
     embeds.push(embedName);
 }
+//設定情報の取得
+export function getSettings(): { [key: string]: string } {
+    return settings;
+}
 //Botにメッセージを送信させる。
-export function sendMessageToDiscord(message: string): void {
+export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed | undefined = undefined): void {
     settings.botSendChannels.forEach((channel: string) => {
         try {
-            client.channels.cache.get(channel).send(message);
+            if(typeof(messageEmbed) == "undefined") {
+                client.channels.cache.get(channel).send(message);
+            }
+            else {
+                client.channels.cache.get(channel).send({content: message, embeds: [messageEmbed] });
+            }
         }
         catch {
             console.error(colors.red + "チャンネルID \"" + channel + "\" を持つチャンネルにメッセージを送信できません。" + colors.reset);
@@ -130,7 +140,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     });
     Object.keys(settings.embeds).forEach((key: string) => {
         if(typeof(settings.embeds[key]) == "string") {
-            if(settings.embeds[key].toLowerCase() != "true" && settings.embeds[key].toLowerCase() != "false") settingsError("Embed \"" + key + "\" の値 \"" + settings.embeds[key] + "\" が不正です。");
+            if(settings.embeds[key] != "true" && settings.embeds[key] != "false") settingsError("Embed \"" + key + "\" の値 \"" + settings.embeds[key] + "\" が不正です。");
         }
         else settingsError("Embed \"" + settings.embeds[key] + "\" が不正です。");
     });

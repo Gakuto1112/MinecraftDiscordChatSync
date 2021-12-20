@@ -5,7 +5,7 @@ const { Client, Intents } = require("discord.js");
 const chokidar = require("chokidar");
 const iconv = require("iconv").Iconv;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-let settings: { [key: string]: any }; //設定ファイルからの設定情報
+let settings: { [key: string]: any } = { }; //設定ファイルからの設定情報
 let logLines: number; //読み取ったログファイルの行数
 export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
@@ -27,42 +27,63 @@ function readLog(): Promise<string> {
 }
 
 //設定ファイルの存在確認
-if(fs.existsSync("Settings.json")) {
+try {
     settings = JSON.parse(fs.readFileSync("Settings.json", "utf-8"));
-    //設定ファイルの検証
-    //ログファイルへのパス
-    if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToLogFile) || !settings.pathToLogFile.endsWith("latest.log")) {
-        console.error(colors.red + "ログファイルへのパスが正しくありません。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
+}
+catch(error: any) {
+    if(error.code == "ENOENT") {
+        console.error(colors.red + "設定ファイル「Settings.json」が存在しません。" + colors.reset);
+        const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "timeOffset": 0, "token": "", "botSendChannel": [] };
+        try {
+            fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
+        }
+        catch(error: any) {
+            if(error.code == "EPERM") console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、書き込み権限がないので生成できません。ディレクトリに書き込み権限を設定してもう一度お試し下さい。" + colors.reset);
+            else console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できません。エラーコード：" + error.code + colors.reset);
+            process.exit(1);
+        }
+        console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");
+        process.exit(0);
+    }
+    else if(error.code == "EPERM") {
+        console.error(colors.red + "設定ファイル「Settings.json」の読み取り権限がありません。" + colors.reset);
         process.exit(1);
     }
-    //ログファイルの文字コード
-    else if(typeof(settings.logEncode) != "string") {
-        console.error(colors.red + "文字コードの指定が正しくありません。" + colors.reset);
+    else if(error instanceof SyntaxError) {
+        console.error(colors.red + "設定ファイル「Settings.json」のjson構文が不正です。" + colors.reset);
         process.exit(1);
     }
-    settings.logEncode = settings.logEncode.toLowerCase();
-    const validEncode: string[] = ["utf-8", "shift-jis"];
-    if(validEncode.indexOf(settings.logEncode) == -1) {
-        console.error(colors.red + "指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。" + colors.reset);
-        process.exit(1);
-    }
-    //時差
-    else if(typeof(settings.timeOffset) != "number") {
-        console.error(colors.red + "時差の指定が正しくありません。" + colors.reset);
-        process.exit(1);
-    }
-    //トークン
-    else if(typeof(settings.token) != "string") {
-        console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
+    else {
+        console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。エラーコード：" + error.code + colors.reset);
         process.exit(1);
     }
 }
-else {
-    const settingsPattern: { [key: string]: any } = { "pathToLogFile": "", "logEncode": "", "timeOffset": 0, "token": "", "botSendChannel": [] };
-    fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4))
-    console.error(colors.yellow + "設定ファイルの「Settings.json」が存在しません。" + colors.reset);
-    console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");
-    process.exit(0);
+//設定ファイルの検証
+//ログファイルへのパス
+if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToLogFile) || !settings.pathToLogFile.endsWith("latest.log")) {
+    console.error(colors.red + "ログファイルへのパスが正しくありません。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
+    process.exit(1);
+}
+//ログファイルの文字コード
+else if(typeof(settings.logEncode) != "string") {
+    console.error(colors.red + "文字コードの指定が正しくありません。" + colors.reset);
+    process.exit(1);
+}
+settings.logEncode = settings.logEncode.toLowerCase();
+const validEncode: string[] = ["utf-8", "shift-jis"];
+if(validEncode.indexOf(settings.logEncode) == -1) {
+    console.error(colors.red + "指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。" + colors.reset);
+    process.exit(1);
+}
+//時差
+else if(typeof(settings.timeOffset) != "number") {
+    console.error(colors.red + "時差の指定が正しくありません。" + colors.reset);
+    process.exit(1);
+}
+//トークン
+else if(typeof(settings.token) != "string") {
+    console.error(colors.red + "トークンの設定が正しくありません。" + colors.reset);
+    process.exit(1);
 }
 
 //プラグインファイルの読み取りとインスタンス化

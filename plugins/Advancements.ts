@@ -18,6 +18,10 @@ export class Plugin extends PluginBase {
                     console.error(colors.red + "\"./plugins/data/advancements.tsv\"の読み取り権限がありません。" + colors.reset);
                     process.exit(1);
                 }
+                else {
+                    console.error(colors.red + "\"./plugins/data/advancements.tsv\"を読み取れません。" + colors.reset);
+                    process.exit(1);
+                }
             }
             else {
                 fs.readFileSync("./plugins/data/advancements.tsv", "utf-8").split("\r\n").forEach((line: string, i: number) => {
@@ -51,7 +55,6 @@ export class Plugin extends PluginBase {
     }
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
         if(/^\w{2,16} has made the advancement \[.+?\]/.test(message)) {
-
             sendMessageToDiscord(":third_place: " + message.split(" ")[0] + " は進捗 [" + this.convertAdvancements(message.match(/\[.+?\]/)![0].slice(1, -1)).name + "] を達成した");
         }
         else if(/^\w{2,16} has reached the goal \[.+?\]/.test(message)) {

@@ -1,9 +1,15 @@
 import { PluginBase } from "./PluginBase";
 import { colors, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
+interface AdvancementObject {
+    id: string;
+    name: string;
+    description: string;
+}
+
 export class Plugin extends PluginBase {
 
-    private advancements: { [key: string]: string }[] = [];
+    private advancements: AdvancementObject[] = [];
 
     constructor() {
         super();
@@ -20,27 +26,28 @@ export class Plugin extends PluginBase {
         }
         data.split("\r\n").forEach((line: string, i: number) => {
             if(i >= 1) {
-                const record: { [key: string]: string } = { };
+                const record: AdvancementObject = { id: "",  name: "", description: "" };
                 const lineSplit = line.split("\t");
-                record.advancement = lineSplit[0];
+                record.id = lineSplit[0];
                 record.name = lineSplit[1];
                 record.description = lineSplit[2];
                 this.advancements.push(record);
             }
         });
     }
-    private convertAdvancements(str: string): { [key: string]: string } {
-        const result: { [key: string]: string } = { };
+    private convertAdvancements(str: string): AdvancementObject {
+        const result: AdvancementObject = { id: "",  name: "", description: "" };
         let advancementFind: boolean = false;
-        this.advancements.forEach((advancement: { [key: string]: string }, i: number) => {
-            if(str.startsWith(advancement.advancement)) {
+        this.advancements.forEach((advancement: AdvancementObject, i: number) => {
+            if(advancement.id == str) {
+                result.id = str;
                 result.name = this.advancements[i].name;
                 result.description = this.advancements[i].description;
                 advancementFind = true;
             }
         });
         if(!advancementFind) {
-            result.name = str;
+            result.id = result.name = str;
             result.description = "情報がありません";
         }
         return result;

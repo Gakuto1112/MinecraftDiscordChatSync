@@ -8,32 +8,24 @@ export class Plugin extends PluginBase {
     constructor() {
         super();
         const fs = require("fs");
-        fs.access("./plugins/data/advancements.tsv", fs.constants.R_OK, (error: any) => {
-            if(error) {
-                if(error.code == "ENOENT") {
-                    console.error(colors.red + "\"./plugins/data/advancements.tsv\"が存在しません。" + colors.reset);
-                    process.exit(1);
-                }
-                else if(error.code == "EPERM") {
-                    console.error(colors.red + "\"./plugins/data/advancements.tsv\"の読み取り権限がありません。" + colors.reset);
-                    process.exit(1);
-                }
-                else {
-                    console.error(colors.red + "\"./plugins/data/advancements.tsv\"を読み取れません。" + colors.reset);
-                    process.exit(1);
-                }
-            }
-            else {
-                fs.readFileSync("./plugins/data/advancements.tsv", "utf-8").split("\r\n").forEach((line: string, i: number) => {
-                    if(i >= 1) {
-                        const record: { [key: string]: string } = { };
-                        const lineSplit = line.split("\t");
-                        record.advancement = lineSplit[0];
-                        record.name = lineSplit[1];
-                        record.description = lineSplit[2];
-                        this.advancements.push(record);
-                    }
-                });
+        let data: string;
+        try {
+            data = fs.readFileSync("./plugins/data/advancements.tsv", "utf-8");
+        }
+        catch(error: any) {
+            if(error.code == "ENOENT") console.error(colors.red + "\"./plugins/data/advancements.tsv\"が存在しません。" + colors.reset);
+            else if(error.code == "EPERM") console.error(colors.red + "\"./plugins/data/advancements.tsv\"の読み取り権限がありません。" + colors.reset);
+            else console.error(colors.red + "\"./plugins/data/advancements.tsv\"を読み取れません。エラーコード：" + error.code + colors.reset);
+            process.exit(1);
+        }
+        data.split("\r\n").forEach((line: string, i: number) => {
+            if(i >= 1) {
+                const record: { [key: string]: string } = { };
+                const lineSplit = line.split("\t");
+                record.advancement = lineSplit[0];
+                record.name = lineSplit[1];
+                record.description = lineSplit[2];
+                this.advancements.push(record);
             }
         });
     }

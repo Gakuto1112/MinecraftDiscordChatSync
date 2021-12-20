@@ -13,7 +13,7 @@ export class Plugin extends PluginBase {
 
     constructor() {
         super();
-        addEmbed("advancements")
+        addEmbed("advancements");
         const fs = require("fs");
         let data: string;
         try {

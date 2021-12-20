@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { PluginBase } from "./PluginBase";
-import { addEmbed,getSettings, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
+import { colors, addEmbed, getSettings, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 export class Plugin extends PluginBase {
 
@@ -32,6 +32,7 @@ private settings: any = undefined;
                         });
                     }
                     else {
+                        console.warn(colors.yellow + "プレイヤー \"" + playerName + "\" のUUIDを取得できませんでした。" + colors.reset);
                         embed.setTimestamp();
                         sendMessageToDiscord(messageContent, embed);
                     }

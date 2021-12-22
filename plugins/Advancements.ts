@@ -59,7 +59,7 @@ export class Plugin extends PluginBase {
         const advancementLogs: RegExp[] = [/^\w{2,16} has made the advancement \[.+?\]/, /^\w{2,16} has reached the goal \[.+?\]/, /^\w{2,16} has completed the challenge \[.+?\]/];
         advancementLogs.forEach((advancementLog: RegExp, i: number) => {
             if(advancementLog.test(message)) {
-                const targetAdvancement: AdvancementObject = this.convertAdvancements(message.match(/\[.+?\]/)![0].slice(1, -1));
+                const targetAdvancement: AdvancementObject = this.convertAdvancements(message.match(/(?<=\[).*?(?=\])/)![0]);
                 let messageContent: string = "";
                 switch(i) {
                     case 0:

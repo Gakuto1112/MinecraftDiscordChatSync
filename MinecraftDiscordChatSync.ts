@@ -50,7 +50,7 @@ function readLog(): Promise<string> {
 //プラグインファイルの読み取りとインスタンス化
 const embeds: string[] = [];
 function loadPlugin(): Promise<PluginBase[]> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         fs.readdir("./plugins", (error: string, files: string[]) => {
             const result: PluginBase[] = [];
             files.forEach((file: string) => {

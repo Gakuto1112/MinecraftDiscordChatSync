@@ -13,24 +13,28 @@ export class Plugin extends PluginBase {
 
 	constructor() {
 		super();
-		const fs = require("fs");
-		let data: string;
-		try {
-			data = fs.readFileSync("./plugins/data/death.tsv", "utf-8");
-		}
-        catch(error: any) {
-            if(error.code == "ENOENT") console.error(colors.red + "\"./plugins/data/death.tsv\"が存在しません。" + colors.reset);
-            else if(error.code == "EPERM") console.error(colors.red + "\"./plugins/data/death.tsv\"の読み取り権限がありません。" + colors.reset);
-            else console.error(colors.red + "\"./plugins/data/death.tsv\"を読み取れません。エラーコード：" + error.code + colors.reset);
-            process.exit(1);
-        }
-		data.split(/\r\n|\r|\r/).forEach((line: string, i: number) => {
+		this.readTsv("./plugins/data/death.tsv").forEach((line: string, i: number) => {
 			if(i >= 1) {
 				const lineSplit = line.split("\t");
 				this.deathMessages.push({ regexp: new RegExp("^" + lineSplit[0].replace("{victim}", ".+?").replace("{killer}", ".+?").replace("{weapon}", ".+?").replace("[", "\\[").replace("]", "\\]") + "{END}$"), globalName: lineSplit[0], localName: lineSplit[1] });
 			}
 		});
 		this.deathMessages.reverse();
+	}
+	private readTsv(path: string): string[]{
+		//tsvファイルの読み込んで返す
+		const fs = require("fs");
+		let data: string;
+		try {
+			data = fs.readFileSync(path, "utf-8");
+		}
+        catch(error: any) {
+            if(error.code == "ENOENT") console.error(colors.red + "\"" + path + "\"が存在しません。" + colors.reset);
+            else if(error.code == "EPERM") console.error(colors.red + "\"" + path + "\"の読み取り権限がありません。" + colors.reset);
+            else console.error(colors.red + "\"" + path + "\"を読み取れません。エラーコード：" + error.code + colors.reset);
+            process.exit(1);
+        }
+		return data.split(/\r\n|\r|\r/);
 	}
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
 		const messageRemoveR: string = message.replace(/\r/, "");

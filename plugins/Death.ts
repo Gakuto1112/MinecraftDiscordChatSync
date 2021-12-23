@@ -6,10 +6,15 @@ interface DeathMessageObject {
 	globalName: string;
     localName: string;
 }
+interface EntityObject {
+	globalName: string;
+	localName: string;
+}
 
 export class Plugin extends PluginBase {
 
     private deathMessages: DeathMessageObject[] = [];
+	private entities: EntityObject[] = [];
 
 	constructor() {
 		super();
@@ -20,6 +25,12 @@ export class Plugin extends PluginBase {
 			}
 		});
 		this.deathMessages.reverse();
+		this.readTsv("./plugins/data/entity.tsv").forEach((line: string, i: number) => {
+			if(i >= 1) {
+				const lineSplit = line.split("\t");
+				this.entities.push({ globalName: lineSplit[0], localName: lineSplit[1] });
+			}
+		});
 	}
 	private readTsv(path: string): string[]{
 		//tsvファイルの読み込んで返す
@@ -58,7 +69,7 @@ export class Plugin extends PluginBase {
 					for(let i: number = beforePlaceholderIndex; i < afterPlaceholderIndex; i++) {
 						result.push(messageRemoveRSplit[i]);
 					}
-					return result.join(" ")
+					return result.join(" ");
 				}
 				//victim
 				if(globalNameSplit.includes("{victim}")) {
@@ -67,6 +78,9 @@ export class Plugin extends PluginBase {
 				//killer
 				if(globalNameSplit.includes("{killer}")) {
 					killer = getPlaceholderString("{killer}");
+					this.entities.forEach((entity: EntityObject) => {
+						if(entity.globalName == killer) killer = entity.localName;
+					});
 				}
 				//weapon
 				if(globalNameSplit.includes("{weapon}")) {

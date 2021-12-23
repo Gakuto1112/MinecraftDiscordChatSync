@@ -37,38 +37,38 @@ export class Plugin extends PluginBase {
 		let processed: boolean = false;
 		this.deathMessages.forEach((deathMessage: DeathMessageObject) => {
 			if(deathMessage.regexp.test(messageRemoveR + "{END}") && !processed) {
-				console.log(deathMessage.globalName);
 				const globalNameSplit: string[] = deathMessage.globalName.split(" ");
-				function getPlaceholderString(placeholder: string) {
+				let victim: string = "";
+				let killer: string = "";
+				let weapon: string = "";
+				function getPlaceholderString(placeholder: string): string {
 					//プレイスホルダーに対応する文字列を返す。
 					const messageRemoveRSplit = messageRemoveR.split(" ");
 					let beforePlaceholderIndex: number;
 					let afterPlaceholderIndex: number;
-					let result: string = "";
-					console.log(globalNameSplit.indexOf(placeholder) != globalNameSplit.length);
+					const result: string[] = [];
 					if(globalNameSplit.indexOf(placeholder) != 0) beforePlaceholderIndex = messageRemoveRSplit.indexOf(globalNameSplit[globalNameSplit.indexOf(placeholder) - 1]) + 1;
 					else beforePlaceholderIndex = 0;
 					if(globalNameSplit.indexOf(placeholder) != globalNameSplit.length - 1) afterPlaceholderIndex = messageRemoveRSplit.indexOf(globalNameSplit[globalNameSplit.indexOf(placeholder) + 1]);
 					else afterPlaceholderIndex = messageRemoveRSplit.length
-					console.log(beforePlaceholderIndex);
-					console.log(afterPlaceholderIndex);
 					for(let i: number = beforePlaceholderIndex; i < afterPlaceholderIndex; i++) {
-						result += " " + messageRemoveRSplit[i];
+						result.push(messageRemoveRSplit[i]);
 					}
-					return result
+					return result.join(" ")
 				}
 				//victim
 				if(globalNameSplit.includes("{victim}")) {
-					console.log(getPlaceholderString("{victim}"));
+					victim = getPlaceholderString("{victim}");
 				}
 				//killer
 				if(globalNameSplit.includes("{killer}")) {
-					console.log(getPlaceholderString("{killer}"));
+					killer = getPlaceholderString("{killer}");
 				}
 				//weapon
 				if(globalNameSplit.includes("{weapon}")) {
-					console.log(getPlaceholderString("{weapon}"));
+					weapon = getPlaceholderString("{weapon}");
 				}
+				sendMessageToDiscord(":skull: " + deathMessage.localName.replace("{victim}", victim).replace("{killer}", killer).replace("{weapon}", weapon));
 				processed = true;
 			}
 		});

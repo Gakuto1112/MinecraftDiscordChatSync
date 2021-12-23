@@ -48,47 +48,49 @@ export class Plugin extends PluginBase {
 		return data.split(/\r\n|\r|\r/);
 	}
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
-		const messageRemoveR: string = message.replace(/\r/, "");
-		let processed: boolean = false;
-		this.deathMessages.forEach((deathMessage: DeathMessageObject) => {
-			if(deathMessage.regexp.test(messageRemoveR + "{END}") && !processed) {
-				const globalNameSplit: string[] = deathMessage.globalName.split(" ");
-				let victim: string = "";
-				let killer: string = "";
-				let weapon: string = "";
-				function getPlaceholderString(placeholder: string): string {
-					//プレイスホルダーに対応する文字列を返す。
-					const messageRemoveRSplit = messageRemoveR.split(" ");
-					let beforePlaceholderIndex: number;
-					let afterPlaceholderIndex: number;
-					const result: string[] = [];
-					if(globalNameSplit.indexOf(placeholder) != 0) beforePlaceholderIndex = messageRemoveRSplit.indexOf(globalNameSplit[globalNameSplit.indexOf(placeholder) - 1]) + 1;
-					else beforePlaceholderIndex = 0;
-					if(globalNameSplit.indexOf(placeholder) != globalNameSplit.length - 1) afterPlaceholderIndex = messageRemoveRSplit.indexOf(globalNameSplit[globalNameSplit.indexOf(placeholder) + 1]);
-					else afterPlaceholderIndex = messageRemoveRSplit.length
-					for(let i: number = beforePlaceholderIndex; i < afterPlaceholderIndex; i++) {
-						result.push(messageRemoveRSplit[i]);
+		if(!message.startsWith("Named entity bme")) {
+			const messageRemoveR: string = message.replace(/\r/, "");
+			let processed: boolean = false;
+			this.deathMessages.forEach((deathMessage: DeathMessageObject) => {
+				if(deathMessage.regexp.test(messageRemoveR + "{END}") && !processed) {
+					const globalNameSplit: string[] = deathMessage.globalName.split(" ");
+					let victim: string = "";
+					let killer: string = "";
+					let weapon: string = "";
+					function getPlaceholderString(placeholder: string): string {
+						//プレイスホルダーに対応する文字列を返す。
+						const messageRemoveRSplit = messageRemoveR.split(" ");
+						let beforePlaceholderIndex: number;
+						let afterPlaceholderIndex: number;
+						const result: string[] = [];
+						if(globalNameSplit.indexOf(placeholder) != 0) beforePlaceholderIndex = messageRemoveRSplit.indexOf(globalNameSplit[globalNameSplit.indexOf(placeholder) - 1]) + 1;
+						else beforePlaceholderIndex = 0;
+						if(globalNameSplit.indexOf(placeholder) != globalNameSplit.length - 1) afterPlaceholderIndex = messageRemoveRSplit.indexOf(globalNameSplit[globalNameSplit.indexOf(placeholder) + 1]);
+						else afterPlaceholderIndex = messageRemoveRSplit.length
+						for(let i: number = beforePlaceholderIndex; i < afterPlaceholderIndex; i++) {
+							result.push(messageRemoveRSplit[i]);
+						}
+						return result.join(" ");
 					}
-					return result.join(" ");
+					//victim
+					if(globalNameSplit.includes("{victim}")) {
+						victim = getPlaceholderString("{victim}");
+					}
+					//killer
+					if(globalNameSplit.includes("{killer}")) {
+						killer = getPlaceholderString("{killer}");
+						this.entities.forEach((entity: EntityObject) => {
+							if(entity.globalName == killer) killer = entity.localName;
+						});
+					}
+					//weapon
+					if(globalNameSplit.includes("{weapon}")) {
+						weapon = getPlaceholderString("{weapon}");
+					}
+					sendMessageToDiscord(":skull: " + deathMessage.localName.replace("{victim}", victim).replace("{killer}", killer).replace("{weapon}", weapon));
+					processed = true;
 				}
-				//victim
-				if(globalNameSplit.includes("{victim}")) {
-					victim = getPlaceholderString("{victim}");
-				}
-				//killer
-				if(globalNameSplit.includes("{killer}")) {
-					killer = getPlaceholderString("{killer}");
-					this.entities.forEach((entity: EntityObject) => {
-						if(entity.globalName == killer) killer = entity.localName;
-					});
-				}
-				//weapon
-				if(globalNameSplit.includes("{weapon}")) {
-					weapon = getPlaceholderString("{weapon}");
-				}
-				sendMessageToDiscord(":skull: " + deathMessage.localName.replace("{victim}", victim).replace("{killer}", killer).replace("{weapon}", weapon));
-				processed = true;
-			}
-		});
+			});
+		}
     }
 }

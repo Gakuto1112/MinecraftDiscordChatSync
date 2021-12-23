@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import { PluginBase } from "./plugins/PluginBase";
 
 const fs = require("fs");
@@ -83,7 +83,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "token": "<Botのトークン>", "botSendChannel": ["<チャンネルID>"] };
+            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "token": "<Botのトークン>", "botSendChannel": ["<チャンネルID>"], "botWatchChannel": ["<チャンネルID>"], "ignoreBots": "true" };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }
@@ -111,7 +111,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     //設定ファイルの検証
     //ログファイルへのパス
     if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToLogFile) || !settings.pathToLogFile.endsWith("latest.log")) {
-        console.error(colors.red + "ログファイルへのパスが正しくありません。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
+        console.error(colors.red + "ログファイルへのパスが不正です。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
         process.exit(1);
     }
     let errorFlag = false;
@@ -121,29 +121,39 @@ loadPlugin().then((resolve: PluginBase[]) => {
         errorFlag = true;
     }
     //ログファイルの文字コード
-    if(typeof(settings.logEncode) != "string") settingsError("文字コードの指定が正しくありません。");
+    if(typeof(settings.logEncode) != "string") settingsError("文字コードの指定が不正です。");
     settings.logEncode = settings.logEncode.toLowerCase();
     const validEncode: string[] = ["utf-8", "shift-jis"];
     if(validEncode.indexOf(settings.logEncode) == -1) settingsError("指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。");
     //時差
-    if(typeof(settings.timeOffset) != "number") settingsError("時差の指定が正しくありません。");
+    if(typeof(settings.timeOffset) != "number") settingsError("時差の指定が不正です。");
+    //Embed設定
+    if(typeof(settings.embeds) == "object") {
+        embeds.forEach((embed: string) => {
+            if(!(embed in settings.embeds)) settingsError("Embed \"" + embed + "\" がありません。");
+        });
+        Object.keys(settings.embeds).forEach((key: string) => {
+            if(typeof(settings.embeds[key]) == "string") {
+                if(settings.embeds[key] != "true" && settings.embeds[key] != "false") settingsError("Embed \"" + key + "\" の値 \"" + settings.embeds[key] + "\" が不正です。");
+            }
+            else settingsError("Embed \"" + settings.embeds[key] + "\" が不正です。");
+        });
+    }
+    else settingsError("\"embeds\"の指定が不正です。");
     //トークン
-    if(typeof(settings.token) != "string") settingsError("トークンの設定が正しくありません。");
-    //チャンネルID
+    if(typeof(settings.token) != "string") settingsError("トークンの設定が不正です。");
+    //送信用チャンネルID
     settings.botSendChannels.forEach((channel : string | number) => {
         if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
         else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
     });
-    //Embed設定
-    embeds.forEach((embed: string) => {
-        if(!(embed in settings.embeds)) settingsError("Embed \"" + embed + "\" がありません。");
+    //受信用チャンネルID
+    settings.botWatchChannels.forEach((channel : string | number) => {
+        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
+        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
     });
-    Object.keys(settings.embeds).forEach((key: string) => {
-        if(typeof(settings.embeds[key]) == "string") {
-            if(settings.embeds[key] != "true" && settings.embeds[key] != "false") settingsError("Embed \"" + key + "\" の値 \"" + settings.embeds[key] + "\" が不正です。");
-        }
-        else settingsError("Embed \"" + settings.embeds[key] + "\" が不正です。");
-    });
+    //ボット無視設定
+    if(settings.ignoreBots != "true" && settings.ignoreBots != "false") settingsError("Embed \"ignoreBots\" の値 \"" + settings.ignoreBots + "\" が不正です。");
     if(errorFlag) process.exit(1); //エラーフラグがtrueならプログラム終了
 
     //ログファイルの読み取り
@@ -201,5 +211,8 @@ loadPlugin().then((resolve: PluginBase[]) => {
     //Botがログインした時のイベント
     client.on("ready", () => {
         console.info(colors.green + client.user.tag + colors.reset + " でログインしました。");
+    });
+    client.on("messageCreate",(message: Message) => {
+        console.log(message.content);
     });
 });

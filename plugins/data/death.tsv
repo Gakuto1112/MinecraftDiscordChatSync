@@ -78,7 +78,7 @@ Actually, message was too long to deliver fully. Sorry! Here's stripped version:
 {victim} went off with a bang	{victim}は花火の爆発に巻き込まれた
 {victim} went off with a bang whilst fighting {killer}	{victim}は{killer}と戦いながら花火の爆発に巻き込まれた
 {victim} went off with a bang due to a firework fired from {weapon} by {killer}	{victim}は{killer}の{weapon}が発射した花火の爆発に巻き込まれた
-{victim} was killed by {killer}	{victim}は{killer}に殺された
+{victim} was killed by [Intentional Game Design]	{victim}は ゲームの仕様 に殺された
 {victim} was poked to death by a sweet berry bush	{victim}はスイートベリーの棘が刺さって死んだ
 {victim} was poked to death by a sweet berry bush whilst trying to escape {killer}	{victim}は{killer}から逃げようとしてスイートベリーの棘が刺さって死んだ
 {victim} was stung to death	{victim}は刺されて死んだ

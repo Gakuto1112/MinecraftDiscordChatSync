@@ -27,7 +27,7 @@ export class Plugin extends PluginBase {
             else console.error(colors.red + "\"./plugins/data/advancements.tsv\"を読み取れません。エラーコード：" + error.code + colors.reset);
             process.exit(1);
         }
-        data.split("\r\n").forEach((line: string, i: number) => {
+        data.split(/\r\n|\r|\n|/).forEach((line: string, i: number) => {
             if(i >= 1) {
                 const record: AdvancementObject = { id: "",  name: "", description: "" };
                 const lineSplit = line.split("\t");

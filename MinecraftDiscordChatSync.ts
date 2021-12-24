@@ -34,10 +34,6 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
         }
     });
 }
-//チャンネルIDからチャンネル名を取得
-export function getChannelName(id: string): string {
-    return client.channels.cache.get(id).name;
-}
 //Rconによるリモートコマンド実行
 export function sendRconCommand(command: string): Promise<string | null> {
     return new Promise((resolve, reject) => {

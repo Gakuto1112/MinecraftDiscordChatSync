@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { PluginBase } from "./PluginBase";
-import { colors, addEmbed, getSettings, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
+import { colors, settings, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 interface AdvancementObject {
     id: string;
@@ -11,7 +11,6 @@ interface AdvancementObject {
 export class Plugin extends PluginBase {
 
     private advancements: AdvancementObject[] = [];
-    private settings: any = undefined;
 
     constructor() {
         super();
@@ -71,10 +70,7 @@ export class Plugin extends PluginBase {
                     case 2:
                         messageContent = ":first_place: " + message.split(" ")[0] + " は挑戦 [" + targetAdvancement.name + "] を完了した";
                 }
-                if(typeof(this.settings) == "undefined") {
-                    this.settings = getSettings();
-                }
-                if(this.settings.embeds.advancements == "true") {
+                if(settings.embeds.advancements == "true") {
                     const embed = new MessageEmbed();
                     embed.setTitle(targetAdvancement.name);
                     embed.setDescription(targetAdvancement.description);

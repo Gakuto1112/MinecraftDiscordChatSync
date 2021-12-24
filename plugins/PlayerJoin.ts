@@ -1,10 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { PluginBase } from "./PluginBase";
-import { colors, addEmbed, getSettings, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
+import { colors, settings, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 export class Plugin extends PluginBase {
-
-private settings: any = undefined;
 
     constructor() {
         super();
@@ -12,12 +10,9 @@ private settings: any = undefined;
     }
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
         if(/^\w{2,16} joined the game/.test(message)) {
-            if(typeof(this.settings) == "undefined") {
-                this.settings = getSettings();
-            }
             const playerName = message.split(" ")[0];
             const messageContent: string = ":city_sunset: " + playerName + " がゲームに参加しました";
-            if(this.settings.embeds.playerJoin == "true") {
+            if(settings.embeds.playerJoin == "true") {
                 const embed = new MessageEmbed();
                 embed.setTitle("ゲームに参加しました");
                 embed.setAuthor(playerName);

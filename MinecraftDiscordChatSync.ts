@@ -16,10 +16,6 @@ export function addEmbed(embedName: string): void {
     }
     embeds.push(embedName);
 }
-//設定情報の取得
-export function getSettings(): { [key: string]: string } {
-    return settings;
-}
 //Botにメッセージを送信させる。
 export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed | undefined = undefined): void {
     settings.botSendChannels.forEach((channel: string) => {
@@ -68,7 +64,7 @@ function loadPlugin(): Promise<PluginBase[]> {
 }
 
 let plugins: PluginBase[];
-let settings: { [key: string]: any } = { }; //設定ファイルからの設定情報
+export let settings: { [key: string]: any } = { }; //設定ファイルからの設定情報
 
 loadPlugin().then((resolve: PluginBase[]) => {
     plugins = resolve;

@@ -1,10 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { PluginBase } from "./PluginBase";
-import { colors, addEmbed, getSettings, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
+import { colors, settings, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 export class Plugin extends PluginBase {
-
-    private settings: any = undefined;
 
     constructor() {
         super();
@@ -12,12 +10,9 @@ export class Plugin extends PluginBase {
     }
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
         if(/^\w{3,16} left the game/.test(message)) {
-            if(typeof(this.settings) == "undefined") {
-                this.settings = getSettings();
-            }
             const playerName = message.split(" ")[0];
             const messageContent: string = ":night_with_stars: " + playerName + " がゲームから退出しました";
-            if(this.settings.embeds.playerLeave == "true") {
+            if(settings.embeds.playerLeave == "true") {
                 const embed = new MessageEmbed();
                 embed.setTitle("ゲームから退出しました");
                 embed.setAuthor(playerName);

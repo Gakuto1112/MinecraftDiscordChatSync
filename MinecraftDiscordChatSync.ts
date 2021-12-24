@@ -7,6 +7,7 @@ const { Client, Intents } = require("discord.js");
 const chokidar = require("chokidar");
 const iconv = require("iconv").Iconv;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+export const minecraftVersions: string[] = ["1.12", "1.12.1", "1.12.2", "1.13", "1.13.1", "1.13.2", "1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.15", "1.15.1", "1.15.2", "1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5", "1.17", "1.17.1", "1.18", "1.18.1"];
 export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
 //Embed設定を追加
@@ -91,7 +92,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "rconPort": 25575, "rconPassword": "", "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "ignoreBots": "true" };
+            const settingsPattern: { [key: string]: any } = { "minecraftVersion": "1.18.1", "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "rconPort": 25575, "rconPassword": "", "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "ignoreBots": "true" };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }
@@ -117,21 +118,23 @@ loadPlugin().then((resolve: PluginBase[]) => {
         }
     }
     //設定ファイルの検証
-    //ログファイルへのパス
-    if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToLogFile) || !settings.pathToLogFile.endsWith("latest.log")) {
-        console.error(colors.red + "ログファイルへのパスが不正です。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
-        process.exit(1);
-    }
-    let errorFlag = false;
     //設定ファイルの検証時のエラー時の関数
+    let errorFlag = false;
     function settingsError(message: string): void {
         console.error(colors.red + message + colors.reset);
         errorFlag = true;
     }
+    //ログファイルへのパス
+    if(typeof(settings.pathToLogFile) != "string" || !fs.existsSync(settings.pathToLogFile) || !settings.pathToLogFile.endsWith("latest.log")) settingsError(colors.red + "ログファイルへのパスが不正です。ログファイルへのパスは「~latest.log」である必要があります。また、ログファイルへの絶対パス・相対パスが正しいかも確かめて下さい。" + colors.reset);
     //ログファイルの文字コード
     if(typeof(settings.logEncode) != "string") settingsError("文字コードの指定が不正です。");
     const validEncode: string[] = ["utf-8", "shift-jis"];
     if(validEncode.indexOf(settings.logEncode) == -1) settingsError("指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。");
+    //マインクラフトのバージョン
+    if(typeof(settings.minecraftVersion) == "string") {
+        if(!minecraftVersions.includes(settings.minecraftVersion)) settingsError("マインクラフトのバージョンが不正です。対応しているバージョンは以下の通りです。\n\n" + minecraftVersions.join(", ") + "\n\n存在していないバージョンを指定したい場合は、最寄りのバージョンを指定して下さい（バージョンによってはボットの機能が正しく機能しない場合があります）。");
+    }
+    else settingsError("マインクラフトのバージョンが不正です。");
     //時差
     if(typeof(settings.timeOffset) != "number") settingsError("時差の指定が不正です。");
     //Embed設定
@@ -234,7 +237,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     client.on("messageCreate",(message: Message) => {
         settings.botWatchChannels.forEach((botWatchChannel: string) => {
             if(botWatchChannel == message.channel.id) {
-                if((settings.ignoreBots == "true" && message.author.bot) || (settings.ignoreBots == "false" && message.author.id != botUserId)) {
+                if((settings.ignoreBots == "true" && !message.author.bot) || (settings.ignoreBots == "false" && message.author.id != botUserId)) {
                     plugins.forEach((plugin: PluginBase) => {
                         plugin.onDiscordMessage(message);
                     });

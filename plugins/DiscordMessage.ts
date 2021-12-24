@@ -17,10 +17,17 @@ export class Plugin extends PluginBase {
 		let channelName: string;
 		if(message.channel instanceof TextChannel || message.channel instanceof NewsChannel) channelName = message.channel.name;
 		else return
-		message.content.split("\n").forEach((messageLine: string) => {
+		const messageSplit: string[] = message.content.split("\n");
+		messageSplit.forEach((messageLine: string, i: number) => {
 			let messageToSend: string;
-			if(settings.discordMessageDisplay.showChannelName == "true") messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \" @\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"" + channelName + "\", \"color\": \"aqua\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"> " + messageLine + "\" } ]";
-			else messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> " + messageLine + "\" } ]";
+			if(settings.discordMessageDisplay.showChannelName == "true") {
+				messageToSend = "tellraw @a [ { \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \" @\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"" + channelName + "\", \"color\": \"aqua\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"> " + messageLine + "\" } ]";
+				if(messageSplit.length >= 2) messageToSend = messageToSend.replace(/{ "text": "> /, "{ \"text\": \" #" + (i + 1) + "\", \"color\": \"gold\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"> ");
+			}
+			else {
+				messageToSend = "tellraw @a [ { \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> " + messageLine + "\" } ]";
+				messageToSend = messageToSend.replace(/{ "text": "> /, "{ \"text\": \" #" + (i + 1) + "\", \"color\": \"gold\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> ");
+			}
 			sendRconCommand(messageToSend);
 		});
 	}

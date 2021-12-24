@@ -34,6 +34,10 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
         }
     });
 }
+//チャンネルIDからチャンネル名を取得
+export function getChannelName(id: string): string {
+    return client.channels.cache.get(id).name;
+}
 //Rconによるリモートコマンド実行
 export function sendRconCommand(command: string): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -92,7 +96,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { "minecraftVersion": "1.18.1", "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "rconPort": 25575, "rconPassword": "", "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "discordMessageDisplay": { "ignoreBots": "true", "displayRoleColor": "true", "showChannelName": "true", "showAttachments": "true" } };
+            const settingsPattern: { [key: string]: any } = { "minecraftVersion": "1.18.1", "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "rconPort": 25575, "rconPassword": "", "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "discordMessageDisplay": { "ignoreBots": "true", "displayRoleColor": "true", "showChannelName": "true", "useRichText": "true", "showAttachments": "true" } };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }
@@ -171,7 +175,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     });
     //Discordメッセージをゲーム内で表示させる際の設定
     if(typeof(settings.discordMessageDisplay == "object")) {
-        ["ignoreBots", "displayRoleColor", "showChannelName", "showAttachments"].forEach((element: string) => {
+        ["ignoreBots", "displayRoleColor", "showChannelName", "useRichText", "showAttachments"].forEach((element: string) => {
             if(!(element in settings.discordMessageDisplay)) settingsError("Discordメッセージ設定 \"" + element + "\" がありません。");
         });
         Object.keys(settings.discordMessageDisplay).forEach((key: string) => {
@@ -247,7 +251,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     client.on("messageCreate",(message: Message) => {
         settings.botWatchChannels.forEach((botWatchChannel: string) => {
             if(botWatchChannel == message.channel.id) {
-                if((settings.ignoreBots == "true" && !message.author.bot) || (settings.ignoreBots == "false" && message.author.id != botUserId)) {
+                if((settings.discordMessageDisplay.ignoreBots == "true" && !message.author.bot) || (settings.discordMessageDisplay.ignoreBots == "false" && message.author.id != botUserId)) {
                     plugins.forEach((plugin: PluginBase) => {
                         plugin.onDiscordMessage(message);
                     });

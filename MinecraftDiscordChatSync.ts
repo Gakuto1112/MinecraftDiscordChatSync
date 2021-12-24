@@ -1,4 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
+import { Rcon } from "rcon-client";
 import { PluginBase } from "./plugins/PluginBase";
 
 const fs = require("fs");
@@ -6,7 +7,6 @@ const { Client, Intents } = require("discord.js");
 const chokidar = require("chokidar");
 const iconv = require("iconv").Iconv;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const rcon = require("rcon-client");
 export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
 //Embed設定を追加
@@ -31,6 +31,16 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
         catch {
             console.error(colors.red + "チャンネルID \"" + channel + "\" を持つチャンネルにメッセージを送信できません。" + colors.reset);
         }
+    });
+}
+//Rconによるリモートコマンド実行
+export function sendRconCommand(command: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        rcon.send(command).then((response: string) => {
+            resolve(response);
+        }).catch((error: any) => {
+            reject(error);
+        });
     });
 }
 
@@ -66,6 +76,7 @@ function loadPlugin(): Promise<PluginBase[]> {
 
 let plugins: PluginBase[];
 export let settings: { [key: string]: any } = { }; //設定ファイルからの設定情報
+export let rcon: Rcon;
 
 loadPlugin().then((resolve: PluginBase[]) => {
     plugins = resolve;
@@ -158,6 +169,9 @@ loadPlugin().then((resolve: PluginBase[]) => {
     //ボット無視設定
     if(settings.ignoreBots != "true" && settings.ignoreBots != "false") settingsError("Embed \"ignoreBots\" の値 \"" + settings.ignoreBots + "\" が不正です。");
     if(errorFlag) process.exit(1); //エラーフラグがtrueならプログラム終了
+
+    //Rconクラス
+    rcon = new Rcon({ host: "localhost", port: settings.rconPort, password: settings.rconPassword });
 
     //ログファイルの読み取り
     const watcher = chokidar.watch(settings.pathToLogFile, { ignored:/[\/\\]\./, persistent:true, usePolling:true });

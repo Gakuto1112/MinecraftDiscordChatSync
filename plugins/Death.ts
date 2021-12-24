@@ -48,7 +48,7 @@ export class Plugin extends PluginBase {
 		return data.split(/\r\n|\r|\r/);
 	}
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
-		if(!message.startsWith("Named entity bme")) {
+		if(!/\[\'.+\'\/\d+, l=\'.+\[.+\]\', x=-?\d+\.\d{1,2}, y=-?\d+\.\d{1,2}, z=-?\d+\.\d{1,2}\] died/.test(message)) {
 			const messageRemoveR: string = message.replace(/\r/, "");
 			let processed: boolean = false;
 			this.deathMessages.forEach((deathMessage: DeathMessageObject) => {

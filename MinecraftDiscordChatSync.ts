@@ -6,6 +6,7 @@ const { Client, Intents } = require("discord.js");
 const chokidar = require("chokidar");
 const iconv = require("iconv").Iconv;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const rcon = require("rcon-client");
 export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
 //Embed設定を追加
@@ -79,7 +80,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "ignoreBots": "true" };
+            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "rconPort": 25575, "rconPassword": "", "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "ignoreBots": "true" };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }
@@ -118,7 +119,6 @@ loadPlugin().then((resolve: PluginBase[]) => {
     }
     //ログファイルの文字コード
     if(typeof(settings.logEncode) != "string") settingsError("文字コードの指定が不正です。");
-    settings.logEncode = settings.logEncode.toLowerCase();
     const validEncode: string[] = ["utf-8", "shift-jis"];
     if(validEncode.indexOf(settings.logEncode) == -1) settingsError("指定した文字コードはサポートされていません。サポートされている文字コードは " + validEncode.join(", ") + " です。");
     //時差
@@ -136,6 +136,13 @@ loadPlugin().then((resolve: PluginBase[]) => {
         });
     }
     else settingsError("\"embeds\"の指定が不正です。");
+    //Rconポート
+    if(typeof(settings.rconPort) == "number") {
+        if(!Number.isInteger(settings.rconPort) || settings.rconPort < 1 || settings.rconPort > 65535) settingsError("Rconのポート番号が不正です。ポート番号は1~65535の整数値で指定する必要があります。");
+    }
+    else settingsError("Rconのポート番号が不正です。");
+    //Rconパスワード
+    if(typeof(settings.rconPassword) != "string") settingsError("Rconのパスワードが不正です。");
     //トークン
     if(typeof(settings.token) != "string") settingsError("トークンの設定が不正です。");
     //送信用チャンネルID

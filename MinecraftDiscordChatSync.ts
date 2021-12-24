@@ -39,12 +39,14 @@ export function getChannelName(id: string): string {
     return client.channels.cache.get(id).name;
 }
 //Rconによるリモートコマンド実行
-export function sendRconCommand(command: string): Promise<string> {
+export function sendRconCommand(command: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
         rcon.send(command).then((response: string) => {
             resolve(response);
         }).catch((error: any) => {
-            reject(error);
+            if(error.message == "Not connected") console.log(colors.red + "Rconが接続されていません。" + colors.reset);
+            else console.error(colors.red + "コマンドの送信に失敗しました。エラーコード：" + error.message + colors.reset);
+            resolve(null);
         });
     });
 }

@@ -5,9 +5,6 @@ import { PluginBase } from "./PluginBase";
 export class Plugin extends PluginBase {
 
 	public onDiscordMessage(message: Message): void {
-		console.log(message.member!.displayName);
-		console.log(message.member!.displayHexColor);
-		console.log(message.author.tag);
 		let userColor: string;
 		if(settings.discordMessageDisplay.displayRoleColor == "true" && minecraftVersions.indexOf(settings.minecraftVersion) >= 14) {
 			if(message.member!.displayHexColor == "#000000") userColor = "white";
@@ -24,7 +21,7 @@ export class Plugin extends PluginBase {
 			let messageToSend: string;
 			if(settings.discordMessageDisplay.showChannelName == "true") messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \" @\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"" + channelName + "\", \"color\": \"aqua\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + "\" } }, { \"text\": \"> " + messageLine + "\" } ]";
 			else messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"contents\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> " + messageLine + "\" } ]";
-			console.log(messageToSend);
+			sendRconCommand(messageToSend);
 		});
 	}
 }

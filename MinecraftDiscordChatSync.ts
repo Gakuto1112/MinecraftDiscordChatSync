@@ -79,7 +79,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "token": "<Botのトークン>", "botSendChannel": ["<チャンネルID>"], "botWatchChannel": ["<チャンネルID>"], "ignoreBots": "true" };
+            const settingsPattern: { [key: string]: any } = { "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "ignoreBots": "true" };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }
@@ -205,10 +205,20 @@ loadPlugin().then((resolve: PluginBase[]) => {
     });
 
     //Botがログインした時のイベント
+    let botUserId: string;
     client.on("ready", () => {
         console.info(colors.green + client.user.tag + colors.reset + " でログインしました。");
+        botUserId = client.user.id;
     });
     client.on("messageCreate",(message: Message) => {
-        console.log(message.content);
+        settings.botWatchChannels.forEach((botWatchChannel: string) => {
+            if(botWatchChannel == message.channel.id) {
+                if((settings.ignoreBots == "true" && message.author.bot) || (settings.ignoreBots == "false" && message.author.id != botUserId)) {
+                    plugins.forEach((plugin: PluginBase) => {
+                        plugin.onDiscordMessage(message);
+                    });
+                }
+            }
+        });
     });
 });

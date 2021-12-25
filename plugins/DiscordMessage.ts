@@ -29,13 +29,14 @@ export class Plugin extends PluginBase {
 					messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> " + messageLine + "\" }]";
 					messageToSend = messageToSend.replace(/{ "text": "> /, "{ \"text\": \" #" + (i + 1) + "\", \"color\": \"gold\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> ");
 				}
+				messageToSend = messageToSend.replace(/https?:\/\/[\w\-./?%&=~]{2,}/g, "\" }, { \"text\": \"$&\", \"underlined\": \"true\", \"color\": \"blue\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"クリックして開く\" }, \"clickEvent\": { \"action\": \"open_url\", \"value\": \"$&\" } }, { \"text\": \"")
+				console.log(messageToSend);
 				sendRconCommand(messageToSend);
 			});
 		}
 		//添付ファイル表示
 		if(settings.discordMessageDisplay.showAttachments == "true") {
 			message.attachments.forEach((attachment: MessageAttachment) => {
-				console.log("tellraw @a [\"\", { \"text\": \"" + message.member!.displayName + "\", \"color\": \"gray\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"のメッセージには\", \"color\": \"gray\" }, { \"text\": \"[" + attachment.name + "]\", \"color\": \"gray\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"クリックして開く\" }, \"clickEvent\": { \"action\": \"open_url\", \"value\": \"" + attachment.url + "\" } }, { \"text\": \"が添付されています\", \"color\": \"gray\" }]")
 				sendRconCommand("tellraw @a [\"\", { \"text\": \"" + message.member!.displayName + "\", \"color\": \"gray\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"のメッセージには\", \"color\": \"gray\" }, { \"text\": \"[" + attachment.name + "]\", \"color\": \"gray\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"クリックして開く\" }, \"clickEvent\": { \"action\": \"open_url\", \"value\": \"" + attachment.url + "\" } }, { \"text\": \"が添付されています\", \"color\": \"gray\" }]");
 			});
 		}

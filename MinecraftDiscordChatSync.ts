@@ -34,6 +34,17 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
         }
     });
 }
+//Rcon接続
+export function connectRcon(): void {
+    rcon.connect().then(() => {
+        console.info("Rconを接続しました。");
+    }).catch((error: any) => {
+        if(error.message.startsWith("connect ECONNREFUSED")) console.error(colors.red + "Rconの接続が拒否されました。" + colors.reset);
+        else if(error.message == "Authentication failed") console.error(colors.red + "Rconの認証に失敗しました。パスワードが間違っている可能性があります。" + colors.reset);
+        else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ：" + error.message + colors.reset);
+        console.error(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信は出来ますが、 Discord -> マインクラフト の送信はできません。");
+    });
+}
 //Rconによるリモートコマンド実行
 export function sendRconCommand(command: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
@@ -187,6 +198,11 @@ loadPlugin().then((resolve: PluginBase[]) => {
 
     //Rconクラス
     rcon = new Rcon({ host: "localhost", port: settings.rconPort, password: settings.rconPassword });
+
+    //Rcon接続（引数に「-r」が提供されたときのみ）
+    process.argv.forEach((arg: string, i: number) => {
+        if(i >= 2 && arg == "-r") connectRcon();
+    });
 
     //ログファイルの読み取り
     const watcher = chokidar.watch(settings.pathToLogFile, { ignored:/[\/\\]\./, persistent:true, usePolling:true });

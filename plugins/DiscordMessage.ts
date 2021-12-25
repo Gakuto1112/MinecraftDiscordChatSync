@@ -30,7 +30,6 @@ export class Plugin extends PluginBase {
 					messageToSend = messageToSend.replace(/{ "text": "> /, "{ \"text\": \" #" + (i + 1) + "\", \"color\": \"gold\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> ");
 				}
 				messageToSend = messageToSend.replace(/https?:\/\/[\w\-./?%&=~]{2,}/g, "\" }, { \"text\": \"$&\", \"underlined\": \"true\", \"color\": \"blue\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"クリックして開く\" }, \"clickEvent\": { \"action\": \"open_url\", \"value\": \"$&\" } }, { \"text\": \"")
-				console.log(messageToSend);
 				sendRconCommand(messageToSend);
 			});
 		}

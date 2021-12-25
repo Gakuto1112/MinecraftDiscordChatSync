@@ -225,7 +225,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             }
             for(let i: number = logLines - 1; i < logBodies.length - 1; i++) {
                 //差分読み取りしたログの処理
-                if(/^\[\d{2}:\d{2}:\d{2}\] \[.+\/[A-Z]+\]: /.test(logBodies[i])) {
+                if(/^\[\d{2}:\d{2}:\d{2}\] \[.+\/[A-Z]+\]/.test(logBodies[i])) {
                     const squareBracketString: string[] | null = logBodies[i].match(/(?<=\[).*?(?=\])/g);
                     const messageTime: Date = new Date();
                     const messageTimeParse = squareBracketString![0].split(":");

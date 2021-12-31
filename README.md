@@ -38,7 +38,8 @@ MinecraftからDiscordへは以下のものが送信されます。
 2. このアプリケーションのデータをダウンロードします。このページ上部の緑色の「**Code**」から「**Download ZIP**」をクリックするとzipファイルをダウンロードできます。また、このレポジトリをクローンしてもダウンロードできます（gitユーザー向け）。
    - データの保存先は、「**該当のサーバーの実行ファイルが存在するディレクトリに新たなフォルダを作ってその中に保存する**」のが好ましいです。
  ```
- （ディレクトリ構造の例）
+ （ディレクトリ構造の例）![147386151-9cf3f6db-b092-413a-96dd-dcd197253e5e](https://user-images.githubusercontent.com/90630001/147825953-68ef7f73-b904-4c38-be77-3a4906688fdf.png)
+
  Server/
   ├ MinecraftDiscordChatSync/     ←このフォルダを作る
   │ ├ plugins/
@@ -52,7 +53,19 @@ MinecraftからDiscordへは以下のものが送信されます。
   ├ server.properties
   └ ...
  ```
+3. Windowsなら「コマンドプロンプト」または「Power Shell」を、MacOSなら「ターミナル」を開きます。
+4. 以下のコマンドで、アプリケーションのディレクトリまで移動します。
+   - ディレクトリまでのパスはお使いの環境に合わせて変更して下さい。
+```
+cd C:\..\Server\MinecraftDiscordChatSync\
+```
+5. 以下のコマンドを1つずつ入力して必要なモジュールをインストールします。
 
-
+| モジュール名 | バージョン[^1] | 説明 | コマンド |
+| --- | --- | --- | --- |
+| [chokidar](https://www.npmjs.com/package/chokidar) | 3.5.2 | ファイルの監視 |  ```npm install chokidar``` |
+| [discord.js](https://www.npmjs.com/package/discord.js) | 13.3.1 | Discordのボットを操作 |  ```npm install discord.js``` |
+| [iconv](https://www.npmjs.com/package/iconv) | 3.0.1 | 異なる文字コードへの変換 | ```npm install iconv``` |
+| [rcon-client](https://www.npmjs.com/package/rcon-client) | 4.2.3 | Rconの操作 | ```npm install rcon-client``` |
 
 [^1]: バージョンは開発時に使用したバージョンを表示しています。表示されているバージョンでなくても動作する場合もあります。

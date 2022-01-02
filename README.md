@@ -5,7 +5,8 @@ Minecraft（Java Edition）と[Discord](https://discord.com/)のチャットを�
 
 ## 目次
 1. [機能紹介](#機能紹介)
-2. [使用方法](#使用方法)
+2. [ボットアカウントの作成方法](#ボットアカウントの作成方法)
+3. [使用方法](#使用方法)
 
 ## 機能紹介
 ### Minecraft → Discord
@@ -24,18 +25,48 @@ MinecraftからDiscordへは以下のものが送信されます。
 ![ボットのお知らせ紹介](https://user-images.githubusercontent.com/90630001/147385279-a7d5da70-391b-48e1-acdb-81686ec8e1ab.jpg)
 
 ### Discord → Minecraft
+
 ![Discord → Minecraftのチャットの例](https://user-images.githubusercontent.com/90630001/147386057-c21c29b1-e3a1-4914-8f35-3ecffa51b9e1.jpg)
 - 指定されたチャンネルにメッセージが送信された時に、ゲーム内にも同様のメッセージが送信されます。
-- 名前はサーバーでの表示名になります。カーソルを合わせるとユーザーのタグが表示されます。![ユーザータグ](https://user-images.githubusercontent.com/90630001/147386151-9cf3f6db-b092-413a-96dd-dcd197253e5e.png)
+- 名前はサーバーでの表示名になります。カーソルを合わせるとユーザーのタグが表示されます。
+  ![ユーザータグ](https://user-images.githubusercontent.com/90630001/147386151-9cf3f6db-b092-413a-96dd-dcd197253e5e.png)
+
 - 名前の色はユーザーのロールカラーになります（1.16～、設定で無効化可）。
 - ユーザーが発言したチャンネル名が表示されます（設定で非表示可、非表示にした場合は、カーソルを合わるとユーザータグと共に表示されます）。
 - メッセージにURLが含まれている場合は、クリックしてURLにアクセスできる状態になります。
 - メッセージに添付ファイルが存在する場合は、添付ファイルも表示できます（設定で非表示可）。
 
 ### サーバー管理者向け
+
 - サーバーにModやプラグインを導入する必要はありません。そのままのバニラサーバー、Modサーバーで使用できます。
 - 設定で一部機能を無効にできます。
 - このアプリケーションはプラグインベースで設計しているので、既存の機能を削除したり、新たな機能を追加できます。
+
+## ボットアカウントの作成方法
+1. [Discord](https://discord.com/)のアカウントを用意します。普段使用しているアカウントで構いません。Discordアカウントを持っていない場合は新規作成して下さい。ここでは、Discordアカウントの作成方法は割愛させて頂きます。
+2. [Discord開発者ポータル](https://discord.com/developers/applications)にアクセスします。
+3. ページ右上の「New Application」をクリックします。
+  ![ボット作成方法1](https://user-images.githubusercontent.com/90630001/147873846-8cf981b3-06e2-4271-b31e-c3dda4adf831.jpg)
+4. アプリケーションの名前（ボットの名前は後程入力します）を入力し、[利用規約](https://discord.com/developers/docs/legal)を読んだ上で続行します。
+  ![ボット作成方法2](https://user-images.githubusercontent.com/90630001/147873906-e0ab01ef-df21-4da2-b88d-ba6ca653c361.jpg)
+5. 「General Information」タブでアプリケーションの基本情報を入力します。
+   - ここでアップロードする画像はボットのアイコン画像ではありません。
+   - 説明欄にボットの説明文を入力するとボットアカウントのプロフィールに表示されます。
+  ![ボット作成方法3](https://user-images.githubusercontent.com/90630001/147874087-a0d34b8c-9675-4a77-9487-ab22fb7ec8f8.jpg)
+6. 「Bot」タブに移動し、「Add Bot」をクリックしてボットを作成します。確認メッセージが表示されるので続行します。緑色の枠で「A wild bot has appeared!」というメッセージが表示されればボットが作成されたことになります。
+  ![ボット作成方法4](https://user-images.githubusercontent.com/90630001/147874165-e3195393-ab9d-44d4-ad4f-01bab9837c58.jpg)
+7. ボットの名前とアイコンを入力します。ボットの名前はデフォルトでアプリケーションの名前になります。
+  ![ボット作成方法5](https://user-images.githubusercontent.com/90630001/147874340-ff52b5fe-fb52-4e8a-bee5-610934c5db1d.jpg)
+8. 下にスクロールして「PUBLIC BOT」をオフに、「MESSAGE CONTENT INTENT」をオンにします。
+   - 「PRESENCE INTENT」と「SERVER MEMBERS INTENT」はアプリケーションの機能拡張した場合は、必要に応じてオンにして下さい。オンでも支障はありません。
+  ![ボット作成方法6](https://user-images.githubusercontent.com/90630001/147874437-8a8c36b3-5056-45f0-9b08-c7dc28af81a4.jpg)
+9. トークンをコピーして控えておきます。 **トークンは第三者に漏洩しないように厳重に扱って下さい。** トークンが漏洩したと思われる場合はトークンを再生成して下さい。
+10. 設定の変更を保存します。
+11. 「OAuth2」の「URL Generator」タブに移動し、「SCOPES」の欄の「bot」にチェックを入れ、ページ最下部のURLにアクセスします。
+  ![ボット作成方法7](https://user-images.githubusercontent.com/90630001/147874725-3514d86d-6583-42ba-8ae9-03efccbab120.jpg)
+12. ボットを追加したいサーバーを選択して、認証をします。
+13. サーバーにボットが追加されます。
+  ![ボット作成方法8](https://user-images.githubusercontent.com/90630001/147874768-c2e72713-32ae-42df-83dc-034f0776c661.jpg)
 
 ## 使用方法
 1. このアプリケーションを実行するには「Node.js（v16.13.1[^1]）」が必要です。[こちら](https://nodejs.org/ja/)からインストールして下さい。  

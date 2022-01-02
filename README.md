@@ -7,6 +7,7 @@ Minecraft（Java Edition）と[Discord](https://discord.com/)のチャットを�
 1. [機能紹介](#機能紹介)
 2. [ボットアカウントの作成方法](#ボットアカウントの作成方法)
 3. [使用方法](#使用方法)
+4. [注意事項](#注意事項)
 
 ## 機能紹介
 ### Minecraft → Discord
@@ -185,5 +186,11 @@ ts-node MinecraftDiscordChatSync.ts
 ts-node MinecraftDiscordChatSync.ts
 pause
 ```
+
+## 注意事項
+ファイルをダウンロードした時点で以下の注意事項に同意したものとみなします。
+- このアプリケーションを使用して発生したいかなる損害の責任は負いかねます。
+- このアプリケーションは、参加サーバー数が100を超えるボットには使用できません。
+- 不具合や提案がありましたら、お気軽に[Issues](https://github.com/Gakuto1112/MinecraftDiscordChatSync/issues)へご報告ください。
 
 [^1]: バージョンは開発時に使用したバージョンを表示しています。表示されているバージョンでなくても動作する場合もあります。

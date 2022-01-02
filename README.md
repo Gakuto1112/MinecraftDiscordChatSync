@@ -3,6 +3,10 @@ Minecraft（Java Edition）と[Discord](https://discord.com/)のチャットを�
 
 ![MinecraftとDiscordの相互連携](https://user-images.githubusercontent.com/90630001/147385286-577b2062-f91e-49a8-b991-e0e910c53a4b.jpg)
 
+## 目次
+1. [機能紹介](#機能紹介)
+2. [使用方法](#使用方法)
+
 ## 機能紹介
 ### Minecraft → Discord
 MinecraftからDiscordへは以下のものが送信されます。

@@ -20,7 +20,7 @@ export class Plugin extends PluginBase {
 			else userColor = "yellow";
 			const messageSplit: string[] = message.content.split("\n");
 			messageSplit.forEach((messageLine: string, i: number) => {
-				const tellrawObject: any[] = ["", { text: "<" }];
+				const tellrawObject: (string | { [key: string]: any })[] = ["", { text: "<" }];
 				if(settings.discordMessageDisplay.showChannelName == "true") {
 					tellrawObject.push({ text: message.member!.displayName, color: userColor, hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "@", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: channelName, color: "aqua", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "> " }, { text: messageLine });
 					if(messageSplit.length >= 2) tellrawObject.splice(5, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
@@ -36,10 +36,6 @@ export class Plugin extends PluginBase {
 			});
 		}
 		//添付ファイル表示
-		if(settings.discordMessageDisplay.showAttachments == "true") {
-			message.attachments.forEach((attachment: MessageAttachment) => {
-				sendRconCommand("tellraw @a [\"\", { \"text\": \"" + message.member!.displayName + "\", \"color\": \"gray\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"のメッセージには\", \"color\": \"gray\" }, { \"text\": \"[" + attachment.name + "]\", \"color\": \"gray\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"クリックして開く\" }, \"clickEvent\": { \"action\": \"open_url\", \"value\": \"" + attachment.url + "\" } }, { \"text\": \"が添付されています\", \"color\": \"gray\" }]");
-			});
-		}
+		if(settings.discordMessageDisplay.showAttachments == "true") message.attachments.forEach((attachment: MessageAttachment) => sendRconCommand("tellraw @a " + JSON.stringify(["", { text: message.member!.displayName, color: "gray", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag + " @" + channelName } }, { text: "のメッセージには", color: "gray" }, { text: "[" + attachment.name + "]", color: "gray", hoverEvent: { action: "show_text", [hoverContentName]: "クリックして開く" }, clickEvent: { action: "open_url", value: attachment.url } }, { text: "が添付されています", color: "gray" }, ""])));
 	}
 }

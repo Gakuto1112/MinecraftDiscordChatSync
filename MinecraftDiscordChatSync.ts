@@ -18,6 +18,7 @@ export function addEmbed(embedName: string): void {
     }
     embeds.push(embedName);
 }
+
 //Botにメッセージを送信させる。
 export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed | undefined = undefined): void {
     settings.botSendChannels.forEach((channel: string) => {
@@ -34,6 +35,7 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
         }
     });
 }
+
 //Rcon接続
 export function connectRcon(): void {
     rcon.connect().then(() => {
@@ -45,6 +47,7 @@ export function connectRcon(): void {
         console.error(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信は出来ますが、 Discord -> マインクラフト の送信はできません。");
     });
 }
+
 //Rconによるリモートコマンド実行
 export function sendRconCommand(command: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
@@ -105,7 +108,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { "minecraftVersion": "1.18.1", "pathToLogFile": "./logs/latest.log", "logEncode": "utf-8", "timeOffset": 9, "embeds": embedField, "rconPort": 25575, "rconPassword": "", "token": "<Botのトークン>", "botSendChannels": ["<チャンネルID>"], "botWatchChannels": ["<チャンネルID>"], "discordMessageDisplay": { "ignoreBots": "true", "displayRoleColor": "true", "showChannelName": "true", "showAttachments": "true" } };
+            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.18.1", pathToLogFile: "./logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: "true", displayRoleColor: "true", showChannelName: "true", showAttachments: "true" } };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }

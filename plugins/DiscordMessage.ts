@@ -20,17 +20,19 @@ export class Plugin extends PluginBase {
 			else userColor = "yellow";
 			const messageSplit: string[] = message.content.split("\n");
 			messageSplit.forEach((messageLine: string, i: number) => {
-				let messageToSend: string;
+				const tellrawObject: any[] = ["", { text: "<" }];
 				if(settings.discordMessageDisplay.showChannelName == "true") {
-					messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + "\" } }, { \"text\": \" @\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + "\" } }, { \"text\": \"" + channelName + "\", \"color\": \"aqua\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + "\" } }, { \"text\": \"> " + messageLine + "\" }]";
-					if(messageSplit.length >= 2) messageToSend = messageToSend.replace(/{ "text": "> /, "{ \"text\": \" #" + (i + 1) + "\", \"color\": \"gold\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + "\" } }, { \"text\": \"> ");
+					tellrawObject.push({ text: message.member!.displayName, color: userColor, hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "@", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: channelName, color: "aqua", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "> " }, { text: messageLine });
+					if(messageSplit.length >= 2) tellrawObject.splice(5, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
 				}
 				else {
-					messageToSend = "tellraw @a [{ \"text\": \"<\" }, { \"text\": \"" + message.member!.displayName + "\", \"color\": \"" + userColor + "\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> " + messageLine + "\" }]";
-					messageToSend = messageToSend.replace(/{ "text": "> /, "{ \"text\": \" #" + (i + 1) + "\", \"color\": \"gold\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"" + message.author.tag + " @" + channelName + "\" } }, { \"text\": \"> ");
+					tellrawObject.push({ text: "<" }, { text: message.member!.displayName, color: userColor, hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag + " @" + channelName } }, { text: "> " }, { text: messageLine });
+					if(messageSplit.length >= 2) tellrawObject.splice(3, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
 				}
-				messageToSend = messageToSend.replace(/https?:\/\/[\w\-./?%&=~]{2,}/g, "\" }, { \"text\": \"$&\", \"underlined\": \"true\", \"color\": \"blue\", \"hoverEvent\": { \"action\": \"show_text\", \"" + hoverContentName + "\": \"クリックして開く\" }, \"clickEvent\": { \"action\": \"open_url\", \"value\": \"$&\" } }, { \"text\": \"")
-				sendRconCommand(messageToSend);
+				console.log(tellrawObject);
+				tellrawObject.push("");
+				console.log("tellraw @a " + JSON.stringify(tellrawObject));
+				sendRconCommand("tellraw @a " + JSON.stringify(tellrawObject));
 			});
 		}
 		//添付ファイル表示

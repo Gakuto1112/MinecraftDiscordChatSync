@@ -82,9 +82,15 @@ export class Plugin extends PluginBase {
 								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
 								break;
 							case 4:
+								function replacer1(match: string): string {
+									return match.slice(1, -1);
+								}
+								function replacer2(match: string): string {
+									return match.slice(2, -2);
+								}
 								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
 								textParseObject[i + 1]["obfuscated"] = "true";
-								textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: textParseObject[i + 1]["text"] };
+								textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: textParseObject[i + 1]["text"].replace(/\*\*(.+?)\*\*|~~(.+?)~~|\|\|(.+?)\|\|/gs, replacer2).replace(/\*(.+?)\*|`(.+?)`/gs, replacer1) };
 								break;
 							case 5:
 								textParseObject[i + 1]["color"] = "blue";

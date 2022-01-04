@@ -23,9 +23,8 @@ export class Plugin extends PluginBase {
 			if(settings.discordMessageDisplay.useRichText) {
 				let messageContentTemp: string = message.content;
 				textParseObject = [{ text: messageContentTemp }];
-				if(messageContentTemp.startsWith("> ")) messageContentTemp = messageContentTemp.slice(2);
 				for(let i: number = 0; i < textParseObject.length; i++) {
-					const tokenChunkArray: (RegExpMatchArray | null)[] = [textParseObject[i]["text"].match(/\*\*(.+?)\*\*/s), textParseObject[i]["text"].match(/\*(.+?)\*/s), textParseObject[i]["text"].match(/~~(.+?)~~/s), textParseObject[i]["text"].match(/`(.+?)`/s), textParseObject[i]["text"].match(/\|\|(.+?)\|\|/s), textParseObject[i]["text"].match(/https?:\/\/[\w\-./?%&=~]{2,}/)];
+					const tokenChunkArray: (RegExpMatchArray | null)[] = [textParseObject[i]["text"].match(/\*\*(.+?)\*\*/s), textParseObject[i]["text"].match(/\*(.+?)\*/s), textParseObject[i]["text"].match(/~~(.+?)~~/s), textParseObject[i]["text"].match(/`(.+?)`/s), textParseObject[i]["text"].match(/\|\|(.+?)\|\|/s), textParseObject[i]["text"].match(/> (.+?)(\r\n|\n|\r)|> (.+?)$/), textParseObject[i]["text"].match(/https?:\/\/[\w\-./?%&=~]{2,}/)];
 					const tokenIndexArray: number[] = [];
 					tokenChunkArray.forEach((tokenChunk: RegExpMatchArray | null) => {
 						if(tokenChunk != null && tokenChunk!.index != undefined) {
@@ -70,15 +69,15 @@ export class Plugin extends PluginBase {
 							switch(tokenIndexArray.indexOf(minIndex)) {
 								case 0:
 									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
-									textParseObject[i + 1]["bold"] = "true";
+									textParseObject[i + 1]["bold"] = true;
 									break;
 								case 1:
 									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
-									textParseObject[i + 1]["italic"] = "true";
+									textParseObject[i + 1]["italic"] = true;
 									break;
 								case 2:
 									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
-									textParseObject[i + 1]["strike"] = "true";
+									textParseObject[i + 1]["strikethrough"] = true;
 									break;
 								case 3:
 									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
@@ -91,12 +90,16 @@ export class Plugin extends PluginBase {
 										return match.slice(2, -2);
 									}
 									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
-									textParseObject[i + 1]["obfuscated"] = "true";
+									textParseObject[i + 1]["obfuscated"] = true;
 									textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: textParseObject[i + 1]["text"].replace(/\*\*(.+?)\*\*|~~(.+?)~~|\|\|(.+?)\|\|/gs, replacer2).replace(/\*(.+?)\*|`(.+?)`/gs, replacer1) };
 									break;
 								case 5:
+									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2);
+									textParseObject.splice(i + 1, 0, { text: "||  ", color: "gray" });
+									break;
+								case 6:
 									textParseObject[i + 1]["color"] = "blue";
-									textParseObject[i + 1]["underlined"] = "true";
+									textParseObject[i + 1]["underlined"] = true;
 									textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: "クリックして開く" };
 									textParseObject[i + 1]["clickEvent"] = { action: "open_url", "value": textParseObject[i + 1]["text"] };
 									i++;
@@ -119,7 +122,7 @@ export class Plugin extends PluginBase {
 						messageArray[messageArray.length - 2][i]["text"] = messageArray[messageArray.length - 2][i]["text"].split(/\r\n|\n|\r/)[0];
 						messageArray[messageArray.length - 2] = messageArray[messageArray.length - 2].splice(0, i + 1);
 						messageArray[messageArray.length - 1][i]["text"] = messageArray[messageArray.length - 1][i]["text"].split(/\r\n|\n|\r/).splice(1).join("\n");
-						messageArray[messageArray.length - 1] = messageArray[messageArray.length - 1].splice(i, messageArray.length);
+						messageArray[messageArray.length - 1] = messageArray[messageArray.length - 1].splice(i, messageArray[messageArray.length - 1].length);
 						break;
 					}
 				}

@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, EmbedAuthorData } from "discord.js";
 import { PluginBase } from "./PluginBase";
 import { colors, settings, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
@@ -16,7 +16,8 @@ export class Plugin extends PluginBase {
             if(settings.embeds.playerLeave == "true") {
                 const embed = new MessageEmbed();
                 embed.setTitle("ゲームから退出しました");
-                embed.setAuthor(playerName);
+                const author: EmbedAuthorData = { name: playerName };
+                embed.setAuthor(author);
                 embed.setColor("#FF0000");
                 const https = require("https");
                 const uuidRequest = https.request("https://api.mojang.com/users/profiles/minecraft/" + playerName, (response: any) => {

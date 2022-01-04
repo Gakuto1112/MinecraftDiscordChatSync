@@ -37,6 +37,7 @@ export class Plugin extends PluginBase {
             }
         });
     }
+
     private convertAdvancements(str: string): AdvancementObject {
         const result: AdvancementObject = { id: "",  name: "", description: "" };
         let advancementFind: boolean = false;

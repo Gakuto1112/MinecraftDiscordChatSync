@@ -23,7 +23,7 @@ export class Plugin extends PluginBase {
 			if(messageContentTemp.startsWith("> ")) messageContentTemp = messageContentTemp.slice(2);
 			const textParseObject: { [key: string]: any }[] = [{ text: messageContentTemp }];
 			for(let i: number = 0; i < textParseObject.length; i++) {
-				const tokenChunkArray: (RegExpMatchArray | null)[] = [textParseObject[i]["text"].match(/\*\*(.+?)\*\*/), textParseObject[i]["text"].match(/\*(.+?)\*/), textParseObject[i]["text"].match(/~~(.+?)~~/), textParseObject[i]["text"].match(/`(.+?)`/), textParseObject[i]["text"].match(/\|\|(.+?)\|\|/), textParseObject[i]["text"].match(/https?:\/\/[\w\-./?%&=~]{2,}/)];
+				const tokenChunkArray: (RegExpMatchArray | null)[] = [textParseObject[i]["text"].match(/\*\*(.+?)\*\*/s), textParseObject[i]["text"].match(/\*(.+?)\*/s), textParseObject[i]["text"].match(/~~(.+?)~~/s), textParseObject[i]["text"].match(/`(.+?)`/s), textParseObject[i]["text"].match(/\|\|(.+?)\|\|/s), textParseObject[i]["text"].match(/https?:\/\/[\w\-./?%&=~]{2,}/)];
 				const tokenIndexArray: number[] = [];
 				tokenChunkArray.forEach((tokenChunk: RegExpMatchArray | null, j: number) => {
 					if(tokenChunk != null && tokenChunk!.index != undefined) {
@@ -97,18 +97,37 @@ export class Plugin extends PluginBase {
 					}
 				}
 			}
-			const messageSplit: string[] = message.content.split("\n");
-			messageSplit.forEach((messageLine: string, i: number) => {
+			//改行文字ごとに区切る
+			const messageArray: { [key: string]: any }[][] = [textParseObject];
+			let newLineFlag: boolean = false;
+			do {
+				newLineFlag = false;
+				const lastMessageArrayElement = JSON.parse(JSON.stringify(messageArray[messageArray.length - 1]));
+				for(let i: number = 0; i < lastMessageArrayElement.length; i++) {
+					if(/\r\n|\n|\r/.test(lastMessageArrayElement[i]["text"])) {
+						newLineFlag = true;
+						messageArray.push(JSON.parse(JSON.stringify(lastMessageArrayElement)));
+						messageArray[messageArray.length - 2][i]["text"] = messageArray[messageArray.length - 2][i]["text"].split(/\r\n|\n|\r/)[0];
+						messageArray[messageArray.length - 2] = messageArray[messageArray.length - 2].splice(0, i + 1);
+						messageArray[messageArray.length - 1][i]["text"] = messageArray[messageArray.length - 1][i]["text"].split(/\r\n|\n|\r/).splice(1).join("\n");
+						messageArray[messageArray.length - 1] = messageArray[messageArray.length - 1].splice(i, messageArray.length);
+						break;
+					}
+				}
+			}
+			while (newLineFlag);
+			messageArray.forEach((messageLine: { [key: string]: any }[], i: number) => {
 				const tellrawObject: (string | { [key: string]: any })[] = ["", { text: "<" }];
 				if(settings.discordMessageDisplay.showChannelName == "true") {
 					tellrawObject.push({ text: message.member!.displayName, color: userColor, hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "@", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: channelName, color: "aqua", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "> " });
-					if(messageSplit.length >= 2) tellrawObject.splice(5, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
+					if(messageArray.length >= 2) tellrawObject.splice(5, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
 				}
 				else {
 					tellrawObject.push({ text: "<" }, { text: message.member!.displayName, color: userColor, hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag + " @" + channelName } }, { text: "> " });
-					if(messageSplit.length >= 2) tellrawObject.splice(3, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
+					if(messageArray.length >= 2) tellrawObject.splice(3, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
 				}
-				tellrawObject.push(textParseObject, "");
+				messageLine.forEach((messageChunk: { [key: string]: any }) => tellrawObject.push(messageChunk));
+				tellrawObject.push("");
 				sendRconCommand("tellraw @a " + JSON.stringify(tellrawObject));
 			});
 		}

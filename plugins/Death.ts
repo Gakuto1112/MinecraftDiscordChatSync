@@ -32,6 +32,7 @@ export class Plugin extends PluginBase {
 			}
 		});
 	}
+
 	private readTsv(path: string): string[]{
 		//tsvファイルの読み込んで返す
 		const fs = require("fs");

@@ -8,6 +8,7 @@ export class Plugin extends PluginBase {
         super();
         addEmbed("playerJoin");
     }
+
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
         if(/^\w{2,16} joined the game/.test(message)) {
             const playerName = message.split(" ")[0];

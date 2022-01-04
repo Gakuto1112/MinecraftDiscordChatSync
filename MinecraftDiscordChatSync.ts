@@ -108,7 +108,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = "true";
             });
-            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.18.1", pathToLogFile: "./logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: "true", displayRoleColor: "true", showChannelName: "true", showAttachments: "true" } };
+            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.18.1", pathToLogFile: "./logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: true, displayRoleColor: true, showChannelName: true, useRichText: true, showAttachments: true } };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }
@@ -187,7 +187,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     });
     //Discordメッセージをゲーム内で表示させる際の設定
     if(typeof(settings.discordMessageDisplay == "object")) {
-        ["ignoreBots", "displayRoleColor", "showChannelName", "showAttachments"].forEach((element: string) => {
+        ["ignoreBots", "displayRoleColor", "showChannelName", "useRichText" , "showAttachments"].forEach((element: string) => {
             if(!(element in settings.discordMessageDisplay)) settingsError("Discordメッセージ設定 \"" + element + "\" がありません。");
         });
         Object.keys(settings.discordMessageDisplay).forEach((key: string) => {

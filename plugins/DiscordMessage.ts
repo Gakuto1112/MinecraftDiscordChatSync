@@ -19,86 +19,89 @@ export class Plugin extends PluginBase {
 			}
 			else userColor = "yellow";
 			//パース処理
-			let messageContentTemp: string = message.content;
-			if(messageContentTemp.startsWith("> ")) messageContentTemp = messageContentTemp.slice(2);
-			const textParseObject: { [key: string]: any }[] = [{ text: messageContentTemp }];
-			for(let i: number = 0; i < textParseObject.length; i++) {
-				const tokenChunkArray: (RegExpMatchArray | null)[] = [textParseObject[i]["text"].match(/\*\*(.+?)\*\*/s), textParseObject[i]["text"].match(/\*(.+?)\*/s), textParseObject[i]["text"].match(/~~(.+?)~~/s), textParseObject[i]["text"].match(/`(.+?)`/s), textParseObject[i]["text"].match(/\|\|(.+?)\|\|/s), textParseObject[i]["text"].match(/https?:\/\/[\w\-./?%&=~]{2,}/)];
-				const tokenIndexArray: number[] = [];
-				tokenChunkArray.forEach((tokenChunk: RegExpMatchArray | null, j: number) => {
-					if(tokenChunk != null && tokenChunk!.index != undefined) {
-						tokenIndexArray.push(tokenChunk.index);
-					}
-					else tokenIndexArray.push(messageContentTemp.length);
-				});
-				let minIndex: number = tokenIndexArray[0];
-				tokenIndexArray.forEach((tokenIndex: number, j: number) => {
-					if(j >= 1 && tokenIndex < minIndex) minIndex = tokenIndex;
-				});
-				if(minIndex < messageContentTemp.length) {
-					const targetIndex: number = tokenIndexArray.indexOf(minIndex);
-					if(tokenIndexArray[targetIndex] != null) {
-						let chunkEndOffset: number = 0;
-						if(targetIndex <= 4) {
-							let token: string = "";
-							switch(targetIndex) {
+			let textParseObject: { [key: string]: any }[] = [{ text: message.content }];
+			if(settings.discordMessageDisplay.useRichText == "true") {
+				let messageContentTemp: string = message.content;
+				textParseObject = [{ text: messageContentTemp }];
+				if(messageContentTemp.startsWith("> ")) messageContentTemp = messageContentTemp.slice(2);
+				for(let i: number = 0; i < textParseObject.length; i++) {
+					const tokenChunkArray: (RegExpMatchArray | null)[] = [textParseObject[i]["text"].match(/\*\*(.+?)\*\*/s), textParseObject[i]["text"].match(/\*(.+?)\*/s), textParseObject[i]["text"].match(/~~(.+?)~~/s), textParseObject[i]["text"].match(/`(.+?)`/s), textParseObject[i]["text"].match(/\|\|(.+?)\|\|/s), textParseObject[i]["text"].match(/https?:\/\/[\w\-./?%&=~]{2,}/)];
+					const tokenIndexArray: number[] = [];
+					tokenChunkArray.forEach((tokenChunk: RegExpMatchArray | null) => {
+						if(tokenChunk != null && tokenChunk!.index != undefined) {
+							tokenIndexArray.push(tokenChunk.index);
+						}
+						else tokenIndexArray.push(messageContentTemp.length);
+					});
+					let minIndex: number = tokenIndexArray[0];
+					tokenIndexArray.forEach((tokenIndex: number, j: number) => {
+						if(j >= 1 && tokenIndex < minIndex) minIndex = tokenIndex;
+					});
+					if(minIndex < messageContentTemp.length) {
+						const targetIndex: number = tokenIndexArray.indexOf(minIndex);
+						if(tokenIndexArray[targetIndex] != null) {
+							let chunkEndOffset: number = 0;
+							if(targetIndex <= 4) {
+								let token: string = "";
+								switch(targetIndex) {
+									case 0:
+									case 1:
+										token = "*";
+										break;
+									case 2:
+										token = "~";
+										break;
+									case 3:
+										token = "`";
+										break;
+									case 4:
+										token = "|";
+										break;
+								}
+								while(textParseObject[i]["text"][minIndex + tokenChunkArray[targetIndex]![0].length + chunkEndOffset] == token) {
+									chunkEndOffset++;
+									console.log(chunkEndOffset);
+								}
+							}
+							textParseObject.splice(i + 1, 0, Object.assign({ }, textParseObject[i]), Object.assign({ }, textParseObject[i]));
+							textParseObject[i]["text"] = textParseObject[i]["text"].slice(0, minIndex);
+							textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(minIndex, minIndex + tokenChunkArray[targetIndex]![0].length + chunkEndOffset);
+							textParseObject[i + 2]["text"] = textParseObject[i + 2]["text"].slice(minIndex + tokenChunkArray[targetIndex]![0].length + chunkEndOffset);
+							switch(tokenIndexArray.indexOf(minIndex)) {
 								case 0:
+									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
+									textParseObject[i + 1]["bold"] = "true";
+									break;
 								case 1:
-									token = "*";
+									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
+									textParseObject[i + 1]["italic"] = "true";
 									break;
 								case 2:
-									token = "~";
+									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
+									textParseObject[i + 1]["strike"] = "true";
 									break;
 								case 3:
-									token = "`";
+									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
 									break;
 								case 4:
-									token = "|";
+									function replacer1(match: string): string {
+										return match.slice(1, -1);
+									}
+									function replacer2(match: string): string {
+										return match.slice(2, -2);
+									}
+									textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
+									textParseObject[i + 1]["obfuscated"] = "true";
+									textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: textParseObject[i + 1]["text"].replace(/\*\*(.+?)\*\*|~~(.+?)~~|\|\|(.+?)\|\|/gs, replacer2).replace(/\*(.+?)\*|`(.+?)`/gs, replacer1) };
 									break;
+								case 5:
+									textParseObject[i + 1]["color"] = "blue";
+									textParseObject[i + 1]["underlined"] = "true";
+									textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: "クリックして開く" };
+									textParseObject[i + 1]["clickEvent"] = { action: "open_url", "value": textParseObject[i + 1]["text"] };
+									i++;
+									break
 							}
-							while(textParseObject[i]["text"][minIndex + tokenChunkArray[targetIndex]![0].length + chunkEndOffset] == token) {
-								chunkEndOffset++;
-								console.log(chunkEndOffset);
-							}
-						}
-						textParseObject.splice(i + 1, 0, Object.assign({ }, textParseObject[i]), Object.assign({ }, textParseObject[i]));
-						textParseObject[i]["text"] = textParseObject[i]["text"].slice(0, minIndex);
-						textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(minIndex, minIndex + tokenChunkArray[targetIndex]![0].length + chunkEndOffset);
-						textParseObject[i + 2]["text"] = textParseObject[i + 2]["text"].slice(minIndex + tokenChunkArray[targetIndex]![0].length + chunkEndOffset);
-						switch(tokenIndexArray.indexOf(minIndex)) {
-							case 0:
-								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
-								textParseObject[i + 1]["bold"] = "true";
-								break;
-							case 1:
-								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
-								textParseObject[i + 1]["italic"] = "true";
-								break;
-							case 2:
-								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
-								textParseObject[i + 1]["strike"] = "true";
-								break;
-							case 3:
-								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(1, -1);
-								break;
-							case 4:
-								function replacer1(match: string): string {
-									return match.slice(1, -1);
-								}
-								function replacer2(match: string): string {
-									return match.slice(2, -2);
-								}
-								textParseObject[i + 1]["text"] = textParseObject[i + 1]["text"].slice(2, -2);
-								textParseObject[i + 1]["obfuscated"] = "true";
-								textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: textParseObject[i + 1]["text"].replace(/\*\*(.+?)\*\*|~~(.+?)~~|\|\|(.+?)\|\|/gs, replacer2).replace(/\*(.+?)\*|`(.+?)`/gs, replacer1) };
-								break;
-							case 5:
-								textParseObject[i + 1]["color"] = "blue";
-								textParseObject[i + 1]["underlined"] = "true";
-								textParseObject[i + 1]["hoverEvent"] = { action: "show_text", [hoverContentName]: "クリックして開く" };
-								textParseObject[i + 1]["clickEvent"] = { action: "open_url", "value": textParseObject[i + 1]["text"] };
-								i++;
-								break
 						}
 					}
 				}

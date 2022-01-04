@@ -101,7 +101,7 @@ cd C:\..\Server\MinecraftDiscordChatSync\
 | モジュール名 | バージョン[^1] | 説明 | コマンド |
 | --- | --- | --- | --- |
 | [chokidar](https://www.npmjs.com/package/chokidar) | 3.5.2 | ファイルの監視 |  ```npm install chokidar``` |
-| [discord.js](https://www.npmjs.com/package/discord.js) | 13.3.1 | Discordのボットを操作 |  ```npm install discord.js``` |
+| [discord.js](https://www.npmjs.com/package/discord.js) | 13.5.0 | Discordのボットを操作 |  ```npm install discord.js``` |
 | [iconv](https://www.npmjs.com/package/iconv) | 3.0.1 | 異なる文字コードへの変換 | ```npm install iconv``` |
 | [rcon-client](https://www.npmjs.com/package/rcon-client) | 4.2.3 | Rconの操作 | ```npm install rcon-client``` |
   
@@ -122,9 +122,9 @@ ts-node MinecraftDiscordChatSync.ts
     "logEncode": "utf-8",
     "timeOffset": 9,
     "embeds": {
-        "advancements": "true",
-        "playerJoin": "true",
-        "playerLeave": "true"
+        "advancements": true,
+        "playerJoin": true,
+        "playerLeave": true
     },
     "rconPort": 25575,
     "rconPassword": "",
@@ -136,10 +136,11 @@ ts-node MinecraftDiscordChatSync.ts
         "<チャンネルID>"
     ],
     "discordMessageDisplay": {
-        "ignoreBots": "true",
-        "displayRoleColor": "true",
-        "showChannelName": "true",
-        "showAttachments": "true"
+        "ignoreBots": true,
+        "displayRoleColor": true,
+        "showChannelName": true,
+        "useRichText": true,
+        "showAttachments": true
     }
 }
   ```
@@ -175,6 +176,7 @@ ts-node MinecraftDiscordChatSync.ts
 | ignoreBots | 他のボットのメッセージを無視するかどうかです。trueにすると他のボットのメッセージをゲーム内に表示しません。falseにしても自身のメッセージは無視します。 | true | boolean |
 | displayRoleColor | Discordからのメッセージでユーザー名の色をロールカラーにするかどうかです。初期カラーは白色になります。falseかバージョンが1.16以前の場合は黄色になります。 | true | boolean |
 | showChannelName | ユーザー名と共にチャンネル名が表示されるかどうかです。trueにするとユーザー名と共に発言元のチャンネル名が表示されます。 | true | boolean |
+| useRichText | Discordのメッセージをアプリケーションが解釈して文字装飾するかどうかです。trueにすると、太字、イタリック、スポイラー、URLなどが文字装飾されてゲーム内に表示されます。 | true | boolean |
 | showAttachments | 添付ファイルのメッセージをゲーム内に表示するかどうかです。trueにするとDiscordの添付ファイルへのリンクをゲーム内に表示します。 | true | boolean |
 
 9. 設定ファイルを上書き保存し、アプリケーションを再度実行します。設定が正しい場合は、```<ボットアカウントの名前>#0000 でログインしました。```と表示されます。設定に不正がある場合は、その旨が指摘されます。修正してアプリケーションを再度実行して下さい。

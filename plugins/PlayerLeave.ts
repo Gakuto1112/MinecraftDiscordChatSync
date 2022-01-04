@@ -13,7 +13,7 @@ export class Plugin extends PluginBase {
         if(/^\w{3,16} left the game/.test(message)) {
             const playerName = message.split(" ")[0];
             const messageContent: string = ":night_with_stars: " + playerName + " がゲームから退出しました";
-            if(settings.embeds.playerLeave == "true") {
+            if(settings.embeds.playerLeave) {
                 const embed = new MessageEmbed();
                 embed.setTitle("ゲームから退出しました");
                 const author: EmbedAuthorData = { name: playerName };

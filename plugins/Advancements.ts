@@ -71,7 +71,7 @@ export class Plugin extends PluginBase {
                     case 2:
                         messageContent = ":first_place: " + message.split(" ")[0] + " は挑戦 [" + targetAdvancement.name + "] を完了した";
                 }
-                if(settings.embeds.advancements == "true") {
+                if(settings.embeds.advancements) {
                     const embed = new MessageEmbed();
                     embed.setTitle(targetAdvancement.name);
                     embed.setDescription(targetAdvancement.description);

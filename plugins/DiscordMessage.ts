@@ -13,14 +13,14 @@ export class Plugin extends PluginBase {
 		else return
 		if(message.content != "") {
 			let userColor: string;
-			if(settings.discordMessageDisplay.displayRoleColor == "true" && minecraftVersions.indexOf(settings.minecraftVersion) >= 14) {
+			if(settings.discordMessageDisplay.displayRoleColor && minecraftVersions.indexOf(settings.minecraftVersion) >= 14) {
 				if(message.member!.displayHexColor == "#000000") userColor = "white";
 				else userColor = message.member!.displayHexColor;
 			}
 			else userColor = "yellow";
 			//パース処理
 			let textParseObject: { [key: string]: any }[] = [{ text: message.content }];
-			if(settings.discordMessageDisplay.useRichText == "true") {
+			if(settings.discordMessageDisplay.useRichText) {
 				let messageContentTemp: string = message.content;
 				textParseObject = [{ text: messageContentTemp }];
 				if(messageContentTemp.startsWith("> ")) messageContentTemp = messageContentTemp.slice(2);
@@ -127,7 +127,7 @@ export class Plugin extends PluginBase {
 			while (newLineFlag);
 			messageArray.forEach((messageLine: { [key: string]: any }[], i: number) => {
 				const tellrawObject: (string | { [key: string]: any })[] = ["", { text: "<" }];
-				if(settings.discordMessageDisplay.showChannelName == "true") {
+				if(settings.discordMessageDisplay.showChannelName) {
 					tellrawObject.push({ text: message.member!.displayName, color: userColor, hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "@", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: channelName, color: "aqua", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } }, { text: "> " });
 					if(messageArray.length >= 2) tellrawObject.splice(5, 0, { text: "#" + (i + 1), color: "gold", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag } });
 				}
@@ -141,6 +141,6 @@ export class Plugin extends PluginBase {
 			});
 		}
 		//添付ファイル表示
-		if(settings.discordMessageDisplay.showAttachments == "true") message.attachments.forEach((attachment: MessageAttachment) => sendRconCommand("tellraw @a " + JSON.stringify(["", { text: message.member!.displayName, color: "gray", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag + " @" + channelName } }, { text: "のメッセージには", color: "gray" }, { text: "[" + attachment.name + "]", color: "gray", hoverEvent: { action: "show_text", [hoverContentName]: "クリックして開く" }, clickEvent: { action: "open_url", value: attachment.url } }, { text: "が添付されています", color: "gray" }, ""])));
+		if(settings.discordMessageDisplay.showAttachments) message.attachments.forEach((attachment: MessageAttachment) => sendRconCommand("tellraw @a " + JSON.stringify(["", { text: message.member!.displayName, color: "gray", hoverEvent: { action: "show_text", [hoverContentName]: message.author.tag + " @" + channelName } }, { text: "のメッセージには", color: "gray" }, { text: "[" + attachment.name + "]", color: "gray", hoverEvent: { action: "show_text", [hoverContentName]: "クリックして開く" }, clickEvent: { action: "open_url", value: attachment.url } }, { text: "が添付されています", color: "gray" }, ""])));
 	}
 }

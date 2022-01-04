@@ -13,7 +13,7 @@ export class Plugin extends PluginBase {
         if(/^\w{2,16} joined the game/.test(message)) {
             const playerName = message.split(" ")[0];
             const messageContent: string = ":city_sunset: " + playerName + " がゲームに参加しました";
-            if(settings.embeds.playerJoin == "true") {
+            if(settings.embeds.playerJoin) {
                 const embed = new MessageEmbed();
                 embed.setTitle("ゲームに参加しました");
                 const author: EmbedAuthorData = { name: playerName };

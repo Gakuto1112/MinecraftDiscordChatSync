@@ -104,9 +104,9 @@ loadPlugin().then((resolve: PluginBase[]) => {
     catch(error: any) {
         if(error.code == "ENOENT") {
             console.error(colors.red + "設定ファイル「Settings.json」が存在しません。" + colors.reset);
-            const embedField: { [key: string]: string } = { };
+            const embedField: { [key: string]: boolean } = { };
             embeds.forEach((embed: string) => {
-                embedField[embed] = "true";
+                embedField[embed] = true;
             });
             const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.18.1", pathToLogFile: "./logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: true, displayRoleColor: true, showChannelName: true, useRichText: true, showAttachments: true } };
             try {
@@ -159,10 +159,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             if(!(embed in settings.embeds)) settingsError("Embed \"" + embed + "\" がありません。");
         });
         Object.keys(settings.embeds).forEach((key: string) => {
-            if(typeof(settings.embeds[key]) == "string") {
-                if(settings.embeds[key] != "true" && settings.embeds[key] != "false") settingsError("Embed \"" + key + "\" の値 \"" + settings.embeds[key] + "\" が不正です。");
-            }
-            else settingsError("Embed \"" + settings.embeds[key] + "\" が不正です。");
+            if(typeof(settings.embeds[key]) != "boolean") settingsError("Embed \"" + key + "\" が不正です。");
         });
     }
     else settingsError("\"embeds\"の指定が不正です。");
@@ -191,10 +188,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             if(!(element in settings.discordMessageDisplay)) settingsError("Discordメッセージ設定 \"" + element + "\" がありません。");
         });
         Object.keys(settings.discordMessageDisplay).forEach((key: string) => {
-            if(typeof(settings.discordMessageDisplay[key]) == "string") {
-                if(settings.discordMessageDisplay[key] != "true" && settings.discordMessageDisplay[key] != "false") settingsError("Discordメッセージ設定 \"" + key + "\" の値 \"" + settings.discordMessageDisplay[key] + "\" が不正です。");
-            }
-            else settingsError("Discordメッセージ設定 \"" + settings.discordMessageDisplay[key] + "\" が不正です。");
+            if(typeof(settings.discordMessageDisplay[key]) != "boolean") settingsError("Discordメッセージ設定 \"" + key + "\" が不正です。");
         });
     }
     if(errorFlag) process.exit(1); //エラーフラグがtrueならプログラム終了
@@ -208,7 +202,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     });
 
     //ログファイルの読み取り
-    const watcher = chokidar.watch(settings.pathToLogFile, { ignored:/[\/\\]\./, persistent:true, usePolling:true });
+    const watcher = chokidar.watch(settings.pathToLogFile, { ignored: /[\/\\]\./, persistent: true, usePolling: true });
 
     //ログファイルの初期処理
     let logLines: number; //読み取ったログファイルの行数
@@ -268,7 +262,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     client.on("messageCreate",(message: Message) => {
         settings.botWatchChannels.forEach((botWatchChannel: string) => {
             if(botWatchChannel == message.channel.id) {
-                if((settings.discordMessageDisplay.ignoreBots == "true" && !message.author.bot) || (settings.discordMessageDisplay.ignoreBots == "false" && message.author.id != botUserId)) {
+                if((settings.discordMessageDisplay.ignoreBots && !message.author.bot) || (settings.discordMessageDisplay.ignoreBots == "false" && message.author.id != botUserId)) {
                     plugins.forEach((plugin: PluginBase) => {
                         plugin.onDiscordMessage(message);
                     });

@@ -213,7 +213,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
         console.info("設定ファイルを検証したところ、エラーが見つかりました。修正して下さい。");
         process.exit(1); //エラーフラグがtrueならプログラム終了
     }
-    else    console.info("設定ファイルを検証しました。エラーは見つかりませんでした。");
+    else console.info("設定ファイルを検証しました。エラーは見つかりませんでした。");
 
     //Rconクラス
     rcon = new Rcon({ host: "localhost", port: settings.rconPort, password: settings.rconPassword });
@@ -259,7 +259,12 @@ loadPlugin().then((resolve: PluginBase[]) => {
                         }
                     });
                     plugins.forEach((plugin: PluginBase) => {
-                        plugin.onMinecraftMessage(messageTime, processInfo[0], processInfo[1], messageBodyPart.join(": "));
+                        try {
+                            plugin.onMinecraftMessage(messageTime, processInfo[0], processInfo[1], messageBodyPart.join(": "));
+                        }
+                        catch(error: any) {
+                            console.error(colors.red + "プラグイン実行中にエラーが発生しました。以下、エラーログです。\n" + colors.reset + error.stack);
+                        }
                     });
                 }
             }
@@ -279,7 +284,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     //Botがログインした時のイベント
     let botUserId: string;
     client.on("ready", () => {
-        console.info(colors.green + client.user.tag + colors.reset + " でログインしました。");
+        console.info(colors.green + client.user.tag + colors.reset + " でログインしました。\n終了するにはウィンドウを閉じるか、「Ctrl + C」を押して下さい。");
         botUserId = client.user.id;
     });
     client.on("messageCreate",(message: Message) => {
@@ -287,7 +292,12 @@ loadPlugin().then((resolve: PluginBase[]) => {
             if(botWatchChannel == message.channel.id) {
                 if((settings.discordMessageDisplay.ignoreBots && !message.author.bot) || (settings.discordMessageDisplay.ignoreBots == "false" && message.author.id != botUserId)) {
                     plugins.forEach((plugin: PluginBase) => {
-                        plugin.onDiscordMessage(message);
+                        try {
+                            plugin.onDiscordMessage(message);
+                        }
+                        catch(error: any) {
+                            console.error(colors.red + "プラグイン実行中にエラーが発生しました。以下、エラーログです。\n" + colors.reset + error.stack);
+                        }
                     });
                 }
             }

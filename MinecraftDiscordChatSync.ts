@@ -38,13 +38,14 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
 
 //Rcon接続
 export function connectRcon(): void {
+    console.info("Rconを接続します...");
     rcon.connect().then(() => {
         console.info("Rconを接続しました。");
     }).catch((error: any) => {
         if(error.message.startsWith("connect ECONNREFUSED")) console.error(colors.red + "Rconの接続が拒否されました。" + colors.reset);
         else if(error.message == "Authentication failed") console.error(colors.red + "Rconの認証に失敗しました。パスワードが間違っている可能性があります。" + colors.reset);
-        else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ：" + error.message + colors.reset);
-        console.error(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信は出来ますが、 Discord -> マインクラフト の送信はできません。");
+        else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ : " + error.message + colors.reset);
+        console.warn(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信はできますが、 Discord -> マインクラフト の送信はできません。");
     });
 }
 
@@ -55,7 +56,7 @@ export function sendRconCommand(command: string): Promise<string | null> {
             resolve(response);
         }).catch((error: any) => {
             if(error.message == "Not connected") console.log(colors.red + "Rconが接続されていません。" + colors.reset);
-            else console.error(colors.red + "コマンドの送信に失敗しました。エラーコード：" + error.message + colors.reset);
+            else console.error(colors.red + "コマンドの送信に失敗しました。エラーコード : " + error.message + colors.reset);
             resolve(null);
         });
     });
@@ -76,7 +77,8 @@ const embeds: string[] = [];
 let pluginLoadAttempt: number = 0;
 function loadPlugin(): Promise<PluginBase[]> {
     return new Promise((resolve, reject) => {
-        console.info("--- プラグイン読込開始 ---");
+        console.info("プラグインを読み込んでいます...");
+        console.group("読み込まれたプラグイン");
         fs.readdir("./plugins", (error: string, files: string[]) => {
             const result: PluginBase[] = [];
             const ignoreFiles: string[] = ["PluginBase.ts"];
@@ -86,11 +88,11 @@ function loadPlugin(): Promise<PluginBase[]> {
                         try {
                             const pluginClass: PluginBase = new plugin.Plugin();
                             result.push(pluginClass);
-                            console.info("読込 ["+ colors.green + "正常" + colors.reset + "] -> " + file);
+                            console.info("- ["+ colors.green + "正常" + colors.reset + "] -> " + file);
                             resolve(result);
                         }
                         catch {
-                            console.error("読込 ["+ colors.red + "エラー" + colors.reset + "] -> " + colors.red + file + colors.reset);
+                            console.error("- ["+ colors.red + "エラー" + colors.reset + "] -> " + colors.red + file + colors.reset);
 
                         }
                         finally {
@@ -109,8 +111,10 @@ export let rcon: Rcon;
 
 loadPlugin().then((resolve: PluginBase[]) => {
     plugins = resolve;
-    if(pluginLoadAttempt == plugins.length) console.info("--- プラグイン読込終了 (" + colors.green + plugins.length + colors.reset + "/" + pluginLoadAttempt + ") ---");
-    else console.info("--- プラグイン読込終了 (" + colors.red + plugins.length + colors.reset + "/" + pluginLoadAttempt + ") ---");
+    console.groupEnd();
+    if(pluginLoadAttempt == plugins.length) console.info("全てのプラグインが正常に読み込まれました。");
+    else console.warn(colors.yellow + "一部のプラグインが正常に読み込まれませんでした。" + colors.reset);
+    console.info("設定ファイル検証をしています...");
     //設定ファイルの存在確認
     try {
         settings = JSON.parse(fs.readFileSync("Settings.json", "utf-8"));
@@ -128,7 +132,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             }
             catch(error: any) {
                 if(error.code == "EPERM") console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、書き込み権限がないので生成できません。ディレクトリに書き込み権限を設定してもう一度お試し下さい。" + colors.reset);
-                else console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できません。エラーコード：" + error.code + colors.reset);
+                else console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できません。エラーコード : " + error.code + colors.reset);
                 process.exit(1);
             }
             console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");
@@ -143,7 +147,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             process.exit(1);
         }
         else {
-            console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。エラーコード：" + error.code + colors.reset);
+            console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。エラーコード : " + error.code + colors.reset);
             process.exit(1);
         }
     }
@@ -188,13 +192,13 @@ loadPlugin().then((resolve: PluginBase[]) => {
     if(typeof(settings.token) != "string") settingsError("トークンの設定が不正です。");
     //送信用チャンネルID
     settings.botSendChannels.forEach((channel : string | number) => {
-        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
-        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
+        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID : " + channel);
+        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID : " + channel);
     });
     //受信用チャンネルID
     settings.botWatchChannels.forEach((channel : string | number) => {
-        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
-        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
+        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID : " + channel);
+        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID : " + channel);
     });
     //Discordメッセージをゲーム内で表示させる際の設定
     if(typeof(settings.discordMessageDisplay == "object")) {
@@ -205,7 +209,11 @@ loadPlugin().then((resolve: PluginBase[]) => {
             if(typeof(settings.discordMessageDisplay[key]) != "boolean") settingsError("Discordメッセージ設定 \"" + key + "\" が不正です。");
         });
     }
-    if(errorFlag) process.exit(1); //エラーフラグがtrueならプログラム終了
+    if(errorFlag) {
+        console.info("設定ファイルを検証したところ、エラーが見つかりました。修正して下さい。");
+        process.exit(1); //エラーフラグがtrueならプログラム終了
+    }
+    else    console.info("設定ファイルを検証しました。エラーは見つかりませんでした。");
 
     //Rconクラス
     rcon = new Rcon({ host: "localhost", port: settings.rconPort, password: settings.rconPassword });
@@ -260,6 +268,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     });
 
     //Botへのログイン
+    console.info("Botにログインしています...");
     client.login(settings.token).catch((error: any) => {
         const errorName: string = error.name;
         if(errorName == "Error [TOKEN_INVALID]") console.error(colors.red + "トークンが無効です。正しいトークンが設定されているか確認して下さい。" + colors.reset);
@@ -284,4 +293,4 @@ loadPlugin().then((resolve: PluginBase[]) => {
             }
         });
     });
-}).catch(() => console.log("ああ"));
+});

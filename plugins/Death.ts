@@ -43,8 +43,8 @@ export class Plugin extends PluginBase {
         catch(error: any) {
             if(error.code == "ENOENT") console.error(colors.red + "\"" + path + "\"が存在しません。" + colors.reset);
             else if(error.code == "EPERM") console.error(colors.red + "\"" + path + "\"の読み取り権限がありません。" + colors.reset);
-            else console.error(colors.red + "\"" + path + "\"を読み取れません。エラーコード：" + error.code + colors.reset);
-            process.exit(1);
+            else console.error(colors.red + "\"" + path + "\"を読み取れません。エラーコード : " + error.code + colors.reset);
+            throw Error();
         }
 		return data.split(/\r\n|\r|\r/);
 	}

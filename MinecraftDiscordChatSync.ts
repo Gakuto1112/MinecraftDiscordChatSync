@@ -73,17 +73,29 @@ function readLog(): Promise<string> {
 
 //プラグインファイルの読み取りとインスタンス化
 const embeds: string[] = [];
+let pluginLoadAttempt: number = 0;
 function loadPlugin(): Promise<PluginBase[]> {
     return new Promise((resolve, reject) => {
+        console.info("--- プラグイン読込開始 ---");
         fs.readdir("./plugins", (error: string, files: string[]) => {
             const result: PluginBase[] = [];
+            const ignoreFiles: string[] = ["PluginBase.ts"];
             files.forEach((file: string) => {
-                const ignoreFiles: string[] = ["PluginBase.ts"];
                 if(file.endsWith(".ts") && !ignoreFiles.includes(file)) {
                     import("./plugins/" + file.split(".")[0]).then((plugin) => {
-                        const pluginClass: PluginBase = new plugin.Plugin();
-                        result.push(pluginClass);
-                        resolve(result);
+                        try {
+                            const pluginClass: PluginBase = new plugin.Plugin();
+                            result.push(pluginClass);
+                            console.info("読込 ["+ colors.green + "正常" + colors.reset + "] -> " + file);
+                            resolve(result);
+                        }
+                        catch {
+                            console.error("読込 ["+ colors.red + "エラー" + colors.reset + "] -> " + colors.red + file + colors.reset);
+
+                        }
+                        finally {
+                            pluginLoadAttempt++;
+                        }
                     });
                 }
             });
@@ -97,6 +109,8 @@ export let rcon: Rcon;
 
 loadPlugin().then((resolve: PluginBase[]) => {
     plugins = resolve;
+    if(pluginLoadAttempt == plugins.length) console.info("--- プラグイン読込終了 (" + colors.green + plugins.length + colors.reset + "/" + pluginLoadAttempt + ") ---");
+    else console.info("--- プラグイン読込終了 (" + colors.red + plugins.length + colors.reset + "/" + pluginLoadAttempt + ") ---");
     //設定ファイルの存在確認
     try {
         settings = JSON.parse(fs.readFileSync("Settings.json", "utf-8"));
@@ -270,4 +284,4 @@ loadPlugin().then((resolve: PluginBase[]) => {
             }
         });
     });
-});
+}).catch(() => console.log("ああ"));

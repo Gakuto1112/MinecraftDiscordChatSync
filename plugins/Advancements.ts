@@ -55,6 +55,7 @@ export class Plugin extends PluginBase {
         }
         return result;
     }
+
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
         const advancementLogs: RegExp[] = [/^\w{2,16} has made the advancement \[.+?\]/, /^\w{2,16} has reached the goal \[.+?\]/, /^\w{2,16} has completed the challenge \[.+?\]/];
         advancementLogs.forEach((advancementLog: RegExp, i: number) => {

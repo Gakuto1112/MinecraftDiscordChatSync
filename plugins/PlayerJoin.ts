@@ -3,7 +3,6 @@ import { PluginBase } from "./PluginBase";
 import { colors, settings, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 export class Plugin extends PluginBase {
-
     constructor() {
         super();
         addEmbed("playerJoin");
@@ -28,7 +27,7 @@ export class Plugin extends PluginBase {
                         });
                     }
                     else {
-                        console.warn(colors.yellow + "プレイヤー \"" + playerName + "\" のUUIDを取得できませんでした。" + colors.reset);
+                        console.warn(colors.yellow + "プレイヤー 「" + playerName + "」のUUIDを取得できませんでした。" + colors.reset);
                         sendMessageToDiscord(messageContent, embed);
                     }
                 });

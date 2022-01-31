@@ -3,7 +3,6 @@ import { minecraftVersions, settings, sendRconCommand } from "../MinecraftDiscor
 import { PluginBase } from "./PluginBase";
 
 export class Plugin extends PluginBase {
-
 	public onDiscordMessage(message: Message): void {
 		let hoverContentName: string;
 		if(minecraftVersions.indexOf(settings.minecraftVersion) >= 14) hoverContentName = "contents";

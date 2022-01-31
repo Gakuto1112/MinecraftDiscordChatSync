@@ -9,7 +9,6 @@ interface AdvancementObject {
 }
 
 export class Plugin extends PluginBase {
-
     private advancements: AdvancementObject[] = [];
 
     constructor() {
@@ -21,9 +20,9 @@ export class Plugin extends PluginBase {
             data = fs.readFileSync("./plugins/data/advancements.tsv", "utf-8");
         }
         catch(error: any) {
-            if(error.code == "ENOENT") console.error(colors.red + "\"./plugins/data/advancements.tsv\"が存在しません。" + colors.reset);
-            else if(error.code == "EPERM") console.error(colors.red + "\"./plugins/data/advancements.tsv\"の読み取り権限がありません。" + colors.reset);
-            else console.error(colors.red + "\"./plugins/data/advancements.tsv\"を読み取れません。エラーコード : " + error.code + colors.reset);
+            if(error.code == "ENOENT") console.error(colors.red + "「./plugins/data/advancements.tsv」が存在しません。" + colors.reset);
+            else if(error.code == "EPERM") console.error(colors.red + "「./plugins/data/advancements.tsv」の読み取り権限がありません。" + colors.reset);
+            else console.error(colors.red + "「./plugins/data/advancements.tsv」を読み取れません。エラーコード：" + error.code + colors.reset);
             throw Error();
         }
         data.split(/\r\n|\r|\r/).forEach((line: string, i: number) => {

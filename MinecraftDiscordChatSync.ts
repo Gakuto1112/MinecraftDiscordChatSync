@@ -13,7 +13,7 @@ export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u0
 //Embed設定を追加
 export function addEmbed(embedName: string): void {
     if(embeds.includes(embedName)) {
-        console.error(colors.red + "\"" + embedName + "\" という名前のEmbedは既に存在します。" + colors.reset);
+        console.error(colors.red + "「" + embedName + "」という名前のEmbedは既に存在します。" + colors.reset);
         process.exit(1);
     }
     embeds.push(embedName);
@@ -31,7 +31,7 @@ export function sendMessageToDiscord(message: string, messageEmbed: MessageEmbed
             }
         }
         catch {
-            console.error(colors.red + "チャンネルID \"" + channel + "\" を持つチャンネルにメッセージを送信できません。" + colors.reset);
+            console.error(colors.red + "チャンネルID「" + channel + "」を持つチャンネルにメッセージを送信できません。" + colors.reset);
         }
     });
 }
@@ -44,7 +44,7 @@ export function connectRcon(): void {
     }).catch((error: any) => {
         if(error.message.startsWith("connect ECONNREFUSED")) console.error(colors.red + "Rconの接続が拒否されました。" + colors.reset);
         else if(error.message == "Authentication failed") console.error(colors.red + "Rconの認証に失敗しました。パスワードが間違っている可能性があります。" + colors.reset);
-        else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ : " + error.message + colors.reset);
+        else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ：" + error.message + colors.reset);
         console.warn(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信はできますが、 Discord -> マインクラフト の送信はできません。");
     });
 }
@@ -56,7 +56,7 @@ export function sendRconCommand(command: string): Promise<string | null> {
             resolve(response);
         }).catch((error: any) => {
             if(error.message == "Not connected") console.log(colors.red + "Rconが接続されていません。" + colors.reset);
-            else console.error(colors.red + "コマンドの送信に失敗しました。エラーコード : " + error.message + colors.reset);
+            else console.error(colors.red + "コマンドの送信に失敗しました。エラーコード：" + error.message + colors.reset);
             resolve(null);
         });
     });
@@ -132,7 +132,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             }
             catch(error: any) {
                 if(error.code == "EPERM") console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、書き込み権限がないので生成できません。ディレクトリに書き込み権限を設定してもう一度お試し下さい。" + colors.reset);
-                else console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できません。エラーコード : " + error.code + colors.reset);
+                else console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できません。エラーコード：" + error.code + colors.reset);
                 process.exit(1);
             }
             console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");
@@ -147,7 +147,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             process.exit(1);
         }
         else {
-            console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。エラーコード : " + error.code + colors.reset);
+            console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。エラーコード：" + error.code + colors.reset);
             process.exit(1);
         }
     }
@@ -174,13 +174,13 @@ loadPlugin().then((resolve: PluginBase[]) => {
     //Embed設定
     if(typeof(settings.embeds) == "object") {
         embeds.forEach((embed: string) => {
-            if(!(embed in settings.embeds)) settingsError("Embed \"" + embed + "\" がありません。");
+            if(!(embed in settings.embeds)) settingsError("Embed「" + embed + "」がありません。");
         });
         Object.keys(settings.embeds).forEach((key: string) => {
-            if(typeof(settings.embeds[key]) != "boolean") settingsError("Embed \"" + key + "\" が不正です。");
+            if(typeof(settings.embeds[key]) != "boolean") settingsError("Embed「" + key + "」が不正です。");
         });
     }
-    else settingsError("\"embeds\"の指定が不正です。");
+    else settingsError("「embeds」の指定が不正です。");
     //Rconポート
     if(typeof(settings.rconPort) == "number") {
         if(!Number.isInteger(settings.rconPort) || settings.rconPort < 1 || settings.rconPort > 65535) settingsError("Rconのポート番号が不正です。ポート番号は1~65535の整数値で指定する必要があります。");
@@ -191,22 +191,22 @@ loadPlugin().then((resolve: PluginBase[]) => {
     //トークン
     if(typeof(settings.token) != "string") settingsError("トークンの設定が不正です。");
     //送信用チャンネルID
-    settings.botSendChannels.forEach((channel : string | number) => {
-        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID : " + channel);
-        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID : " + channel);
+    settings.botSendChannels.forEach((channel: string | number) => {
+        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
+        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
     });
     //受信用チャンネルID
-    settings.botWatchChannels.forEach((channel : string | number) => {
-        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID : " + channel);
-        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID : " + channel);
+    settings.botWatchChannels.forEach((channel: string | number) => {
+        if(typeof(channel) == "number") settingsError("チャンネルIDは文字列で指定して下さい。対象チャンネルID：" + channel);
+        else if(/[^\d]/.test(channel)) settingsError("チャンネルIDが不正です。対象チャンネルID：" + channel);
     });
     //Discordメッセージをゲーム内で表示させる際の設定
     if(typeof(settings.discordMessageDisplay == "object")) {
         ["ignoreBots", "displayRoleColor", "showChannelName", "useRichText" , "showAttachments"].forEach((element: string) => {
-            if(!(element in settings.discordMessageDisplay)) settingsError("Discordメッセージ設定 \"" + element + "\" がありません。");
+            if(!(element in settings.discordMessageDisplay)) settingsError("Discordメッセージ設定「" + element + "」がありません。");
         });
         Object.keys(settings.discordMessageDisplay).forEach((key: string) => {
-            if(typeof(settings.discordMessageDisplay[key]) != "boolean") settingsError("Discordメッセージ設定 \"" + key + "\" が不正です。");
+            if(typeof(settings.discordMessageDisplay[key]) != "boolean") settingsError("Discordメッセージ設定「" + key + "」が不正です。");
         });
     }
     if(errorFlag) {

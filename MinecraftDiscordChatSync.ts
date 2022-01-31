@@ -56,7 +56,10 @@ export function sendRconCommand(command: string): Promise<string | null> {
             resolve(response);
         }).catch((error: any) => {
             if(error.message == "Not connected") console.log(colors.red + "Rconが接続されていません。" + colors.reset);
-            else console.error(colors.red + "コマンドの送信に失敗しました。エラーコード：" + error.message + colors.reset);
+            else {
+                console.error(colors.red + "コマンドの送信に失敗しました。" + colors.reset);
+                if(showErrorStack) console.info(error.stack);
+            }
             resolve(null);
         });
     });
@@ -71,6 +74,22 @@ function readLog(): Promise<string> {
         });
     });
 }
+
+//引数の確認
+let initRconConnect: boolean = false; //最初にRcon接続するフラグ
+let showErrorStack: boolean = false; //エラースタックトレースするかどうかのフラグ
+process.argv.forEach((arg: string, i: number) => {
+    if(i >= 2) {
+        switch(arg) {
+            case "-r":
+                initRconConnect = true;
+                break;
+            case "-e":
+                showErrorStack = true;
+                break;
+        }
+    }
+});
 
 //プラグインファイルの読み取りとインスタンス化
 const embeds: string[] = [];
@@ -91,9 +110,9 @@ function loadPlugin(): Promise<PluginBase[]> {
                             console.info("- ["+ colors.green + "正常" + colors.reset + "] -> " + file);
                             resolve(result);
                         }
-                        catch {
+                        catch(error: any) {
                             console.error("- ["+ colors.red + "エラー" + colors.reset + "] -> " + colors.red + file + colors.reset);
-
+                            if(showErrorStack) console.info(error.stack);
                         }
                         finally {
                             pluginLoadAttempt++;
@@ -132,7 +151,10 @@ loadPlugin().then((resolve: PluginBase[]) => {
             }
             catch(error: any) {
                 if(error.code == "EPERM") console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、書き込み権限がないので生成できません。ディレクトリに書き込み権限を設定してもう一度お試し下さい。" + colors.reset);
-                else console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できません。エラーコード：" + error.code + colors.reset);
+                else {
+                    console.error(colors.red + "設定ファイル「Settings.json」を生成しようと試みましたが、生成できませんでした。");
+                    if(showErrorStack) console.info(error.stack);
+                }
                 process.exit(1);
             }
             console.info("「Settings.json」を生成しました。ファイルを開いて必要な情報を入力して下さい。");
@@ -147,7 +169,8 @@ loadPlugin().then((resolve: PluginBase[]) => {
             process.exit(1);
         }
         else {
-            console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。エラーコード：" + error.code + colors.reset);
+            console.error(colors.red + "設定ファイル「Settings.json」を読み取れません。" + colors.reset);
+            if(showErrorStack) console.info(error.stack);
             process.exit(1);
         }
     }
@@ -219,9 +242,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
     rcon = new Rcon({ host: "localhost", port: settings.rconPort, password: settings.rconPassword });
 
     //Rcon接続（引数に「-r」が提供されたときのみ）
-    process.argv.forEach((arg: string, i: number) => {
-        if(i >= 2 && arg == "-r") connectRcon();
-    });
+    if(initRconConnect) connectRcon();
 
     //ログファイルの読み取り
     const watcher = chokidar.watch(settings.pathToLogFile, { ignored: /[\/\\]\./, persistent: true, usePolling: true });
@@ -263,7 +284,8 @@ loadPlugin().then((resolve: PluginBase[]) => {
                             plugin.onMinecraftMessage(messageTime, processInfo[0], processInfo[1], messageBodyPart.join(": "));
                         }
                         catch(error: any) {
-                            console.error(colors.red + "プラグイン実行中にエラーが発生しました。以下、エラーログです。\n" + colors.reset + error.stack);
+                            if(showErrorStack) console.error(colors.red + "プラグイン実行中にエラーが発生しました。以下、エラーログです。\n" + colors.reset + error.stack);
+                            else console.error(colors.red + "プラグイン実行中にエラーが発生しました。");
                         }
                     });
                 }

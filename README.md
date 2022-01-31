@@ -72,11 +72,11 @@ MinecraftからDiscordへは以下のものが送信されます。
   ![ボット作成方法8](https://user-images.githubusercontent.com/90630001/147874768-c2e72713-32ae-42df-83dc-034f0776c661.jpg)
 
 ## 使用方法
-1. このアプリケーションを実行するには「Node.js（v16.13.1[^1]）」が必要です。[こちら](https://nodejs.org/ja/)からインストールして下さい。  
+1. このアプリケーションを実行するには「Node.js（v16.13.1[^1]）」が必要です。[こちら](https://nodejs.org/ja/)からインストールして下さい。
 2. このアプリケーションのデータをダウンロードします。このページ上部の緑色の「**Code**」から「**Download ZIP**」をクリックするとzipファイルをダウンロードできます。また、このレポジトリをクローンしてもダウンロードできます（gitユーザー向け）。
    - データの保存先は、「**該当のサーバーの実行ファイルが存在するディレクトリに新たなフォルダを作ってその中に保存する**」のが好ましいです。
 ```
-（ディレクトリ構造の例） 
+（ディレクトリ構造の例）
 Server/
   ├ MinecraftDiscordChatSync/     ←このフォルダを作る
   │ ├ plugins/
@@ -104,7 +104,7 @@ cd C:\..\Server\MinecraftDiscordChatSync\
 | [discord.js](https://www.npmjs.com/package/discord.js) | 13.5.0 | Discordのボットを操作 |  ```npm install discord.js``` |
 | [iconv](https://www.npmjs.com/package/iconv) | 3.0.1 | 異なる文字コードへの変換 | ```npm install iconv``` |
 | [rcon-client](https://www.npmjs.com/package/rcon-client) | 4.2.3 | Rconの操作 | ```npm install rcon-client``` |
-  
+
 6. 以下のコマンドを入力してアプリケーションを実行します。
 ```
 ts-node MinecraftDiscordChatSync.ts
@@ -191,8 +191,17 @@ ts-node MinecraftDiscordChatSync.ts
 pause
 ```
 
-## 「-r」オプションについて
-アプリケーション実行時に「-r」オプションを使用すると、即座にRcon接続が開始されます。既にサーバーを起動した場合に使用して下さい。
+## オプションについて
+実行時に引数にしてできるオプションがあります。
+```
+ts-node MinecraftDiscordChatSync.ts <オプション1> <オプション2> ...
+```
+
+### 「-r」オプション
+即座にRcon接続が開始されるオプションです。既にサーバーを起動した場合に使用して下さい。
+
+### 「-e」オプション
+エラー発生時にスタックトレースを表示します。デバッグ等にお使いください。
 
 ## MODサーバーでの使用について
 ```./plugins/data/```には、英語名と日本語名を関連付ける各種ファイルがあります。ファイルの内容はファイル名から想像できる通りです。

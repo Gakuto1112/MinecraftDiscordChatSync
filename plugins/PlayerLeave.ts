@@ -3,7 +3,6 @@ import { PluginBase } from "./PluginBase";
 import { colors, settings, addEmbed, sendMessageToDiscord } from "../MinecraftDiscordChatSync";
 
 export class Plugin extends PluginBase {
-
     constructor() {
         super();
         addEmbed("playerLeave");

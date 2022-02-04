@@ -97,13 +97,17 @@ Server/
 cd C:\..\Server\MinecraftDiscordChatSync\
 ```
 5. 以下のコマンドを1つずつ入力して必要なモジュールをインストールします。
+```
+npm install
+```
+なお、使用しているモジュールは以下の通りです。
 
-| モジュール名 | バージョン[^1] | 説明 | コマンド |
-| --- | --- | --- | --- |
-| [chokidar](https://www.npmjs.com/package/chokidar) | 3.5.2 | ファイルの監視 |  ```npm install chokidar``` |
-| [discord.js](https://www.npmjs.com/package/discord.js) | 13.5.0 | Discordのボットを操作 |  ```npm install discord.js``` |
-| [iconv](https://www.npmjs.com/package/iconv) | 3.0.1 | 異なる文字コードへの変換 | ```npm install iconv``` |
-| [rcon-client](https://www.npmjs.com/package/rcon-client) | 4.2.3 | Rconの操作 | ```npm install rcon-client``` |
+| モジュール名 | バージョン[^1] |
+| --- | --- |
+| [chokidar](https://www.npmjs.com/package/chokidar) | 3.5.2 |
+| [discord.js](https://www.npmjs.com/package/discord.js) | 13.5.0 |
+| [iconv](https://www.npmjs.com/package/iconv) | 3.0.1 |
+| [rcon-client](https://www.npmjs.com/package/rcon-client) | 4.2.3 |
 
 6. 以下のコマンドを入力してアプリケーションを実行します。
 ```

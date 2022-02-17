@@ -145,7 +145,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = true;
             });
-            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.18.1", pathToLogFile: "./logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: true, displayRoleColor: true, showChannelName: true, useRichText: true, showAttachments: true } };
+            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.18.1", pathToLogFile: "../logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: true, displayRoleColor: true, showChannelName: true, useRichText: true, showAttachments: true } };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }

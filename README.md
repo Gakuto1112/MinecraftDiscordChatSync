@@ -7,7 +7,7 @@ Minecraft（Java Edition）と[Discord](https://discord.com/)のチャットを�
 1. [機能紹介](#機能紹介)
 2. [ボットアカウントの作成方法](#ボットアカウントの作成方法)
 3. [使用方法](#使用方法)
-4. [「-r」オプションについて](#「-r」オプションについて)
+4. [オプションについて](#オプションについて)
 5. [MODサーバーでの使用について](#MODサーバーでの使用について)
 6. [注意事項](#注意事項)
 
@@ -122,7 +122,7 @@ ts-node MinecraftDiscordChatSync.ts
 ```json
   {
     "minecraftVersion": "1.18.1",
-    "pathToLogFile": "./logs/latest.log",
+    "pathToLogFile": "../logs/latest.log",
     "logEncode": "utf-8",
     "timeOffset": 9,
     "embeds": {

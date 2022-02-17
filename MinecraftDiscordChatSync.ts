@@ -43,15 +43,18 @@ export function connectRcon(): void {
         console.info("Rconを接続しました。");
     }).catch((error: any) => {
         if(error.message.startsWith("connect ECONNREFUSED")) console.error(colors.red + "Rconの接続が拒否されました。" + colors.reset);
-        else if(error.message == "Authentication failed") console.error(colors.red + "Rconの認証に失敗しました。パスワードが間違っている可能性があります。" + colors.reset);
-        else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ：" + error.message + colors.reset);
-        console.warn(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信はできますが、 Discord -> マインクラフト の送信はできません。");
+        else if(error.message == "Already connected or connecting") console.info(colors.red + "既にRconは接続済みか接続中です。" + colors.reset);
+        else {
+            if(error.message == "Authentication failed") console.error(colors.red + "Rconの認証に失敗しました。パスワードが間違っている可能性があります。" + colors.reset);
+            else console.error(colors.red + "Rconの接続に失敗しました。エラーメッセージ：" + error.message + colors.reset);
+            console.warn(colors.red + "Rconが接続されていません！Rconの設定を確認して下さい。" + colors.reset + "このままでも マインクラフト -> Discord の送信はできますが、 Discord -> マインクラフト の送信はできません。");
+        }
     });
 }
 
 //Rconによるリモートコマンド実行
 export function sendRconCommand(command: string): Promise<string | null> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         rcon.send(command).then((response: string) => {
             resolve(response);
         }).catch((error: any) => {
@@ -67,7 +70,7 @@ export function sendRconCommand(command: string): Promise<string | null> {
 
 //ログの読み取り
 function readLog(): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const iconvConvert = new iconv(settings.logEncode, "utf-8");
         fs.readFile(settings.pathToLogFile, (error: string, body: Buffer) => {
             resolve(iconvConvert.convert(body).toString());
@@ -95,7 +98,7 @@ process.argv.forEach((arg: string, i: number) => {
 const embeds: string[] = [];
 let pluginLoadAttempt: number = 0;
 function loadPlugin(): Promise<PluginBase[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         console.info("プラグインを読み込んでいます...");
         console.group("読み込まれたプラグイン");
         fs.readdir("./plugins", (error: string, files: string[]) => {

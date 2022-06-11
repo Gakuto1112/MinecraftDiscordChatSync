@@ -7,6 +7,10 @@ const colors: {[key: string]: string} = {black:"\u001b[30m", red: "\u001b[31m", 
 const globalAdvancementsName: {[key: string]: string} = {};
 const globalEntityName: {[key: string]: string} = {};
 const globalDeathName: {[key: string]: string} = {};
+const localAdvancementsName: {[key: string]: string} = {};
+const localAdvancementsDescription: {[key: string]: string} = {};
+const localEntityName: {[key: string]: string} = {};
+const localDeathName: {[key: string]: string} = {};
 
 console.info("言語データ作成ツール");
 
@@ -58,6 +62,20 @@ fs.readdir("./", (error: any, files: string[]) => {
 			break;
 	}
 	localLanguageData = fs.createReadStream(localLanguageDataNameCandidate[0], "utf-8");
+	localLanguageData.on("data", (chunk: string) => {
+		chunk.split("\n").forEach((line: string) => {
+			const lineSplit: string[] = line.split(":");
+			const dataKey: string = lineSplit[0].slice(5, -1);
+			let dataValue: string = "";
+			if(typeof(lineSplit[1]) == "string") dataValue = lineSplit[1].slice(2, -2);
+			if(dataKey.startsWith("advancements") && !dataKey.includes("toast") && !dataKey.includes("root") && dataKey != "advancements.empty" && dataKey != "advancements.sad_label") {
+				if(dataKey.endsWith("title")) localAdvancementsName[dataKey.slice(0, -6)] = dataValue;
+				else if(dataKey.endsWith("description")) localAdvancementsDescription[dataKey.slice(0, -12)] = dataValue;
+			}
+			else if(dataKey.startsWith("entity") && !dataKey.includes("predefined") && dataKey != "entity.notFound") localEntityName[dataKey] = dataValue;
+			else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) localDeathName[dataKey] = dataValue.replace("%1$s", "{victim}").replace("%2$s", "{killer}").replace("%3$s", "{weapon}");
+		});
+	});
 	localLanguageData.on("error", (error: any) => {
 		switch(error.errno) {
 			case -4058:

@@ -1,7 +1,8 @@
 import {ReadStream} from "fs";
 
-const fs = require("fs")
+const fs = require("fs");
 const colors: {[key: string]: string} = {black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m"}; //標準出力に色を付ける制御文字
+let loadEndCount: number = 0;
 
 //言語データ格納変数
 const globalAdvancementsName: {[key: string]: string} = {};
@@ -12,7 +13,27 @@ const localAdvancementsDescription: {[key: string]: string} = {};
 const localEntityName: {[key: string]: string} = {};
 const localDeathName: {[key: string]: string} = {};
 
+//言語データの作成
+function makeLanguageData() {
+	const advancementsLine: string[] = ["name_global\tname_local\tdescription"];
+	const entityLine: string[] = ["name_global\tname_local"];
+	const deathLine: string[] = ["name_global\tname_local"];
+	Object.keys(globalAdvancementsName).forEach((key: string) => advancementsLine.push(globalAdvancementsName[key] + "\t" + localAdvancementsName[key] + "\t" + localAdvancementsDescription[key]));
+	Object.keys(globalEntityName).forEach((key: string) => entityLine.push(globalEntityName[key] + "\t" + localEntityName[key]));
+	Object.keys(globalDeathName).forEach((key: string) => deathLine.push(globalDeathName[key] + "\t" + localDeathName[key]));
+	fs.writeFileSync("advancements.tsv", advancementsLine.join("\n"));
+	fs.writeFileSync("entity.tsv", entityLine.join("\n"));
+	fs.writeFileSync("death.tsv", deathLine.join("\n"));
+	console.info("言語データの作成が完了しました。");
+}
+
 console.info("言語データ作成ツール");
+fs.access("./", fs.constants.R_OK | fs.constants.W_OK, (error: any) => {
+	if(error) {
+		console.error(colors.red + "ディレクトリに読み取り権限か書き込み権限がありません。" + colors.reset);
+		process.exit(1);
+	}
+});
 
 //グローバル値の読み取り
 let globalLanguageData: ReadStream;
@@ -28,6 +49,10 @@ globalLanguageData.on("data", (chunk: string) => {
 		else if(dataKey.startsWith("entity") && !dataKey.includes("predefined") && dataKey != "entity.notFound") globalEntityName[dataKey] = dataValue;
 		else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) globalDeathName[dataKey] = dataValue.replace("%1$s", "{victim}").replace("%2$s", "{killer}").replace("%3$s", "{weapon}");
 	});
+});
+globalLanguageData.on("end", () => {
+	loadEndCount++;
+	if(loadEndCount == 2) makeLanguageData();
 });
 globalLanguageData.on("error", (error: any) => {
 	switch(error.errno) {
@@ -75,6 +100,10 @@ fs.readdir("./", (error: any, files: string[]) => {
 			else if(dataKey.startsWith("entity") && !dataKey.includes("predefined") && dataKey != "entity.notFound") localEntityName[dataKey] = dataValue;
 			else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) localDeathName[dataKey] = dataValue.replace("%1$s", "{victim}").replace("%2$s", "{killer}").replace("%3$s", "{weapon}");
 		});
+	});
+	localLanguageData.on("end", () => {
+		loadEndCount++;
+		if(loadEndCount == 2) makeLanguageData();
 	});
 	localLanguageData.on("error", (error: any) => {
 		switch(error.errno) {

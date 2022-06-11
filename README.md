@@ -121,7 +121,7 @@ ts-node MinecraftDiscordChatSync.ts
 初期生成される「Settings.json」（以下、設定ファイル）は以下のようになっています。
 ```json
   {
-    "minecraftVersion": "1.18.1",
+    "minecraftVersion": "1.19",
     "pathToLogFile": "../logs/latest.log",
     "logEncode": "utf-8",
     "timeOffset": 9,
@@ -153,7 +153,7 @@ ts-node MinecraftDiscordChatSync.ts
 
 | 項目 | 説明 | 初期値 | 有効な設定値 |
 | --- | --- | --- | --- |
-| minecraftVersion | 実行するマインクラフトサーバーのバージョンです。設定されたバージョンによって、Rconで送信されるコマンドが変化します。希望のバージョンが存在しない場合は、最寄りのバージョンを選択してください（正しく動作しない場合があります）。 | 1.18.1 | string（1.12 ~ 1.18のリリースバージョン）
+| minecraftVersion | 実行するマインクラフトサーバーのバージョンです。設定されたバージョンによって、Rconで送信されるコマンドが変化します。希望のバージョンが存在しない場合は、最寄りのバージョンを選択してください（正しく動作しない場合があります）。 | 1.19 | string（1.12 ~ 1.19のリリースバージョン）
 | pathToLogFile | カレントディレクトリから見た「latest.log」までのパスを設定して下さい。 | ./logs/latest.log | string |
 | logEncode | ログファイルの文字コード。Windowsの場合、非ASCII文字が文字化けする場合があります。その場合は「shift-jis」に変更してみて下さい。 | utf-8 | string（「utf-8」か「shift-jis」のいずれか） |
 | timeOffset | 世界標準時（GMT）から見た時差（時）。日本で使用する場合は変更不要です。 | 9 | number |

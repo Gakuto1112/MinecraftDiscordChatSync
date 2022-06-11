@@ -1,10 +1,12 @@
-name_global	name_local	desriction
+name_global	name_local	description
 Adventuring Time	冒険の時間	すべての種類のバイオームを発見する
 Arbalistic	クロスボウの達人	5種類のMobをクロスボウを使って一度に倒す
+Sneak 100	スニーク100	スカルクセンサーまたはウォーデンの近くでスニークして感知されないようにする
 Bullseye	的中	30m以上離れた場所から的の中心を射抜く
 Caves & Cliffs	洞窟と崖	ワールドの頂上（限界高度）からワールドの底へ落下し、生き残る
+It Spreads	「それ」は侵食する	スカルクカタリストの近くでMobを倒す
 Light as a Rabbit	ウサギのように軽く	粉雪の上を歩く…沈むことなく
-Surge Protector	避雷器	火事を起こすことなくショックな電撃から村人を守る
+Surge Protector	危機一髪	火事を起こすことなく望ましくないショックから村人を守る
 Is It a Bird?	あれは鳥？	望遠鏡を通してオウムを観察する
 Is It a Balloon?	あれは風船？	望遠鏡を通してガストを観察する
 Is It a Plane?	あれは飛行機？	望遠鏡を通してエンダードラゴンを観察する
@@ -13,9 +15,9 @@ Sticky Situation	べとべとな状況	ハチミツブロックに飛び込み�
 Monsters Hunted	モンスター狩りの達人	すべての種類の敵対的なモンスターを倒す
 Monster Hunter	モンスターハンター	敵対的なモンスターを倒す
 Ol' Betsy	おてんば	クロスボウを撃つ
-Sound of Music	サウンド・オブ・ミュージック	ジュークボックスの音楽で草地を生き生きさせる
+Sound of Music	サウンド・オブ・ミュージック	ジュークボックスの音楽で草地を生き生きとさせる
 Take Aim	狙いを定めて	矢で何かを撃つ
-Sweet Dreams	良い夢見てね	ベッドで寝て、リスポーン地点を設定する
+Sweet Dreams	良い夢見てね	ベッドで眠り、リスポーン地点を設定する
 Sniper Duel	スナイパー対決	50m以上離れた場所からスケルトンを倒す
 Hired Help	お手伝いさん	村を守ってもらうためにアイアンゴーレムを召喚する
 Postmortal	死を超えて	不死のトーテムを使用して死を免れる
@@ -30,20 +32,25 @@ The Parrots and the Bats	コウノトリの贈り物	動物を繁殖させる
 Fishy Business	生臭い仕事	魚を捕る
 Glow and Behold!	この輝きに驚くことなかれ！	看板の文字を発光させる
 Whatever Floats Your Goat!	あなたのヤギたい様に！	ヤギと一緒にボートに乗り、浮かぶ
-Tactical Fishing	戦術的漁業	魚を捕る…釣竿なしで！
-The Cutest Predator	いちばんカワイイ捕食者	バケツでウーパールーパーを捕る
+Tactical Fishing	戦術的漁業	魚を捕まえる…釣竿なしで！
+The Cutest Predator	いちばんカワイイ捕食者	バケツでウーパールーパーを捕まえる
+With Our Powers Combined!	僕たちの力を合わせて！	全種類のフロッグライトをインベントリに入れる
+Bukkit Bukkit	おけおけ	バケツでオタマジャクシを捕まえる
+When the Squad Hops into Town	みんなで町に跳び込もう	それぞれの種類のカエルをリードで繋ぐ
 The Healing Power of Friendship!	友情の癒しパワー！	ウーパールーパーと共に戦い、勝利する
-Two by Two	二匹ずつ	すべての種類の動物を繁殖させる
+Two by Two	2匹ずつ	すべての種類の動物を繁殖させる
 Best Friends Forever	永遠の親友となるだろう	動物を手懐ける
 A Seedy Place	種だらけの場所	種を植え、成長を観察する
-Serious Dedication	真面目な献身	ネザライトインゴットでクワをアップグレードし、自分について考え直す
+Serious Dedication	真面目な献身	ネザライトインゴットでクワを強化し、己の人生の選択について考え直す
 A Balanced Diet	バランスの取れた食事	身体にどんな影響があろうと、食べられるものはすべて食べる
 A Complete Catalogue	猫大全集	すべての種類のネコを手懐ける
-Bee Our Guest	秘蜜の晩餐会	焚き火を利用してミツバチを怒らせずにガラス瓶でハチミツを手に入れる
+Bee Our Guest	秘蜜の晩餐会	焚き火を利用して、ミツバチを怒らせずにガラス瓶でハチミツを手に入れる
 Total Beelocation	綿蜜に引越し	シルクタッチを使用して、3匹のミツバチが中に入っているハチの巣を移動する
 Wax On	錆止め	銅ブロックにハニカムを塗る！
 Wax Off	錆止め落とし	銅ブロックの錆止めをこすり落とす！
-You Need a Mint	口臭に気をつけよう	ガラス瓶にドラゴンブレスを集める
+You've Got a Friend in Me	君はともだち	アレイにアイテムを運んできてもらう
+Birthday Song	バースデー・ソング	アレイに音符ブロックの場所へケーキを落としてもらう
+You Need a Mint	口臭に気をつけよう	ガラス瓶にドラゴンブレスを採取する
 The Next Generation	ザ・ネクストジェネレーション	ドラゴンの卵を持つ
 Sky's the Limit	空はどこまでも高く	エリトラを見つける
 Remote Getaway	遠方への逃走	島を脱出する
@@ -54,7 +61,7 @@ The End... Again...	おしまい…再び…	エンダードラゴンを復活�
 Local Brewery	町のお薬屋さん	ポーションを醸造する
 A Furious Cocktail	猛烈なカクテル	すべての種類のポーション効果の付与を同時に受ける
 How Did We Get Here?	どうやってここまで？	すべての種類の効果の付与を同時に受ける
-Bring Home the Beacon	生活のビーコン	ビーコンを準備して起動させる
+Bring Home the Beacon	生活のビーコン	ビーコンを組み立てて起動させる
 Beaconator	ビーコネーター	最大パワーのビーコンを作る
 A Terrible Fortress	恐ろしい要塞	ネザー要塞に侵入する
 Spooky Scary Skeleton	不気味で怖いスケルトン	ウィザースケルトンの頭蓋骨を手に入れる
@@ -65,14 +72,14 @@ Subspace Bubble	亜空間バブル	ネザーを利用して7km先のオーバー
 Uneasy Alliance	不安な同盟	ガストをネザーから救出し、安全にオーバーワールドに持ち帰り…そして倒す。
 Hidden in the Depths	深淵に隠されしもの	古代の残骸を手に入れる
 Cover Me in Debris	残骸で私を覆って	ネザライトの防具一式を手に入れる
-Country Lode, Take Me Home	この道をずっとゆけば	ロードストーンにコンパスを使用する
+Country Lode, Take Me Home	この道をずっとゆけば	コンパスの指し示す先をロードストーンに固定する
 Who is Cutting Onions?	玉ねぎを切っているのは誰？	泣く黒曜石を手に入れる
-Not Quite "Nine" Lives	人に九生なし	リスポーンアンカーを最大までチャージする
+Not Quite \"Nine\" Lives	人に九生なし	リスポーンアンカーを最大までチャージする
 This Boat Has Legs	足のついたボート	歪んだキノコ付きの棒を持ってストライダーに乗る
-Feels like home	実家のような安心感	オーバーワールドの溶岩湖で長ーーーくストライダーを乗りこなす
+Feels Like Home	実家のような安心感	オーバーワールドの溶岩湖で長ーーーくストライダーを乗りこなす
 Hot Tourist Destinations	ホットな観光地	すべての種類のネザーのバイオームを発見する
 Those Were the Days	兵どもが夢の跡	砦の遺跡へ入る
-War Pigs	ブタ戦争	砦の遺跡にあるチェストを開ける
+War Pigs	ブタ戦争	砦の遺跡にあるチェストを開く
 Oh Shiny	わーいぴかぴか！	金でピグリンの気をそらす
 Zombie Doctor	ゾンビドクター	村人ゾンビを弱らせてから治療する
 Not Today, Thank You	今日はやめておきます	盾で飛び道具を跳ね返す
@@ -80,12 +87,12 @@ Enchanter	エンチャントの使い手	エンチャントテーブルでアイ
 The End?	おしまい？	エンドポータルに入る
 We Need to Go Deeper	さらなる深みへ	ネザーポータルを作り、着火し、入る
 Eye Spy	アイ・スパイ	エンダーアイを追いかける
-Ice Bucket Challenge	アイス・バケツ・チャレンジ	黒曜石を手に入れる
+Ice Bucket Challenge	アイス・バケツ・チャレンジ	黒曜石を入手する
 Isn't It Iron Pick	鉄のツルハシで決まり	ツルハシを強化する
-Hot Stuff	ホットスタッフ	バケツを溶岩で満たす
+Hot Stuff	ホットスタッフ	溶岩でバケツを満たす
 Diamonds!	ダイヤモンド！	ダイヤモンドを手に入れる
 Stone Age	石器時代	真新しいツルハシで石を採掘する
 Suit Up	装備せよ	鉄の防具で身を守る
 Cover Me with Diamonds	ダイヤモンドで私を覆って	ダイヤモンドの防具は命を救います
 Acquire Hardware	金属を手に入れる	鉄インゴットを製錬する
-Getting an Upgrade	アップグレード	より良いツルハシをつくる
+Getting an Upgrade	アップグレード	より良いツルハシを作成する

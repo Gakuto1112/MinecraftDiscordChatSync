@@ -46,7 +46,7 @@ globalLanguageData.on("data", (chunk: string) => {
 		let dataValue: string = "";
 		if(typeof(lineSplit[1]) == "string") dataValue = lineSplit[1].slice(2, -2);
 		if(dataKey.startsWith("advancements") && dataKey.endsWith("title") && !dataKey.includes("toast") && !dataKey.includes("root") && dataKey != "advancements.empty" && dataKey != "advancements.sad_label") globalAdvancementsName[dataKey.slice(0, -6)] = dataValue;
-		else if(dataKey.startsWith("entity") && !dataKey.includes("predefined") && dataKey != "entity.notFound") globalEntityName[dataKey] = dataValue;
+		else if(dataKey.startsWith("entity") && !dataKey.includes("tropical_fish.predefined") && !dataKey.includes("tropical_fish.type") && dataKey != "entity.notFound") globalEntityName[dataKey] = dataValue;
 		else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) globalDeathName[dataKey] = dataValue.replace("%1$s", "{victim}").replace("%2$s", "{killer}").replace("%3$s", "{weapon}");
 	});
 });

@@ -45,7 +45,7 @@ export class Plugin extends PluginBase {
             else console.error(colors.red + "「" + path + "」を読み取れません。エラーコード：" + error.code + colors.reset);
             throw Error();
         }
-		return data.split(/\r\n|\r|\r/);
+		return data.split(/\n/);
 	}
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
 		if(!/\[\'.+\'\/\d+, l=\'.+\[.+\]\', x=-?\d+\.\d{1,2}, y=-?\d+\.\d{1,2}, z=-?\d+\.\d{1,2}\] died/.test(message)) {

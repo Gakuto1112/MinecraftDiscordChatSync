@@ -9,20 +9,21 @@ name_global	name_local
 {victim} was doomed to fall	{victim}は落ちる運命だった
 {victim} was doomed to fall by {killer}	{victim}は{killer}に落とされる運命だった
 {victim} was doomed to fall by {killer} using {weapon}	{victim}は{killer}の{weapon}で落とされる運命だった
-{victim} fell too far and was finished by {killer}	{victim}は高いところから落下し、{weapon}によってとどめを刺された
-{victim} fell too far and was finished by {killer} using {weapon}	{victim} は高いところから落下し、{killer}の{weapon}によってとどめを刺された
+{victim} fell too far and was finished by {killer}	{victim}は高いところから落下し、{killer}によってとどめを刺された
+{victim} fell too far and was finished by {killer} using {weapon}	{victim}は高いところから落下し、{killer}の{weapon}によってとどめを刺された
 {victim} was struck by lightning	{victim}は雷に打たれた
 {victim} was struck by lightning whilst fighting {killer}	{victim}は{killer}と戦いながら雷に打たれた
-{victim} went up in flames	{victim} は炎に巻かれた
+{victim} went up in flames	{victim}は炎に巻かれた
 {victim} walked into fire whilst fighting {killer}	{victim}は{killer}と戦いながら火の中へ踏み入った
-{victim} burned to death	{victim} はこんがりと焼けた
+{victim} burned to death	{victim}はこんがりと焼けた
+{victim} was burnt to a crisp whilst fighting {killer} wielding {weapon}	{victim}は{weapon}を振り回す{killer}と戦いながらカリカリに焼けた
 {victim} was burnt to a crisp whilst fighting {killer}	{victim}は{killer}と戦いながらカリカリに焼けた
 {victim} tried to swim in lava	{victim}は溶岩遊泳を試みた
 {victim} tried to swim in lava to escape {killer}	{victim}は{killer}から逃れようと溶岩遊泳を試みた
 {victim} discovered the floor was lava	{victim}は床が溶岩だったと気付いた
 {victim} walked into danger zone due to {killer}	{victim}は{killer}に妨害されて危険地帯に足を踏み入れた
 {victim} suffocated in a wall	{victim}は壁の中で窒息した
-{victim} suffocated in a wall whilst fighting {killer}	{victim}は%{killer}と戦いながら壁の中で窒息した
+{victim} suffocated in a wall whilst fighting {killer}	{victim}は{killer}と戦いながら壁の中で窒息した
 {victim} was squished too much	{victim}は押しつぶされた
 {victim} was squashed by {killer}	{victim}は{killer}に押しつぶされた
 {victim} drowned	{victim}は溺れ死んだ
@@ -39,24 +40,30 @@ name_global	name_local
 {victim} was blown up by {killer}	{victim}は{killer}に爆破された
 {victim} was blown up by {killer} using {weapon}	{victim}は{killer}の{weapon}で爆破された
 {victim} was killed by magic	{victim}は魔法で殺された
-{victim} was killed by magic whilst trying to escape {killer}	{victim}は{killer}ら逃れようとして魔法で殺された
+{victim} was killed by magic whilst trying to escape {killer}	{victim}は{killer}から逃れようとして魔法で殺された
 {victim} was killed by even more magic	{victim}は魔法の奔流で殺された
-Actually, message was too long to deliver fully. Sorry! Here's stripped version:	メッセージが長過ぎるので表示できません
+Actually, message was too long to deliver fully. Sorry! Here's stripped versi	メッセージが長過ぎたため、配信することができませんでした。以下はその一部です：%s
 {victim} withered away	{victim}は干からびた
 {victim} withered away whilst fighting {killer}	{victim}は{killer}と戦いながら干からびた
-{victim} was shot by a skull from {killer}	{victim}は{killed}の頭蓋骨に打たれた
+{victim} was shot by a skull from {killer}	{victim}は{killer}の頭蓋骨に打たれた
+{victim} was shot by a skull from {killer} using {weapon}	{victim}は{killer}から{weapon}で頭蓋骨に打たれた
 {victim} was squashed by a falling anvil	{victim}は落下してきた金床に押しつぶされた
-{victim} was squashed by a falling anvil whilst fighting {killer}	{victim}は{killer}と戦いながら落下してきた金床に押しつぶされた
+{victim} was squashed by a falling anvil whilst fighting {killer}	{victim}は{killer}と戦いながら落ちてきた金床に押しつぶされた
 {victim} was squashed by a falling block	{victim}は落下してきたブロックに押しつぶされた
 {victim} was squashed by a falling block whilst fighting {killer}	{victim}は{killer}と戦いながら落ちてきたブロックに押しつぶされた
 {victim} was impaled on a stalagmite	{victim}は鍾乳石に突き刺さった
 {victim} was impaled on a stalagmite whilst fighting {killer}	{victim}は{killer}と戦いながら鍾乳石に突き刺さった
 {victim} was skewered by a falling stalactite	{victim}は落ちてきた鍾乳石に串刺しにされた
 {victim} was skewered by a falling stalactite whilst fighting {killer}	{victim}は{killer}と戦いながら落ちてきた鍾乳石に串刺しにされた
+{victim} was obliterated by a sonically-charged shriek	{victim}は衝撃波に消し飛ばされた
+{victim} was obliterated by a sonically-charged shriek whilst trying to escape {killer} wielding {weapon}	{victim}は{weapon}を振るう{killer}から逃れようとして衝撃波に消し飛ばされた
+{victim} was obliterated by a sonically-charged shriek whilst trying to escape {killer}	{victim}は{killer}から逃れようとして衝撃波に消し飛ばされた
+{victim} was slain by {killer}	{victim}は{killer}に殺害された
+{victim} was slain by {killer} using {weapon}	{victim}は{killer}の{weapon}で殺害された
 {victim} was slain by {killer}	{victim}は{killer}に殺害された
 {victim} was slain by {killer} using {weapon}	{victim}は{killer}の{weapon}で殺害された
 {victim} was shot by {killer}	{victim}は{killer}に射抜かれた
-{victim} was shot by {killer} using {weapon}	{victim}は{killer}に{weapon}で射抜かれた
+{victim} was shot by {killer} using {weapon}	{victim}は{killer}の{weapon}で射抜かれた
 {victim} was fireballed by {killer}	{victim}は{killer}に火だるまにされた
 {victim} was fireballed by {killer} using {weapon}	{victim}は{killer}の{weapon}で火だるまにされた
 {victim} was pummeled by {killer}	{victim}は{killer}によってぺしゃんこにされた
@@ -71,17 +78,19 @@ Actually, message was too long to deliver fully. Sorry! Here's stripped version:
 {victim} hit the ground too hard whilst trying to escape {killer}	{victim}は{killer}から逃れようとして地面に強く激突した
 {victim} fell out of the world	{victim}は奈落の底へ落ちた
 {victim} didn't want to live in the same world as {killer}	{victim}は{killer}と同じワールドに住みたくなかった
-{victim} was roasted in dragon breath	{victim}はドラゴンブレスで炙り焼きにされた
-{victim} was roasted in dragon breath by {killer}	{victim}は{killer}のドラゴンブレスで炙り焼きにされた
+{victim} was roasted in dragon breath	{victim}はドラゴンの息で炙り焼きにされた
+{victim} was roasted in dragon breath by {killer}	{victim}は{killer}のドラゴンの息で炙り焼きにされた
 {victim} experienced kinetic energy	{victim}は運動エネルギーを体験した
 {victim} experienced kinetic energy whilst trying to escape {killer}	{victim}は{killer}から逃れようとして運動エネルギーを体験した
 {victim} went off with a bang	{victim}は花火の爆発に巻き込まれた
 {victim} went off with a bang whilst fighting {killer}	{victim}は{killer}と戦いながら花火の爆発に巻き込まれた
 {victim} went off with a bang due to a firework fired from {weapon} by {killer}	{victim}は{killer}の{weapon}が発射した花火の爆発に巻き込まれた
-{victim} was killed by [Intentional Game Design]	{victim}は ゲームの仕様 に殺された
+{victim} was killed by {killer}	{victim}は{killer}に殺された
+Intentional Game Design	ゲームの仕様
 {victim} was poked to death by a sweet berry bush	{victim}はスイートベリーの棘が刺さって死んだ
 {victim} was poked to death by a sweet berry bush whilst trying to escape {killer}	{victim}は{killer}から逃げようとしてスイートベリーの棘が刺さって死んだ
 {victim} was stung to death	{victim}は刺されて死んだ
+{victim} was stung to death by {killer} using {weapon}	{victim}は{killer}の{weapon}に刺されて死んだ
 {victim} was stung to death by {killer}	{victim}は{killer}に刺されて死んだ
 {victim} froze to death	{victim}は凍え死んだ
 {victim} was frozen to death by {killer}	{victim}は{killer}によって凍え死んだ

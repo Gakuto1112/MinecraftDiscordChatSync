@@ -1,4 +1,5 @@
 name_global	name_local
+Allay	アレイ
 Area Effect Cloud	エリアエフェクトクラウド
 Armor Stand	防具立て
 Arrow	矢
@@ -7,6 +8,7 @@ Bat	コウモリ
 Bee	ミツバチ
 Blaze	ブレイズ
 Boat	ボート
+Boat with Chest	チェスト付きのボート
 Cat	ネコ
 Cave Spider	洞窟グモ
 Minecart with Chest	チェスト付きトロッコ
@@ -34,6 +36,7 @@ Fireball	火の玉
 Firework Rocket	ロケット花火
 Fishing Bobber	浮き
 Fox	キツネ
+Flog	カエル
 Minecart with Furnace	かまど付きトロッコ
 Ghast	ガスト
 Giant	ジャイアント
@@ -88,12 +91,14 @@ Minecart with Spawner	スポナー付きトロッコ
 Spectral Arrow	光の矢
 Spider	クモ
 Squid	イカ
+Stray	ストレイ
 Strider	ストライダー
+Tadpole	オタマジャクシ
 Primed TNT	着火されたTNT
-Minecart with TNT	TNT付きトロッコ
+Minecart with TNT	TNT付きのトロッコ
 Trader Llama	商人のラマ
-Trident	トラインデント
-Tropical Fish	トライデント
+Trident	トライデント
+Tropical Fish	熱帯魚
 Turtle	カメ
 Vex	ヴェックス
 Armorer	防具鍛冶
@@ -111,9 +116,11 @@ Nitwit	無職
 Shepherd	羊飼い
 Toolsmith	道具鍛冶
 Weaponsmith	武器鍛冶
+Villager	村人
 Wandering Trader	行商人
 Iron Golem	アイアンゴーレム
 Vindicator	ヴィンディケーター
+Warden	ウォーデン
 Witch	ウィッチ
 Wither	ウィザー
 Wither Skeleton	ウィザースケルトン

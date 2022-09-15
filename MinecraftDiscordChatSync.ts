@@ -7,7 +7,7 @@ const { Client, Intents } = require("discord.js");
 const chokidar = require("chokidar");
 const iconv = require("iconv").Iconv;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-export const minecraftVersions: string[] = ["1.12", "1.12.1", "1.12.2", "1.13", "1.13.1", "1.13.2", "1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.15", "1.15.1", "1.15.2", "1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5", "1.17", "1.17.1", "1.18", "1.18.1", "1.18.2", "1.19"];
+export const minecraftVersions: string[] = ["1.12", "1.12.1", "1.12.2", "1.13", "1.13.1", "1.13.2", "1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.15", "1.15.1", "1.15.2", "1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5", "1.17", "1.17.1", "1.18", "1.18.1", "1.18.2", "1.19", "1.19.1", "1.19.2"];
 export const colors: { [key: string]: string } = { black:"\u001b[30m", red: "\u001b[31m", green: "\u001b[32m", yellow: "\u001b[33m", blue: "\u001b[34m", magenta: "\u001b[35m", cyan: "\u001b[36m", white: "\u001b[37m", reset: "\u001b[0m" }; //標準出力に色を付ける制御文字
 
 //Embed設定を追加
@@ -148,7 +148,7 @@ loadPlugin().then((resolve: PluginBase[]) => {
             embeds.forEach((embed: string) => {
                 embedField[embed] = true;
             });
-            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.19", pathToLogFile: "../logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: true, displayRoleColor: true, showChannelName: true, useRichText: true, showAttachments: true } };
+            const settingsPattern: { [key: string]: any } = { minecraftVersion: "1.19.2", pathToLogFile: "../logs/latest.log", logEncode: "utf-8", timeOffset: 9, embeds: embedField, rconPort: 25575, rconPassword: "", token: "<Botのトークン>", botSendChannels: ["<チャンネルID>"], botWatchChannels: ["<チャンネルID>"], discordMessageDisplay: { ignoreBots: true, displayRoleColor: true, showChannelName: true, useRichText: true, showAttachments: true } };
             try {
                 fs.writeFileSync("Settings.json", JSON.stringify(settingsPattern, null, 4));
             }

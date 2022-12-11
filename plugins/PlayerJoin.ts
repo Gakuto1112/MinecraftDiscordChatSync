@@ -9,7 +9,7 @@ export class Plugin extends PluginBase {
     }
 
     public onMinecraftMessage(time: Date, thread: string, messageType: string, message: string): void {
-        if(/^\w{2,16} joined the game/.test(message)) {
+        if(/^\w{2,16} (\(formerly known as \w{2,16}\) )?joined the game/.test(message)) {
             const playerName = message.split(" ")[0];
             const messageContent: string = ":city_sunset: " + playerName + " がゲームに参加しました";
             if(settings.embeds.playerJoin) {

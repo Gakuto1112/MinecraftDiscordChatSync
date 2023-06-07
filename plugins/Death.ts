@@ -20,7 +20,7 @@ export class Plugin extends PluginBase {
 		this.readTsv("./plugins/data/death.tsv").forEach((line: string, i: number) => {
 			if(i >= 1) {
 				const lineSplit = line.split("\t");
-				this.deathMessages.push({ regexp: new RegExp("^" + lineSplit[0].replace("{victim}", ".+?").replace("{killer}", ".+?").replace("{weapon}", ".+?").replace("[", "\\[").replace("]", "\\]") + "{END}$"), globalName: lineSplit[0], localName: lineSplit[1] });
+				this.deathMessages.push({ regexp: new RegExp("^" + lineSplit[0].replace("%1$s", ".+?").replace("%2$s", ".+?").replace("%3$s", ".+?").replace("[", "\\[").replace("]", "\\]") + "{END}$"), globalName: lineSplit[0], localName: lineSplit[1] });
 			}
 		});
 		this.deathMessages.reverse();
@@ -73,21 +73,21 @@ export class Plugin extends PluginBase {
 						return result.join(" ");
 					}
 					//victim
-					if(globalNameSplit.includes("{victim}")) {
-						victim = getPlaceholderString("{victim}");
+					if(globalNameSplit.includes("%1$s")) {
+						victim = getPlaceholderString("%1$s");
 					}
 					//killer
-					if(globalNameSplit.includes("{killer}")) {
-						killer = getPlaceholderString("{killer}");
+					if(globalNameSplit.includes("%2$s")) {
+						killer = getPlaceholderString("%2$s");
 						this.entities.forEach((entity: EntityObject) => {
 							if(entity.globalName == killer) killer = entity.localName;
 						});
 					}
 					//weapon
-					if(globalNameSplit.includes("{weapon}")) {
-						weapon = getPlaceholderString("{weapon}");
+					if(globalNameSplit.includes("%3$s")) {
+						weapon = getPlaceholderString("%3$s");
 					}
-					sendMessageToDiscord(":skull: " + deathMessage.localName.replace("{victim}", victim).replace("{killer}", killer).replace("{weapon}", weapon));
+					sendMessageToDiscord(":skull: " + deathMessage.localName.replace("%1$s", victim).replace("%2$s", killer).replace("%3$s", weapon));
 					processed = true;
 				}
 			});

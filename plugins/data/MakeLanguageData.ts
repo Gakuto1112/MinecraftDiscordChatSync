@@ -47,7 +47,7 @@ globalLanguageData.on("data", (chunk: string) => {
 		if(typeof(lineSplit[1]) == "string") dataValue = lineSplit[1].slice(2, -2);
 		if(dataKey.startsWith("advancements") && dataKey.endsWith("title") && !dataKey.includes("toast") && !dataKey.includes("root") && dataKey != "advancements.empty" && dataKey != "advancements.sad_label") globalAdvancementsName[dataKey.slice(0, -6)] = dataValue;
 		else if(dataKey.startsWith("entity") && !dataKey.includes("tropical_fish.predefined") && !dataKey.includes("tropical_fish.type") && dataKey != "entity.notFound") globalEntityName[dataKey] = dataValue;
-		else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) globalDeathName[dataKey] = dataValue.replace("%1$s", "{victim}").replace("%2$s", "{killer}").replace("%3$s", "{weapon}");
+		else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) globalDeathName[dataKey] = dataValue;
 	});
 });
 globalLanguageData.on("end", () => {
@@ -94,11 +94,11 @@ fs.readdir("./", (error: any, files: string[]) => {
 			let dataValue: string = "";
 			if(typeof(lineSplit[1]) == "string") dataValue = lineSplit[1].slice(2, -2);
 			if(dataKey.startsWith("advancements") && !dataKey.includes("toast") && !dataKey.includes("root") && dataKey != "advancements.empty" && dataKey != "advancements.sad_label") {
-				if(dataKey.endsWith("title")) localAdvancementsName[dataKey.slice(0, -6)] = unescape(dataValue.replace(/\\/g, "%"));
-				else if(dataKey.endsWith("description")) localAdvancementsDescription[dataKey.slice(0, -12)] = unescape(dataValue.replace(/\\/g, "%")).replace(/%n/g, "");
+				if(dataKey.endsWith("title")) localAdvancementsName[dataKey.slice(0, -6)] = dataValue;
+				else if(dataKey.endsWith("description")) localAdvancementsDescription[dataKey.slice(0, -12)] = dataValue;
 			}
-			else if(dataKey.startsWith("entity") && !dataKey.includes("predefined") && dataKey != "entity.notFound") localEntityName[dataKey] = unescape(dataValue.replace(/\\/g, "%"));
-			else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) localDeathName[dataKey] = unescape(dataValue.replace("%1$s", "{victim}").replace("%2$s", "{killer}").replace("%3$s", "{weapon}").replace(/\\/g, "%"));
+			else if(dataKey.startsWith("entity") && !dataKey.includes("predefined") && dataKey != "entity.notFound") localEntityName[dataKey] = dataValue;
+			else if(dataKey.startsWith("death") && !dataKey.startsWith("deathScreen")) localDeathName[dataKey] = dataValue;
 		});
 	});
 	localLanguageData.on("end", () => {

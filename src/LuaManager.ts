@@ -46,6 +46,7 @@ class LuaManager {
                 //TODO: ログ機能を作成してからエラーハンドリング
                 this.luaEnvironment?.doStringSync(fs.readFileSync(luaFilePath, {encoding: "utf-8"}));
             });
+            this.luaEnvironment.global.close(); //クローズ忘れないで～
         }
         else throw new LuaNotInitializedError();
     }

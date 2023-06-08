@@ -19,6 +19,17 @@ class LuaManager {
     }
 
     /**
+     * Lua環境下におけるグローバル変数を設定する。この関数を実行する前に必ず"LuaManager.createLuaEnvironment()"を実行すること。
+     * @param name 設定するグローバル値の名前
+     * @param value 設定するグローバル値
+     * @throws {@link LuaNotInitializedError} Lua実行環境が初期化される前に関数を呼び出すと発生するエラー
+     */
+    public setGlobal(name: string, value: any) {
+        if(this.luaEnvironment) this.luaEnvironment.global.set(name, value);
+        else throw new LuaNotInitializedError();
+    }
+
+    /**
      * `./plugins/`配下のLuaファイルを実行する。この関数を実行する前に必ず"LuaManager.createLuaEnvironment()"を実行すること。
      * @throws {@link LuaNotInitializedError} Lua実行環境が初期化される前に関数を呼び出すと発生するエラー
      */
@@ -51,12 +62,3 @@ class LuaManager {
         else throw new LuaNotInitializedError();
     }
 }
-
-//単体デバッグ用
-async function main() {
-    const luaManager: LuaManager = new LuaManager();
-    await luaManager.createLuaEnvironment();
-    luaManager.runLua();
-}
-
-main();

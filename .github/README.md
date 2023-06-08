@@ -1,7 +1,7 @@
 # MinecraftDiscordチャット同期Botアプリケーション
 Minecraft（Java Edition）と[Discord](https://discord.com/)のチャットを同期するボットのアプリケーションです。ゲームに参加していないプレイヤーもDiscordを通じてゲーム内プレイヤーと会話できます。サーバーにはModやプラグインは必要なく、バニラサーバーやForgeサーバーにそのまま使用できます。
 
-![MinecraftとDiscordの相互連携](README_Images/MinecraftとDiscordの相互連携.jpg))
+![MinecraftとDiscordの相互連携](./README_images/MinecraftとDiscordの相互連携.jpg))
 
 ## 目次
 1. [機能紹介](#機能紹介)
@@ -25,14 +25,14 @@ MinecraftからDiscordへは以下のものが送信されます。
   - 埋め込みメッセージ付き（設定で非表示可）
 - プレイヤー死亡のお知らせ
 
-![ボットのお知らせ紹介](README_Images/ボットのお知らせ紹介.jpg)
+![ボットのお知らせ紹介](./README_images/ボットのお知らせ紹介.jpg)
 
 ### Discord → Minecraft
 
-![Discord → Minecraftのチャットの例](README_Images/Discord→Minecraftのチャットの例.jpg)
+![Discord → Minecraftのチャットの例](./README_images/Discord→Minecraftのチャットの例.jpg)
 - 指定されたチャンネルにメッセージが送信された時に、ゲーム内にも同様のメッセージが送信されます。
 - 名前はサーバーでの表示名になります。カーソルを合わせるとユーザーのタグが表示されます。
-  ![ユーザータグ](README_Images/ユーザータグ.jpg)
+  ![ユーザータグ](./README_images/ユーザータグ.jpg)
 
 - 名前の色はユーザーのロールカラーになります（1.16～、設定で無効化可）。
 - ユーザーが発言したチャンネル名が表示されます（設定で非表示可、非表示にした場合は、カーソルを合わるとユーザータグと共に表示されます）。
@@ -49,27 +49,27 @@ MinecraftからDiscordへは以下のものが送信されます。
 1. [Discord](https://discord.com/)のアカウントを用意します。普段使用しているアカウントで構いません。Discordアカウントを持っていない場合は新規作成して下さい。ここでは、Discordアカウントの作成方法は割愛させて頂きます。
 2. [Discord開発者ポータル](https://discord.com/developers/applications)にアクセスします。
 3. ページ右上の「New Application」をクリックします。
-  ![ボット作成方法1](README_Images/ボットの作成方法/1.jpg)
+  ![ボット作成方法1](./README_images/ボットの作成方法/1.jpg)
 4. アプリケーションの名前（ボットの名前は後程入力します）を入力し、[利用規約](https://discord.com/developers/docs/legal)を読んだ上で続行します。
-  ![ボット作成方法2](README_Images/ボットの作成方法/2.jpg))
+  ![ボット作成方法2](./README_images/ボットの作成方法/2.jpg))
 5. 「General Information」タブでアプリケーションの基本情報を入力します。
    - ここでアップロードする画像はボットのアイコン画像ではありません。
    - 説明欄にボットの説明文を入力するとボットアカウントのプロフィールに表示されます。
-  ![ボット作成方法3](README_Images/ボットの作成方法/3.jpg)
+  ![ボット作成方法3](./README_images/ボットの作成方法/3.jpg)
 6. 「Bot」タブに移動し、「Add Bot」をクリックしてボットを作成します。確認メッセージが表示されるので続行します。緑色の枠で「A wild bot has appeared!」というメッセージが表示されればボットが作成されたことになります。
-  ![ボット作成方法4](README_Images/ボットの作成方法/4.jpg)
+  ![ボット作成方法4](./README_images/ボットの作成方法/4.jpg)
 7. ボットの名前とアイコンを入力します。ボットの名前はデフォルトでアプリケーションの名前になります。
-  ![ボット作成方法5](README_Images/ボットの作成方法/5.jpg)
+  ![ボット作成方法5](./README_images/ボットの作成方法/5.jpg)
 8. 下にスクロールして「PUBLIC BOT」をオフに、「MESSAGE CONTENT INTENT」をオンにします。
    - 「PRESENCE INTENT」と「SERVER MEMBERS INTENT」はアプリケーションの機能拡張した場合は、必要に応じてオンにして下さい。オンでも支障はありません。
-  ![ボット作成方法6](README_Images/ボットの作成方法/6.jpg)
+  ![ボット作成方法6](./README_images/ボットの作成方法/6.jpg)
 9. トークンをコピーして控えておきます。 **トークンは第三者に漏洩しないように厳重に扱って下さい。** トークンが漏洩したと思われる場合はトークンを再生成して下さい。
 10. 設定の変更を保存します。
 11. 「OAuth2」の「URL Generator」タブに移動し、「SCOPES」の欄の「bot」にチェックを入れ、ページ最下部のURLにアクセスします。
-  ![ボット作成方法7](README_Images/ボットの作成方法/7.jpg)
+  ![ボット作成方法7](./README_images/ボットの作成方法/7.jpg)
 12. ボットを追加したいサーバーを選択して、認証をします。
 13. サーバーにボットが追加されます。
-  ![ボット作成方法8](README_Images/ボットの作成方法/8.jpg)
+  ![ボット作成方法8](./README_images/ボットの作成方法/8.jpg)
 
 ## 使用方法
 1. このアプリケーションを実行するには「Node.js（v16.13.1[^1]）」が必要です。[こちら](https://nodejs.org/ja/)からインストールして下さい。

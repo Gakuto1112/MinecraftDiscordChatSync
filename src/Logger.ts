@@ -26,7 +26,7 @@ export class Logger {
     private getCallerFilePath(): string|undefined {
         const error: Error = new Error();
         if(error.stack) {
-            const filePath = error.stack.split("\n")[3].replace(/\\/g, "/").match(new RegExp(`(?<=\\(${process.cwd().replace(/\\/g, "/")}).+(?=:\\d+:\\d+\\))`));
+            const filePath = error.stack.split("\n")[3].replace(/\\/g, "/").match(new RegExp(`(?<=${process.cwd().replace(/\\/g, "/")}).+(?=:\\d+:\\d+)`));
             if(filePath) return filePath.toString();
         }
     }

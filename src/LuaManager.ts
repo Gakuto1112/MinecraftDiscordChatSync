@@ -80,7 +80,7 @@ export class LuaManager {
             getLuaFilePaths().forEach((luaFilePath: string) => {
                 try {
                     MinecraftDiscordChatSync.logger.debug(`Running "${luaFilePath.replace("./plugins/", "")}"...`);
-                    this.luaEnvironment?.doStringSync(fs.readFileSync(luaFilePath, {encoding: "utf-8"}));
+                    (this.luaEnvironment as wasmoon.LuaEngine).doStringSync(fs.readFileSync(luaFilePath, {encoding: "utf-8"}));
                 }
                 catch(error: any) {
                     if(error.code == "EPERM") {

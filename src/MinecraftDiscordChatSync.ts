@@ -1,4 +1,5 @@
 import { Logger } from "./Logger";
+import { ConfigManager } from "./ConfigManager";
 import { LuaManager } from "./LuaManager";
 
 export class MinecraftDiscordChatSync {
@@ -7,9 +8,13 @@ export class MinecraftDiscordChatSync {
      */
     public static logger: Logger;
     /**
+     * コンフィグマネージャーのインスタンス
+     */
+    private static readonly config: ConfigManager = new ConfigManager();
+    /**
      * Luaマネージャーのインスタンス
      */
-    private readonly luaManager: LuaManager = new LuaManager();
+    private readonly lua: LuaManager = new LuaManager();
 
     constructor(logDebug: boolean) {
         MinecraftDiscordChatSync.logger = new Logger(logDebug);
@@ -19,8 +24,8 @@ export class MinecraftDiscordChatSync {
      * メイン関数
      */
     public async main() {
-        await this.luaManager.createLuaEnvironment();
-        this.luaManager.runLua();
+        await this.lua.createLuaEnvironment();
+        this.lua.runLua();
     }
 }
 

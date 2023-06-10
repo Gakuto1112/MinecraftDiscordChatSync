@@ -42,23 +42,65 @@ class LuaManager {
              */
             function getLuaFilePaths(path?: fs.Dirent): string[] {
                 let luaFileList: string[] = [];
-                //TODO: ログ機能を作成してからエラーハンドリング
-                const entries: fs.Dirent[] = fs.readdirSync(path ? `${path.path}${path.name}/` : "./plugins/", {withFileTypes: true});
-                entries.forEach((entry: fs.Dirent) => {
-                    if(entry.isFile()) {
-                        if(entry.name.toLowerCase().endsWith(".lua")) luaFileList.push(`${entry.path}${entry.name}`);
+                try {
+                    const entries: fs.Dirent[] = fs.readdirSync(path ? `${path.path}${path.name}/` : "./plugins/", {withFileTypes: true});
+                    entries.forEach((entry: fs.Dirent) => {
+                        if(entry.isFile()) {
+                            if(entry.name.toLowerCase().endsWith(".lua")) luaFileList.push(`${entry.path}${entry.name}`);
+                        }
+                        else luaFileList = luaFileList.concat(getLuaFilePaths(entry));
+                    });
+                }
+                catch(error: any) {
+                    if(error.code == "ENOENT") {
+                        //ディレクトリが存在しない
+                        console.error("\"plugins/\" directory does not exist.");
                     }
-                    else luaFileList = luaFileList.concat(getLuaFilePaths(entry));
-                });
+                    else if(error.code == "EPERM") {
+                        //ディレクトリの読み取り権限ない
+                        console.error("No permission to read \"plugins/\" directory.");
+                    }
+                    else {
+                        //その他エラー
+                        console.error("An error occurred while reading \"plugins/\" directory.");
+                    }
+                    process.exit(1);
+                }
                 return luaFileList;
             }
 
             getLuaFilePaths().forEach((luaFilePath: string) => {
-                //TODO: ログ機能を作成してからエラーハンドリング
-                this.luaEnvironment?.doStringSync(fs.readFileSync(luaFilePath, {encoding: "utf-8"}));
+                try {
+                    this.luaEnvironment?.doStringSync(fs.readFileSync(luaFilePath, {encoding: "utf-8"}));
+                }
+                catch(error: any) {
+                    if(error.code == "EPERM") {
+                        //ファイルの読み取り権限なし
+                        console.warn(`No permission to read "${luaFilePath.replace("./plugins/", "")}". This file will be skipped.`);
+                    }
+                    else if(!error.code) {
+                        //Luaエラー
+                        console.error(`${luaFilePath.replace("./plugins/", "")}: ${error.message}`);
+                        process.exit(2);
+                    }
+                    else {
+                        //その他エラー
+                        console.error("An error occurred while reading/running lua files.");
+                        process.exit(2);
+                    }
+                }
             });
             this.luaEnvironment.global.close(); //クローズ忘れないで～
         }
         else throw new LuaNotInitializedError();
     }
 }
+
+//デバッグ用コード
+async function debug() {
+    const luaManager: LuaManager = new LuaManager();
+    await luaManager.createLuaEnvironment();
+    luaManager.runLua();
+}
+
+debug();

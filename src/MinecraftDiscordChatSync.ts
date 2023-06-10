@@ -31,6 +31,8 @@ export class MinecraftDiscordChatSync {
     public async main() {
         await this.lua.createLuaEnvironment();
         this.lua.runLua();
+        MinecraftDiscordChatSync.config.readConfigFile();
+        MinecraftDiscordChatSync.config.verifyConfig();
         this.bot.login();
     }
 }

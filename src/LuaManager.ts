@@ -18,7 +18,7 @@ export class LuaManager {
     public async createLuaEnvironment() {
         if(!this.luaEnvironment) {
             this.luaEnvironment = await new wasmoon.LuaFactory().createEngine();
-            MinecraftDiscordChatSync.logger.debug("Created lua environment");
+            MinecraftDiscordChatSync.logger.debug("Created lua environment.");
         }
     }
 
@@ -31,7 +31,7 @@ export class LuaManager {
     public setGlobal(name: string, value: any) {
         if(this.luaEnvironment) {
             this.luaEnvironment.global.set(name, value);
-            MinecraftDiscordChatSync.logger.debug(`Set global variable "${name}" to "${value}"`);
+            MinecraftDiscordChatSync.logger.debug(`Set global variable "${name}" to "${value}".`);
         }
         else throw new LuaNotInitializedError();
     }
@@ -41,7 +41,7 @@ export class LuaManager {
      * @throws {@link LuaNotInitializedError} Lua実行環境が初期化される前に関数を呼び出すと発生するエラー
      */
     public runLua() {
-        MinecraftDiscordChatSync.logger.debug("Lua execution started");
+        MinecraftDiscordChatSync.logger.debug("Lua execution started.");
         if(this.luaEnvironment) {
             /**
              * `./plugins/`配下にあるLuaファイルのパスの配列を取得する。
@@ -62,15 +62,15 @@ export class LuaManager {
                 catch(error: any) {
                     if(error.code == "ENOENT") {
                         //ディレクトリが存在しない
-                        MinecraftDiscordChatSync.logger.error("\"plugins/\" directory does not exist");
+                        MinecraftDiscordChatSync.logger.error("\"plugins/\" directory does not exist.");
                     }
                     else if(error.code == "EPERM") {
                         //ディレクトリの読み取り権限ない
-                        MinecraftDiscordChatSync.logger.error("No permission to read \"plugins/\" directory");
+                        MinecraftDiscordChatSync.logger.error("No permission to read \"plugins/\" directory.");
                     }
                     else {
                         //その他エラー
-                        MinecraftDiscordChatSync.logger.error("An error occurred while reading \"plugins/\" directory");
+                        MinecraftDiscordChatSync.logger.error("An error occurred while reading \"plugins/\" directory.");
                     }
                     process.exit(1);
                 }
@@ -85,17 +85,17 @@ export class LuaManager {
                 catch(error: any) {
                     if(error.code == "EPERM") {
                         //ファイルの読み取り権限なし
-                        MinecraftDiscordChatSync.logger.warn(`No permission to read "${luaFilePath.replace("./plugins/", "")}". This file will be skipped`);
+                        MinecraftDiscordChatSync.logger.warn(`No permission to read "${luaFilePath.replace("./plugins/", "")}". This file will be skipped.`);
                     }
                     else if(!error.code) {
                         //Luaエラー
                         MinecraftDiscordChatSync.logger.error(`${luaFilePath.replace("./plugins/", "")}: ${error.message}`);
-                        process.exit(2);
+                        process.exit(1);
                     }
                     else {
                         //その他エラー
-                        MinecraftDiscordChatSync.logger.error("An error occurred while reading/running lua files");
-                        process.exit(2);
+                        MinecraftDiscordChatSync.logger.error("An error occurred while reading/running lua files.");
+                        process.exit(1);
                     }
                 }
             });

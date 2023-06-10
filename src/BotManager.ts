@@ -6,24 +6,23 @@ export class BotManager {
 
     constructor() {
         this.client.addListener("ready", () => MinecraftDiscordChatSync.logger.info(`Succeeded to login as ${(this.client.user as discordJS.ClientUser).tag}`));
-        this.client.addListener("error", () => console.log("ERROR!!!!!!!!!!!!!!!!1"));
     }
 
     /**
      * Botにログインする。
      */
     public login(): void {
-        MinecraftDiscordChatSync.logger.info("Logging in to bot...")
+        MinecraftDiscordChatSync.logger.info("Logging in to bot...");
         this.client.login(MinecraftDiscordChatSync.config.getConfig("token")).catch((error: any) => {
             if(error.code == "TokenInvalid") {
                 //トークンが不正
-                MinecraftDiscordChatSync.logger.error("Failed to login because provided token was invalid");
+                MinecraftDiscordChatSync.logger.error("Failed to login because provided token was invalid.");
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.error("An error occurred during login");
+                MinecraftDiscordChatSync.logger.error("An error occurred during login.");
             }
-            process.exit(3);
+            process.exit(1);
         });
     }
 }

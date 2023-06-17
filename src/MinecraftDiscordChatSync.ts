@@ -4,6 +4,11 @@ import { LogObserver } from "./LogObserver";
 import { LuaManager } from "./LuaManager";
 import { BotManager } from "./BotManager";
 
+/**
+ * Luaに登録するイベント名
+ */
+type EventName = "onDiscordLogin";
+
 export class MinecraftDiscordChatSync {
     /**
      * ロガーのインスタンス
@@ -26,8 +31,24 @@ export class MinecraftDiscordChatSync {
      */
     private readonly bot: BotManager = new BotManager();
 
+    public static readonly eventCallbacks: {[key in EventName]: Function[]} = {
+        onDiscordLogin: []
+    };
+
     constructor(logDebug: boolean) {
         MinecraftDiscordChatSync.logger = new Logger(logDebug);
+    }
+
+    /**
+     * Luaにグローバル変数各種を登録する。
+     */
+    private addGlobals() {
+        //イベント登録関数
+        this.lua.setGlobal("events", {
+            onDiscordLogin: {
+                register: (callback: () => void) => MinecraftDiscordChatSync.eventCallbacks["onDiscordLogin"].push(callback)
+            }
+        });
     }
 
     /**
@@ -37,6 +58,7 @@ export class MinecraftDiscordChatSync {
         MinecraftDiscordChatSync.config.readConfigFile();
         await this.logObserver.observe();
         await this.lua.createLuaEnvironment();
+        this.addGlobals();
         this.lua.runLua();
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();

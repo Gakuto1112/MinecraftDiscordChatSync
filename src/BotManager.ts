@@ -5,7 +5,10 @@ export class BotManager {
     private readonly client: discordJS.Client = new discordJS.Client({intents: [discordJS.GatewayIntentBits.Guilds, discordJS.GatewayIntentBits.GuildMessages]});
 
     constructor() {
-        this.client.addListener("ready", () => MinecraftDiscordChatSync.logger.info(`Succeeded to login as "${(this.client.user as discordJS.ClientUser).tag}".`));
+        this.client.addListener("ready", () => {
+            MinecraftDiscordChatSync.logger.info(`Succeeded to login as "${(this.client.user as discordJS.ClientUser).tag}".`);
+            MinecraftDiscordChatSync.eventCallbacks.onDiscordLogin.forEach((callback: Function) => callback());
+        });
     }
 
     /**

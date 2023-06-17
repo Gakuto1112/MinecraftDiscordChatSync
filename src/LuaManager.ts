@@ -99,7 +99,6 @@ export class LuaManager {
                     }
                 }
             });
-            this.luaEnvironment.global.close(); //クローズ忘れないで～
         }
         else throw new LuaNotInitializedError();
     }

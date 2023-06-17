@@ -4,17 +4,17 @@ import { MinecraftDiscordChatSync } from "./MinecraftDiscordChatSync";
 /**
  * 設定項目のインターフェース
  */
-interface configEntry {
+type ConfigEntry = {
     /** 設定値本体 */
     value: any;
     /** 設定値の検証を行う際に実行する関数 */
-    verificationFunction: (valueToVerification: any) => verificationResult;
+    verificationFunction: (valueToVerification: any) => VerificationResult;
 }
 
 /**
  * 設定値検証関数での戻り値
  */
-interface verificationResult {
+type VerificationResult = {
     /** 入力された値 */
     isValid: boolean;
     /** エラー時に出すメッセージ（省略可） */
@@ -28,10 +28,10 @@ export class ConfigManager {
     /**
      * 設定を保持するフィールド
      */
-    private readonly config: {[key: string]: configEntry} = {
+    private readonly config: {[key: string]: ConfigEntry} = {
         pathToLog: {
             value: "../../logs/latest.log",
-            verificationFunction: (value: any): verificationResult => {
+            verificationFunction: (value: any): VerificationResult => {
                 return {
                     isValid: typeof value == "string",
                     message: `The provided config value type "${typeof value}" does not match valid type "string".`
@@ -40,7 +40,7 @@ export class ConfigManager {
         },
         token: {
             value: "",
-            verificationFunction: (value: any): verificationResult => {
+            verificationFunction: (value: any): VerificationResult => {
                 return {
                     isValid: typeof value == "string",
                     message: `The provided config value type "${typeof value}" does not match valid type "string".`
@@ -82,7 +82,7 @@ export class ConfigManager {
      * @param defaultValue 初期値
      * @param verificationFunction 設定値の検証用の関数
      */
-    public registerConfig(keyName: string, defaultValue: any, verificationFunction: (valueToVerification: any) => verificationResult): void {
+    public registerConfig(keyName: string, defaultValue: any, verificationFunction: (valueToVerification: any) => VerificationResult): void {
         if(this.config[keyName]) this.config[keyName].verificationFunction = verificationFunction;
         else {
             this.config[keyName] = {
@@ -168,7 +168,7 @@ export class ConfigManager {
         MinecraftDiscordChatSync.logger.info("Started config verification.");
         let verificationErrors: number = 0;
         Object.keys(this.config).forEach((key: string) => {
-            const result: verificationResult = this.config[key].verificationFunction(this.config[key].value);
+            const result: VerificationResult = this.config[key].verificationFunction(this.config[key].value);
             if(result.isValid) MinecraftDiscordChatSync.logger.debug(`[${key}] OK`);
             else {
                 if(result.message) MinecraftDiscordChatSync.logger.error(`[${key}] ${result.message}`);

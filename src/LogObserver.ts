@@ -37,6 +37,8 @@ export class LogObserver {
                     const dateParse: RegExpMatchArray = (logData[1].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
                     const date: Date = new Date();
                     date.setHours(Number(dateParse[1]), Number(dateParse[2]), Number(dateParse[3]));
+                    if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[4]))) MinecraftDiscordChatSync.rConManager.connect();
+                    else if(logData[4].startsWith("Stopping server")) MinecraftDiscordChatSync.rConManager.disconnect();
                     MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
                         try {
                             plugin.onNewLog(date, logData[2], logData[3] as LogType, logData[4]);

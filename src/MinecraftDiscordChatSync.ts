@@ -1,5 +1,6 @@
 import { Logger } from "./Logger";
 import { ConfigManager } from "./ConfigManager";
+import { LogObserver } from "./LogObserver";
 import { LuaManager } from "./LuaManager";
 import { BotManager } from "./BotManager";
 
@@ -12,6 +13,10 @@ export class MinecraftDiscordChatSync {
      * コンフィグマネージャーのインスタンス
      */
     public static readonly config: ConfigManager = new ConfigManager();
+    /**
+     * ログ監視のインスタンス
+     */
+    public static readonly logObserver: LogObserver = new LogObserver();
     /**
      * Luaマネージャーのインスタンス
      */
@@ -28,7 +33,8 @@ export class MinecraftDiscordChatSync {
     /**
      * メイン関数
      */
-    public async main() {
+    public async main(): Promise<void> {
+        await MinecraftDiscordChatSync.logObserver.observe();
         await this.lua.createLuaEnvironment();
         this.lua.runLua();
         MinecraftDiscordChatSync.config.readConfigFile();

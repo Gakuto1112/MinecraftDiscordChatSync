@@ -1,9 +1,11 @@
 {
   "dependencies": {
-    "chokidar": "^3.5.3",
     "discord.js": "^14.11.0",
     "iconv": "^3.0.1",
     "rcon-client": "^4.2.3",
     "wasmoon": "^1.15.0"
+  },
+  "devDependencies": {
+    "@types/iconv": "^3.0.1"
   }
 }

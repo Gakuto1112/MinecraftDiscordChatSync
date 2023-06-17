@@ -16,7 +16,7 @@ export class MinecraftDiscordChatSync {
     /**
      * ログ監視のインスタンス
      */
-    public static readonly logObserver: LogObserver = new LogObserver();
+    public readonly logObserver: LogObserver = new LogObserver();
     /**
      * Luaマネージャーのインスタンス
      */
@@ -34,7 +34,7 @@ export class MinecraftDiscordChatSync {
      * メイン関数
      */
     public async main(): Promise<void> {
-        await MinecraftDiscordChatSync.logObserver.observe();
+        await this.logObserver.observe();
         await this.lua.createLuaEnvironment();
         this.lua.runLua();
         MinecraftDiscordChatSync.config.readConfigFile();

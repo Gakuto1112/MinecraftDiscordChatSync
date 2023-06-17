@@ -13,8 +13,7 @@ export class BotManager {
                     plugin.onDiscordLogin();
                 }
                 catch(error: any) {
-                    MinecraftDiscordChatSync.logger.warn("An error occurred while executing \"onDiscordLogin()\"");
-                    MinecraftDiscordChatSync.logger.debug(error);
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordLogin()".\n${error}`);
                 }
             });
         });
@@ -40,8 +39,7 @@ export class BotManager {
                         })));
                     }
                     catch(error: any) {
-                        MinecraftDiscordChatSync.logger.warn("An error occurred while executing \"onDiscordLogin()\"");
-                        MinecraftDiscordChatSync.logger.debug(error);
+                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordLogin()".\n${error}`);
                     }
                 });
             }
@@ -60,7 +58,7 @@ export class BotManager {
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.error("An error occurred during login.");
+                MinecraftDiscordChatSync.logger.error(`An error occurred during login.\n${error}`);
             }
             process.exit(1);
         });

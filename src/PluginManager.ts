@@ -60,7 +60,7 @@ export class PluginManager {
                 }
                 else {
                     //その他エラー
-                    MinecraftDiscordChatSync.logger.error("An error occurred while reading \"plugins/\" directory.");
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while reading "plugins/" directory.\n${error}`);
                 }
                 process.exit(1);
             }

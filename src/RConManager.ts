@@ -17,8 +17,7 @@ export class RConManager {
                     plugin.onRConOpen();
                 }
                 catch(error: any) {
-                    MinecraftDiscordChatSync.logger.error("An error occurred while executing \"onRConOpen()\"");
-                    MinecraftDiscordChatSync.logger.debug(error);
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onRConOpen()".\n${error}`);
                 }
             });
             MinecraftDiscordChatSync.logger.info("Connected to the server with RCon.");
@@ -60,8 +59,7 @@ export class RConManager {
                     plugin.onRConClose();
                 }
                 catch(error: any) {
-                    MinecraftDiscordChatSync.logger.error("An error occurred while executing \"onRConClose()\"");
-                    MinecraftDiscordChatSync.logger.debug(error);
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onRConClose()".\n${error}`);
                 }
             });
             MinecraftDiscordChatSync.logger.info("RCon connection closed.");

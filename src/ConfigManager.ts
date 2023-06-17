@@ -149,7 +149,7 @@ export class ConfigManager {
                 }
                 else {
                     //その他エラー
-                    MinecraftDiscordChatSync.logger.error("An error occurred while parsing config file.");
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while parsing config file.\n${jsonError}`);
                 }
                 process.exit(1);
             }
@@ -168,7 +168,7 @@ export class ConfigManager {
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.warn("An error occurred while reading config file.");
+                MinecraftDiscordChatSync.logger.error(`An error occurred while reading config file.\n${readError}`);
             }
             process.exit(1);
         }

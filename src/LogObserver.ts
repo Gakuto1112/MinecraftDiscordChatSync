@@ -48,7 +48,7 @@ export class LogObserver {
                         }
                     });
                 }
-                MinecraftDiscordChatSync.logger.debug(`New log: ${logRaw}`);
+                MinecraftDiscordChatSync.logger.debug(logRaw);
             });
         });
     }

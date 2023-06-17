@@ -53,6 +53,15 @@ export abstract class PluginBase {
     //ラッパー関数
     protected readonly logger: Logger = MinecraftDiscordChatSync.logger;
 
+    /**
+     * RConを通じてサーバーにコマンドを送信する。
+     * @param command 送信するマインクラフトのコマンド
+     * @returns 送信したコマンドの実行結果。RCon上でエラーが発生したらnullが返される。
+     */
+    protected async sendCommand(command: string): Promise<string|void> {
+        return await MinecraftDiscordChatSync.rConManager.send(command);
+    }
+
     //イベント関数
     /**
      * 新しいログが検出された時のイベント
@@ -68,6 +77,16 @@ export abstract class PluginBase {
      * @param message ログの文
      */
     public onNewLogRaw(message: string) {}
+
+    /**
+     * RConがサーバーに接続された時のイベント
+     */
+    public onRConOpen() {}
+
+    /**
+     * RConがサーバーから切断された時のイベント
+     */
+    public onRConClose() {}
 
     /**
      * ボットがDiscordにログインした時のイベント

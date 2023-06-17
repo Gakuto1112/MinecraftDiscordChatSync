@@ -46,6 +46,32 @@ export class ConfigManager {
                     message: `The provided config value type "${typeof value}" does not match valid type "string".`
                 }
             }
+        },
+        rConPort: {
+            value: 25575,
+            verificationFunction: (value: any): VerificationResult => {
+                if(typeof value == "number") {
+                    return {
+                        isValid: (value as number) > 0 && (value as number) < 65536 && (value as number) % 1 == 0,
+                        message: `The provided port number is invalid. It must be within 1 to 65535.`
+                    }
+                }
+                else {
+                    return {
+                        isValid: false,
+                        message: `The provided config value type "${typeof value}" does not match valid type "number".`
+                    }
+                }
+            }
+        },
+        rConPassword: {
+            value: "",
+            verificationFunction: (value: any): VerificationResult => {
+                return {
+                    isValid: typeof value == "string",
+                    message: `The provided config value type "${typeof value}" does not match valid type "string".`
+                }
+            }
         }
     };
 

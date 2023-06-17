@@ -24,25 +24,29 @@ export class LogObserver {
             const stringConverter: iconv.Iconv = new iconv.Iconv(process.platform == "win32" ? "shift-jis" : "utf-8", "utf-8");
             await this.readLog((line: string) => {
                 const logRaw: string = stringConverter.convert(line).toString();
-                try {
-                    MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => plugin.onNewLogRaw(line));
-                }
-                catch(error: any) {
-                    MinecraftDiscordChatSync.logger.warn("An error occurred while executing \"onNewLogRaw()\"");
-                    MinecraftDiscordChatSync.logger.debug(error);
-                }
+                MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                    try {
+                        plugin.onNewLogRaw(line);
+                    }
+                    catch(error: any) {
+                        MinecraftDiscordChatSync.logger.warn("An error occurred while executing \"onNewLogRaw()\"");
+                        MinecraftDiscordChatSync.logger.debug(error);
+                    }
+                });
                 const logData: RegExpMatchArray|null = logRaw.match(/^\[(\d{2}:\d{2}:\d{2})\] \[(.+)\/([A-Z]+)\]: (.+)/);
                 if(logData != null) {
                     const dateParse: RegExpMatchArray = (logData[1].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
                     const date: Date = new Date();
                     date.setHours(Number(dateParse[1]), Number(dateParse[2]), Number(dateParse[3]));
-                    try {
-                        MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => plugin.onNewLog(date, logData[2], logData[3] as LogType, logData[4]));
-                    }
-                    catch(error: any) {
-                        MinecraftDiscordChatSync.logger.warn("An error occurred while executing \"onNewLog()\"");
-                        MinecraftDiscordChatSync.logger.debug(error);
-                    }
+                    MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                        try {
+                            plugin.onNewLog(date, logData[2], logData[3] as LogType, logData[4]);
+                        }
+                        catch(error: any) {
+                            MinecraftDiscordChatSync.logger.warn("An error occurred while executing \"onNewLog()\"");
+                            MinecraftDiscordChatSync.logger.debug(error);
+                        }
+                    });
                 }
                 MinecraftDiscordChatSync.logger.debug(`New log: ${logRaw}`);
             });

@@ -47,6 +47,66 @@ export class ConfigManager {
                 }
             }
         },
+        listenChannels: {
+            value: [],
+            verificationFunction: (value: any): VerificationResult => {
+                if(value instanceof Array) {
+                    value.forEach((channel: any) => {
+                        if(typeof channel != "number") {
+                            return {
+                                isValid: false,
+                                message: `One of the provided send channels value type "${typeof value}" does not match valid type "number".`
+                            }
+                        }
+                        else if((channel as number) < 0 && (channel as number) % 1 > 0) {
+                            return {
+                                isValid: false,
+                                message: `One of the provided send channels value is invalid.`
+                            }
+                        }
+                    });
+                    return {
+                        isValid: true
+                    }
+                }
+                else {
+                    return {
+                        isValid: false,
+                        message: `The provided config value type "${typeof value}" does not match valid type "object".`
+                    }
+                }
+            }
+        },
+        sendChannels: {
+            value: [],
+            verificationFunction: (value: any): VerificationResult => {
+                if(value instanceof Array) {
+                    value.forEach((channel: any) => {
+                        if(typeof channel != "number") {
+                            return {
+                                isValid: false,
+                                message: `One of the provided send channels value type "${typeof value}" does not match valid type "number".`
+                            }
+                        }
+                        else if((channel as number) < 0 && (channel as number) % 1 > 0) {
+                            return {
+                                isValid: false,
+                                message: `One of the provided send channels value is invalid.`
+                            }
+                        }
+                    });
+                    return {
+                        isValid: true
+                    }
+                }
+                else {
+                    return {
+                        isValid: false,
+                        message: `The provided config value type "${typeof value}" does not match valid type "object".`
+                    }
+                }
+            }
+        },
         rConPort: {
             value: 25575,
             verificationFunction: (value: any): VerificationResult => {

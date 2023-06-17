@@ -18,7 +18,7 @@ export class BotManager {
             });
         });
         this.client.addListener("messageCreate", (message: discordJS.Message) => {
-            if(message.channel instanceof discordJS.TextChannel && message.guild instanceof discordJS.Guild && message.member instanceof discordJS.GuildMember) {
+            if(message.channel instanceof discordJS.TextChannel && message.guild instanceof discordJS.Guild && message.member instanceof discordJS.GuildMember && (MinecraftDiscordChatSync.config.getConfig("listenChannels") as number[]).includes(Number(message.channel.id)) && message.author.id != (this.client.user as discordJS.ClientUser).id) {
                 MinecraftDiscordChatSync.logger.info(`[${(message.guild as discordJS.Guild).name}@${message.channel.name}] [attachments: ${message.attachments.size}] <${(message.member as discordJS.GuildMember).displayName}> ${message.content}`);
                 MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
                     try {

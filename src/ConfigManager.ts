@@ -25,6 +25,9 @@ interface verificationResult {
  * システムの設定を管理するクラス
  */
 export class ConfigManager {
+    /**
+     * 設定を保持するフィールド
+     */
     private readonly config: {[key: string]: configEntry} = {
         pathToLog: {
             value: "../../logs/latest.log",
@@ -47,22 +50,52 @@ export class ConfigManager {
     };
 
     /**
+     * 新しい設定値が追加されたどうか（設定ファイルへの出力の可否判断に使用する）
+     */
+    private configAdded: boolean = false;
+
+    /**
+     * 設定ファイルに設定値を書き込む。
+     */
+    private writeConfigFile(): void {
+        const configData: {[key: string]: string} = {};
+        Object.keys(this.config).forEach((key: string) => configData[key] = this.config[key].value);
+        try {
+            fs.writeFileSync("../config.json", JSON.stringify(configData, undefined, 4));
+        }
+        catch(writeError: any) {
+            if(writeError.code == "EPERM") {
+                //書き込み権限がない
+                MinecraftDiscordChatSync.logger.error("Creating a new file was canceled because of no permission.");
+            }
+            else {
+                //その他エラー
+                MinecraftDiscordChatSync.logger.error("Creating a new file was canceled because of an error.");
+            }
+            process.exit(1);
+        }
+    }
+
+    /**
      * コンフィグマネージャーに設定項目を登録する。readConfigFile()が呼ばれる前に読んだ方が良い。
      * @param keyName 設定項目のキーの名前
      * @param defaultValue 初期値
      * @param verificationFunction 設定値の検証用の関数
      */
     public registerConfig(keyName: string, defaultValue: any, verificationFunction: (valueToVerification: any) => verificationResult): void {
-        if(this.config[keyName]) MinecraftDiscordChatSync.logger.warn(`Config key "${keyName}" already exists. This system will override this config value.`);
-        this.config[keyName] = {
-            value: defaultValue,
-            verificationFunction: verificationFunction
-        };
-        MinecraftDiscordChatSync.logger.debug(`Set new config key "${keyName}" value.`);
+        if(this.config[keyName]) this.config[keyName].verificationFunction = verificationFunction;
+        else {
+            this.config[keyName] = {
+                value: defaultValue,
+                verificationFunction: verificationFunction
+            };
+            this.configAdded = true;
+            MinecraftDiscordChatSync.logger.debug(`Set new config key "${keyName}" value.`);
+        }
     }
 
     /**
-     * コンフィグファイルを読み込んで設定値を上書きする。
+     * コンフィグファイルを読み込んで初期値を上書きする。
      */
     public readConfigFile() {
         MinecraftDiscordChatSync.logger.info("Started reading config file.")
@@ -71,7 +104,15 @@ export class ConfigManager {
             try {
                 const newConfig: {[key: string]: any} = JSON.parse(configString);
                 Object.keys(newConfig).forEach((key: string) => {
-                    this.config[key].value = newConfig[key];
+                    if(this.config[key]) this.config[key].value = newConfig[key];
+                    else this.config[key] = {
+                        value: newConfig[key],
+                        verificationFunction: () => {
+                            return {
+                                isValid: true
+                            }
+                        }
+                    };
                     MinecraftDiscordChatSync.logger.debug(`Set config key "${key}" value from config file.`);
                 });
             }
@@ -91,22 +132,7 @@ export class ConfigManager {
             if(readError.code == "ENOENT") {
                 //設定ファイルがない
                 MinecraftDiscordChatSync.logger.warn("The config file does not exist. This system will generate a new config file with default values automatically.");
-                const configData: {[key: string]: string} = {};
-                Object.keys(this.config).forEach((key: string) => configData[key] = this.config[key].value);
-                try {
-                    fs.writeFileSync("../config.json", JSON.stringify(configData, undefined, 4));
-                }
-                catch(writeError: any) {
-                    if(writeError.code == "EPERM") {
-                        //書き込み権限がない
-                        MinecraftDiscordChatSync.logger.error("Creating a new file was canceled because of no permission.");
-                    }
-                    else {
-                        //その他エラー
-                        MinecraftDiscordChatSync.logger.error("Creating a new file was canceled because of an error.");
-                    }
-                    process.exit(1);
-                }
+                this.writeConfigFile();
                 MinecraftDiscordChatSync.logger.info("Created a new config file. Please fill out it and then, run this system again.");
                 process.exit(0);
             }
@@ -121,6 +147,18 @@ export class ConfigManager {
             process.exit(1);
         }
         MinecraftDiscordChatSync.logger.info("Finished reading config file.");
+    }
+
+    /**
+     * 設定ファイルを更新する必要がある場合は設定ファイルを上書きする。
+     */
+    public updateConfigFile() {
+        MinecraftDiscordChatSync.logger.info("Checking new config addition...");
+        if(this.configAdded) {
+            MinecraftDiscordChatSync.logger.info("New config values detected. Updating config file...");
+            this.writeConfigFile();
+            MinecraftDiscordChatSync.logger.info("Finished Updating config file.");
+        }
     }
 
     /**

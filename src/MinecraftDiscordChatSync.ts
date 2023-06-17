@@ -34,10 +34,11 @@ export class MinecraftDiscordChatSync {
      * メイン関数
      */
     public async main(): Promise<void> {
+        MinecraftDiscordChatSync.config.readConfigFile();
         await this.logObserver.observe();
         await this.lua.createLuaEnvironment();
         this.lua.runLua();
-        MinecraftDiscordChatSync.config.readConfigFile();
+        MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
         this.bot.login();
     }

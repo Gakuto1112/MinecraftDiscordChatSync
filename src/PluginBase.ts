@@ -54,12 +54,20 @@ export abstract class PluginBase {
     protected readonly logger: Logger = MinecraftDiscordChatSync.logger;
 
     /**
+     * DiscordのSendChannelsの各チャンネルに向けてメッセージを送信する。
+     * @param message 送信するメッセージ本文
+     */
+    protected sendMessage(message: string): void {
+        MinecraftDiscordChatSync.bot.sendMessage(message);
+    }
+
+    /**
      * RConを通じてサーバーにコマンドを送信する。
      * @param command 送信するマインクラフトのコマンド
      * @returns 送信したコマンドの実行結果。RCon上でエラーが発生したらnullが返される。
      */
     protected async sendCommand(command: string): Promise<string|void> {
-        return await MinecraftDiscordChatSync.rConManager.send(command);
+        return await MinecraftDiscordChatSync.rCon.send(command);
     }
 
     //イベント関数
@@ -93,5 +101,13 @@ export abstract class PluginBase {
      */
     public onDiscordLogin() {}
 
+    /**
+     * ListenChannelsのいずれかのチャンネルでメッセージを送信された時のイベント
+     * @param guild 対象のサーバーの情報
+     * @param channel 対象のチャンネルの上場
+     * @param sender 送信者の情報
+     * @param content 送信されたメッセージ本文
+     * @param attachments メッセージの添付ファイルの情報
+     */
     public onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]) {}
 }

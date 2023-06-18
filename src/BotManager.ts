@@ -8,7 +8,7 @@ export class BotManager {
     constructor() {
         this.client.addListener("ready", () => {
             MinecraftDiscordChatSync.logger.info(`Succeeded to login as "${(this.client.user as discordJS.ClientUser).tag}".`);
-            MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+            MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                 try {
                     plugin.onDiscordLogin();
                 }
@@ -18,9 +18,9 @@ export class BotManager {
             });
         });
         this.client.addListener("messageCreate", (message: discordJS.Message) => {
-            if(message.channel instanceof discordJS.TextChannel && message.guild instanceof discordJS.Guild && message.member instanceof discordJS.GuildMember && (MinecraftDiscordChatSync.config.getConfig("listenChannels") as number[]).includes(Number(message.channel.id)) && message.author.id != (this.client.user as discordJS.ClientUser).id) {
+            if(message.channel instanceof discordJS.TextChannel && message.guild instanceof discordJS.Guild && message.member instanceof discordJS.GuildMember && (MinecraftDiscordChatSync.config.getConfig("listenChannels") as string[]).includes(message.channel.id) && message.author.id != (this.client.user as discordJS.ClientUser).id) {
                 MinecraftDiscordChatSync.logger.info(`[${(message.guild as discordJS.Guild).name}@${message.channel.name}] [attachments: ${message.attachments.size}] <${(message.member as discordJS.GuildMember).displayName}> ${message.content}`);
-                MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                     try {
                         plugin.onDiscordMessage({
                             id: Number((message.guild as discordJS.Guild).id),
@@ -61,6 +61,16 @@ export class BotManager {
                 MinecraftDiscordChatSync.logger.error(`An error occurred during login.\n${error}`);
             }
             process.exit(1);
+        });
+    }
+
+    /**
+     * 送信チャンネルに向けてメッセージを送信する。
+     */
+    public sendMessage(message: string): void {
+        (MinecraftDiscordChatSync.config.getConfig("sendChannels") as string[]).forEach((channelId: string) => {
+            const channel: discordJS.Channel|undefined = this.client.channels.cache.get(channelId);
+            if(channel instanceof discordJS.TextChannel) channel.send(message).then(() => MinecraftDiscordChatSync.logger.debug(`Sent message "${message}" to channel "${channelId}".`)).catch((error: any) => MinecraftDiscordChatSync.logger.error(`An error occurred while sending message to channel "${channelId}".\n${error}`));
         });
     }
 }

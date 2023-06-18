@@ -24,7 +24,7 @@ export class LogObserver {
             const stringConverter: iconv.Iconv = new iconv.Iconv(process.platform == "win32" ? "shift-jis" : "utf-8", "utf-8");
             await this.readLog((line: string) => {
                 const logRaw: string = stringConverter.convert(line).toString();
-                MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                     try {
                         plugin.onNewLogRaw(line);
                     }
@@ -37,9 +37,9 @@ export class LogObserver {
                     const dateParse: RegExpMatchArray = (logData[1].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
                     const date: Date = new Date();
                     date.setHours(Number(dateParse[1]), Number(dateParse[2]), Number(dateParse[3]));
-                    if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[4]))) MinecraftDiscordChatSync.rConManager.connect();
-                    else if(logData[4].startsWith("Stopping server")) MinecraftDiscordChatSync.rConManager.disconnect();
-                    MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                    if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[4]))) MinecraftDiscordChatSync.rCon.connect();
+                    else if(logData[4].startsWith("Stopping server")) MinecraftDiscordChatSync.rCon.disconnect();
+                    MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                         try {
                             plugin.onNewLog(date, logData[2], logData[3] as LogType, logData[4]);
                         }

@@ -17,19 +17,19 @@ export class MinecraftDiscordChatSync {
     /**
      * ログ監視のインスタンス
      */
-    public readonly logObserver: LogObserver = new LogObserver();
+    public readonly log: LogObserver = new LogObserver();
     /**
      * RConのインスタンス
      */
-    public static readonly rConManager: RConManager = new RConManager();
+    public static readonly rCon: RConManager = new RConManager();
     /**
      * プラグインマネージャーのインスタンス
      */
-    public static readonly pluginManager: PluginManager = new PluginManager();
+    public static readonly plugin: PluginManager = new PluginManager();
     /**
      * Discordボットを制御するインスタンス
      */
-    private readonly bot: BotManager = new BotManager();
+    public static readonly bot: BotManager = new BotManager();
 
     /**
      * システム開始時にRConに接続するかどうか
@@ -46,12 +46,12 @@ export class MinecraftDiscordChatSync {
      */
     public async main(): Promise<void> {
         MinecraftDiscordChatSync.config.readConfigFile();
-        await this.logObserver.observe();
-        await MinecraftDiscordChatSync.pluginManager.loadPlugins();
+        await MinecraftDiscordChatSync.plugin.loadPlugins();
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
-        if(this.rConInit) MinecraftDiscordChatSync.rConManager.connect();
-        this.bot.login();
+        await this.log.observe();
+        if(this.rConInit) MinecraftDiscordChatSync.rCon.connect();
+        MinecraftDiscordChatSync.bot.login();
     }
 }
 

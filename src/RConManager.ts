@@ -16,7 +16,7 @@ export class RConManager {
             MinecraftDiscordChatSync.logger.info("Connecting RCon...");
             this.rCon = new Rcon({host: "localhost", port: MinecraftDiscordChatSync.config.getConfig("rConPort"), password: MinecraftDiscordChatSync.config.getConfig("rConPassword")});
             this.rCon.on("connect", () => {
-                MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                     try {
                         plugin.onRConOpen();
                     }
@@ -27,7 +27,7 @@ export class RConManager {
                 MinecraftDiscordChatSync.logger.info("RCon connected.");
             });
             this.rCon.on("end", () => {
-                MinecraftDiscordChatSync.pluginManager.plugins.forEach((plugin: PluginBase) => {
+                MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                     try {
                         plugin.onRConClose();
                     }

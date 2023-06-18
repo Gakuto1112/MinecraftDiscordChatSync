@@ -51,20 +51,20 @@ export class ConfigManager {
             value: [],
             verificationFunction: (value: any): VerificationResult => {
                 if(value instanceof Array) {
-                    value.forEach((channel: any) => {
-                        if(typeof channel != "number") {
+                    for(const channel of value) {
+                        if(typeof channel != "string") {
                             return {
                                 isValid: false,
-                                message: `One of the provided send channels value type "${typeof value}" does not match valid type "number".`
+                                message: `One of the provided send channels value type "${typeof channel}" does not match valid type "string".`
                             }
                         }
-                        else if((channel as number) < 0 && (channel as number) % 1 > 0) {
+                        else if(/[^\d]/.test(channel)) {
                             return {
                                 isValid: false,
                                 message: `One of the provided send channels value is invalid.`
                             }
                         }
-                    });
+                    }
                     return {
                         isValid: true
                     }
@@ -81,20 +81,20 @@ export class ConfigManager {
             value: [],
             verificationFunction: (value: any): VerificationResult => {
                 if(value instanceof Array) {
-                    value.forEach((channel: any) => {
-                        if(typeof channel != "number") {
+                    for(const channel of value) {
+                        if(typeof channel != "string") {
                             return {
                                 isValid: false,
-                                message: `One of the provided send channels value type "${typeof value}" does not match valid type "number".`
+                                message: `One of the provided send channels value type "${typeof channel}" does not match valid type "string".`
                             }
                         }
-                        else if((channel as number) < 0 && (channel as number) % 1 > 0) {
+                        else if(/[^\d]/.test(channel)) {
                             return {
                                 isValid: false,
                                 message: `One of the provided send channels value is invalid.`
                             }
                         }
-                    });
+                    }
                     return {
                         isValid: true
                     }

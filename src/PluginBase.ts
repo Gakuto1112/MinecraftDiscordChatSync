@@ -10,7 +10,7 @@ export type LogType = "info" | "warn" | "error" | "fatal";
  */
 export type DiscordGuild = {
     /** サーバーID */
-    id: number,
+    id: string,
     /** サーバー表示名 */
     name: string
 }
@@ -19,7 +19,7 @@ export type DiscordGuild = {
  */
 export type DiscordChannel = {
     /** チャンネルID */
-    id: number,
+    id: string,
     /** チャンネル名 */
     name: string
 }
@@ -28,7 +28,7 @@ export type DiscordChannel = {
  */
 export type DiscordUser = {
     /** ユーザーID */
-    id: number,
+    id: string,
     /** ユーザー名 */
     name: string,
     /** サーバーでのユーザーの表示名 */
@@ -39,7 +39,7 @@ export type DiscordUser = {
  */
 export type DiscordAttachment = {
     /** 添付ファイルID */
-    id: number,
+    id: string,
     /** 添付ファイル名 */
     name: string,
     /** 添付ファイルのURL */

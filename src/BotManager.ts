@@ -23,17 +23,17 @@ export class BotManager {
                 MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                     try {
                         plugin.onDiscordMessage({
-                            id: Number((message.guild as discordJS.Guild).id),
+                            id: (message.guild as discordJS.Guild).id,
                             name: (message.guild as discordJS.Guild).name
                         }, {
-                            id: Number(message.channel.id),
+                            id: message.channel.id,
                             name: (message.channel as discordJS.TextChannel).name
                         }, {
-                            id: Number(message.author.id),
+                            id: message.author.id,
                             name: message.author.username, //TODO: DiscordJSが更新されたらここをdisplayNameに置き換える（一意の名前への以降への対応）
                             displayName: (message.member as discordJS.GuildMember).displayName
                         }, message.content, message.attachments.map((attachment: discordJS.Attachment) => ({
-                            id: Number(attachment.id),
+                            id: attachment.id,
                             name: attachment.name,
                             url: attachment.url
                         })));

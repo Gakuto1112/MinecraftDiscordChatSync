@@ -70,7 +70,7 @@ export class LocaleManager {
                 MinecraftDiscordChatSync.logger.warn("Failed to load current locale data! \"en_us\" locale will be used instead.");
             }
         }
-        MinecraftDiscordChatSync.logger.info("Completed loading locale data.");
+        MinecraftDiscordChatSync.logger.info("Finished loading locale data.");
     }
 
     /**

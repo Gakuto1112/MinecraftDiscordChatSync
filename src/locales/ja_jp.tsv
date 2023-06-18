@@ -1,3 +1,7 @@
 key	locale
 bot.message.server_opened	:white_check_mark: **サーバーが起動しました**
 bot.message.server_closed	:no_entry: **サーバーが閉鎖されました**
+bot.message.player_join	:city_sunrise: %1$s がゲームに参加しました
+bot.message.player_leave	:night_with_stars: %1$s がゲームから退出しました
+bot.embed.player_join.title	ゲームに参加しました
+bot.embed.player_leave.title	ゲームから退出しました

@@ -92,10 +92,17 @@ export abstract class PluginBase {
                 if(embed.description) embedObject.setDescription(embed.description);
                 if(embed.author) embedObject.setAuthor({name: embed.author});
                 if(embed.imageURL) {
-                    if(/^https?:\/\//.test(embed.imageURL)) embedObject.setImage(embed.imageURL);
+                    if(/^https?:\/\//.test(embed.imageURL)) embedObject.setThumbnail(embed.imageURL);
                     else MinecraftDiscordChatSync.logger.error("The image URL of embedded messages must start with \"https://\" or \"http://\".");
                 }
-                if(embed.color) embedObject.setColor(`#${embed.color}`);
+                if(embed.color) {
+                    if(embed.color.length == 3) {
+                        let fullColor: string = "";
+                        for(let i: number = 0; i < 3; i++) fullColor += embed.color[i].repeat(2);
+                        embedObject.setColor(`#${fullColor}`);
+                    }
+                    else embedObject.setColor(`#${embed.color}`);
+                }
                 MinecraftDiscordChatSync.bot.sendMessage(message, embedObject);
             }
             else MinecraftDiscordChatSync.bot.sendMessage(message);

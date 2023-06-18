@@ -1,0 +1,99 @@
+name_global	name_local
+%1$s was squashed by a falling anvil	%1$sは落下してきた金床に押しつぶされた
+%1$s was squashed by a falling anvil whilst fighting %2$s	%1$sは%2$sと戦いながら落ちてきた金床に押しつぶされた
+%1$s was shot by %2$s	%1$sは%2$sに射抜かれた
+%1$s was shot by %2$s using %3$s	%1$sは%2$sの%3$sで射抜かれた
+%1$s was killed by %2$s	%1$sは%2$sに殺された
+%1$s was pricked to death	%1$sはサボテンが刺さって死んだ
+%1$s walked into a cactus whilst trying to escape %2$s	%1$sは%2$sから逃げようとしてサボテンにぶつかった
+%1$s was squished too much	%1$sは押しつぶされた
+%1$s was squashed by %2$s	%1$sは%2$sに押しつぶされた
+%1$s was roasted in dragon's breath	%1$sはドラゴンブレスで炙り焼きにされた
+%1$s was roasted in dragon's breath by %2$s	%1$sは%2$sのドラゴンブレスで炙り焼きにされた
+%1$s drowned	%1$sは溺死した
+%1$s drowned whilst trying to escape %2$s	%1$sは%2$sから逃れようとして溺死した
+%1$s died from dehydration	%1$sは脱水で死んだ
+%1$s died from dehydration whilst trying to escape %2$s	%1$sは%2$sから逃れようとして脱水で死んだ
+%1$s was killed by even more magic	%1$sは魔法の奔流で殺された
+%1$s blew up	%1$sは爆発に巻き込まれた
+%1$s was blown up by %2$s	%1$sは%2$sに爆破された
+%1$s was blown up by %2$s using %3$s	%1$sは%2$sの%3$sで爆破された
+%1$s hit the ground too hard	%1$sは地面に強く激突した
+%1$s hit the ground too hard whilst trying to escape %2$s	%1$sは%2$sから逃れようとして地面に強く激突した
+%1$s was squashed by a falling block	%1$sは落下してきたブロックに押しつぶされた
+%1$s was squashed by a falling block whilst fighting %2$s	%1$sは%2$sと戦いながら落ちてきたブロックに押しつぶされた
+%1$s was skewered by a falling stalactite	%1$sは落ちてきた鍾乳石に串刺しにされた
+%1$s was skewered by a falling stalactite whilst fighting %2$s	%1$sは%2$sと戦いながら落ちてきた鍾乳石に串刺しにされた
+%1$s was fireballed by %2$s	%1$sは%2$sに火だるまにされた
+%1$s was fireballed by %2$s using %3$s	%1$sは%2$sの%3$sで火だるまにされた
+%1$s went off with a bang	%1$sは花火の爆発に巻き込まれた
+%1$s went off with a bang due to a firework fired from %3$s by %2$s	%1$sは%2$sの%3$sが発射した花火の爆発に巻き込まれた
+%1$s went off with a bang whilst fighting %2$s	%1$sは%2$sと戦いながら花火の爆発に巻き込まれた
+%1$s experienced kinetic energy	%1$sは運動エネルギーを体験した
+%1$s experienced kinetic energy whilst trying to escape %2$s	%1$sは%2$sから逃れようとして運動エネルギーを体験した
+%1$s froze to death	%1$sは凍え死んだ
+%1$s was frozen to death by %2$s	%1$sは%2$sによって凍え死んだ
+%1$s died	%1$sは死んだ
+%1$s was killed	%1$sは殺された
+%1$s was killed whilst fighting %2$s	%1$sは%2$sと戦いながら殺された
+%1$s died because of %2$s	%1$sは%2$sによって死んだ
+%1$s discovered the floor was lava	%1$sは床が溶岩だったと気付いた
+%1$s walked into the danger zone due to %2$s	%1$sは%2$sに妨害されて危険地帯に足を踏み入れた
+%1$s was killed by %2$s using magic	%1$sは%2$sの魔法で殺された
+%1$s was killed by %2$s using %3$s	%1$sは%2$sの%3$sで殺された
+%1$s went up in flames	%1$sは炎に巻かれた
+%1$s walked into fire whilst fighting %2$s	%1$sは%2$sと戦いながら火の中へ踏み入った
+%1$s suffocated in a wall	%1$sは壁の中で窒息した
+%1$s suffocated in a wall whilst fighting %2$s	%1$sは%2$sと戦いながら壁の中で窒息した
+%1$s tried to swim in lava	%1$sは溶岩遊泳を試みた
+%1$s tried to swim in lava to escape %2$s	%1$sは%2$sから逃れようと溶岩遊泳を試みた
+%1$s was struck by lightning	%1$sは雷に打たれた
+%1$s was struck by lightning whilst fighting %2$s	%1$sは%2$sと戦いながら雷に打たれた
+%1$s was killed by magic	%1$sは魔法で殺された
+%1$s was killed by magic whilst trying to escape %2$s	%1$sは%2$sから逃れようとして魔法で殺された
+Actually, the message was too long to deliver fully. Sorry! Here's stripped versi	メッセージが長過ぎるため、全てを表示することができませんでした。以下はその一部です：%s
+%1$s was slain by %2$s	%1$sは%2$sに殺害された
+%1$s was slain by %2$s using %3$s	%1$sは%2$sの%3$sで殺害された
+%1$s burned to death	%1$sはこんがりと焼けた
+%1$s was burnt to a crisp whilst fighting %2$s wielding %3$s	%1$sは%3$sを振るう%2$sと戦いながらカリカリに焼けた
+%1$s was burnt to a crisp whilst fighting %2$s	%1$sは%2$sと戦いながらカリカリに焼けた
+%1$s left the confines of this world	%1$sはワールドの外側へと踏み出した
+%1$s left the confines of this world whilst fighting %2$s	%1$sは%2$sと戦いながらワールドの外側へと踏み出した
+%1$s fell out of the world	%1$sは奈落の底へ落ちた
+%1$s didn't want to live in the same world as %2$s	%1$sは%2$sと同じワールドに住みたくなかった
+%1$s was slain by %2$s	%1$sは%2$sに殺害された
+%1$s was slain by %2$s using %3$s	%1$sは%2$sの%3$sで殺害された
+%1$s was obliterated by a sonically-charged shriek	%1$sは衝撃波に消し飛ばされた
+%1$s was obliterated by a sonically-charged shriek whilst trying to escape %2$s wielding %3$s	%1$sは%3$sを振るう%2$sから逃れようとして衝撃波に消し飛ばされた
+%1$s was obliterated by a sonically-charged shriek whilst trying to escape %2$s	%1$sは%2$sから逃れようとして衝撃波に消し飛ばされた
+%1$s was impaled on a stalagmite	%1$sは鍾乳石に突き刺さった
+%1$s was impaled on a stalagmite whilst fighting %2$s	%1$sは%2$sと戦いながら鍾乳石に突き刺さった
+%1$s starved to death	%1$sは餓死した
+%1$s starved to death whilst fighting %2$s	%1$sは%2$sと戦いながら餓死した
+%1$s was stung to death	%1$sは刺されて死んだ
+%1$s was stung to death by %2$s using %3$s	%1$sは%2$sの%3$sに刺されて死んだ
+%1$s was stung to death by %2$s	%1$sは%2$sに刺されて死んだ
+%1$s was poked to death by a sweet berry bush	%1$sはスイートベリーの棘が刺さって死んだ
+%1$s was poked to death by a sweet berry bush whilst trying to escape %2$s	%1$sは%2$sから逃げようとしてスイートベリーの棘が刺さって死んだ
+%1$s was killed trying to hurt %2$s	%1$sは%2$sを傷つけようとして殺された
+%1$s was killed by %3$s trying to hurt %2$s	%1$sは%2$sを傷つけようとして%3$sに殺された
+%1$s was pummeled by %2$s	%1$sは%2$sによってぺしゃんこにされた
+%1$s was pummeled by %2$s using %3$s	%1$sは%2$sの%3$sでぺしゃんこにされた
+%1$s was impaled by %2$s	%1$sは%2$sによって突き抜かれた
+%1$s was impaled by %2$s with %3$s	%1$sは%2$sの%3$sで突き抜かれた
+%1$s withered away	%1$sは干からびた
+%1$s withered away whilst fighting %2$s	%1$sは%2$sと戦いながら干からびた
+%1$s was shot by a skull from %2$s	%1$sは%2$sの頭蓋骨に打たれた
+%1$s was shot by a skull from %2$s using %3$s	%1$sは%2$sから%3$sで頭蓋骨に打たれた
+%1$s fell from a high place	%1$sは高い所から落ちた
+%1$s fell off a ladder	%1$sははしごから落ちた
+%1$s fell while climbing	%1$sは登る途中で落ちた
+%1$s fell off scaffolding	%1$sは足場から滑り落ちた
+%1$s fell off some twisting vines	%1$sはねじれツタから滑り落ちた
+%1$s fell off some vines	%1$sはツタから滑り落ちた
+%1$s fell off some weeping vines	%1$sはしだれツタから滑り落ちた
+%1$s was doomed to fall by %2$s	%1$sは%2$sに落とされる運命だった
+%1$s was doomed to fall by %2$s using %3$s	%1$sは%2$sの%3$sで落とされる運命だった
+%1$s fell too far and was finished by %2$s	%1$sは高いところから落下し、%2$sによってとどめを刺された
+%1$s fell too far and was finished by %2$s using %3$s	%1$sは高いところから落下し、%2$sの%3$sによってとどめを刺された
+%1$s was doomed to fall	%1$sは落ちる運命だった

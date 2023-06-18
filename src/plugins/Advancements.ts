@@ -90,11 +90,11 @@ export class Advancements extends PluginBase {
             }
             else if(error.code == "EPERM") {
                 //進捗ファイルの読み取り権限がない
-                this.logger.error(`No permission to read default locale file (/locales/${locale}/advancement.tsv).`);
+                this.logger.error(`No permission to read advancement file (/locales/${locale}/advancement.tsv).`);
             }
             else {
                 //その他エラー
-                this.logger.error(`An error occurred while reading default locale file (/locales/${locale}/advancement.tsv).\n${error}`);
+                this.logger.error(`An error occurred while reading advancement file (/locales/${locale}/advancement.tsv).\n${error}`);
             }
             process.exit(1);
         }

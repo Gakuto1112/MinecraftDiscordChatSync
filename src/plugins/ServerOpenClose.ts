@@ -1,4 +1,4 @@
-import { PluginBase, LogType } from "../PluginBase";
+import { LogType, PluginBase } from "../PluginBase";
 
 /**
  * サーバーの起動/閉鎖時にDiscordにメッセージを送信するプラグイン

@@ -1,8 +1,9 @@
 import fs from "fs";
 import readline from "readline";
-import iconv from "iconv";
+import iconv from "iconv-lite";
 import { MinecraftDiscordChatSync } from "./MinecraftDiscordChatSync";
 import { PluginBase, LogType } from "./PluginBase";
+import { resolve } from "path";
 
 /**
  * ログの更新を監視する
@@ -21,9 +22,7 @@ export class LogObserver {
         await this.readLog(() => {});
         fs.watchFile(MinecraftDiscordChatSync.config.getConfig("pathToLog"), {persistent: true, interval: 100}, async (current: fs.Stats, previous: fs.Stats) => {
             if(current.size < previous.size) this.linesPrev = 0;
-            const stringConverter: iconv.Iconv = new iconv.Iconv(process.platform == "win32" ? "shift-jis" : "utf-8", "utf-8");
             await this.readLog((line: string) => {
-                const logRaw: string = stringConverter.convert(line).toString();
                 MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                     try {
                         plugin.onNewLogRaw(line);
@@ -32,7 +31,7 @@ export class LogObserver {
                         MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error}`);
                     }
                 });
-                const logData: RegExpMatchArray|null = logRaw.match(/^\[(\d{2}:\d{2}:\d{2})\] \[(.+)\/([A-Z]+)\]: (.+)/);
+                const logData: RegExpMatchArray|null = line.match(/^\[(\d{2}:\d{2}:\d{2})\] \[(.+)\/([A-Z]+)\]: (.+)/);
                 if(logData != null) {
                     const dateParse: RegExpMatchArray = (logData[1].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
                     const date: Date = new Date();
@@ -48,7 +47,7 @@ export class LogObserver {
                         }
                     });
                 }
-                MinecraftDiscordChatSync.logger.debug(logRaw);
+                MinecraftDiscordChatSync.logger.debug(line);
             });
         });
     }
@@ -58,10 +57,43 @@ export class LogObserver {
      * @param lineFunction 読み込んだログ各行に対して実行する関数
      */
     private async readLog(lineFunction: (line: string) => void): Promise<void> {
-        let readLines: number = 0; //今回の読み込みで既に読んだ行数
-        for await (const line of readline.createInterface({input: fs.createReadStream(MinecraftDiscordChatSync.config.getConfig("pathToLog"))})) {
-            if(readLines++ >= this.linesPrev) lineFunction(line);
+        const destinationCharCode: string = MinecraftDiscordChatSync.config.getConfig("logCharCode");
+        try {
+            let readLines: number = 0; //今回の読み込みで既に読んだ行数
+            const readStream = fs.createReadStream(MinecraftDiscordChatSync.config.getConfig("pathToLog"));
+            let tempLogBuffer: Buffer = Buffer.alloc(2048);
+            let bufferPointer: number = 0; //次に書き込むべきバッファーのインデックスを示す。
+            readStream.addListener("data", (chunk: Buffer) => {
+                chunk.forEach((charValue: number, index: number) => {
+                    if(charValue == 0x0a || (charValue == 0x0d && chunk[index + 1] != 0x0a)) {
+                        //改行コード（0x0a = \n, 0x0d = \r）
+                        if(readLines++ >= this.linesPrev) lineFunction(iconv.decode(tempLogBuffer, destinationCharCode));
+                        tempLogBuffer = Buffer.alloc(2048);
+                        bufferPointer = 0;
+                    }
+                    else tempLogBuffer[bufferPointer++] = charValue;
+                });
+            });
+            readStream.addListener("end", () => {
+                this.linesPrev = readLines;
+                resolve();
+            });
         }
-        this.linesPrev = readLines;
+        catch(error: any) {
+            if(error.code == "ENOENT") {
+                //ログファイルがない
+                MinecraftDiscordChatSync.logger.error("Log file does not exist.");
+                process.exit(1);
+            }
+            else if(error.code == "EPERM") {
+                //ログファイルの読み取り権限がない
+                MinecraftDiscordChatSync.logger.error("No permission to read log file.");
+            }
+            else {
+                //その他エラー
+                MinecraftDiscordChatSync.logger.error(`An error occurred while reading log file.\n${error}`);
+            }
+            process.exit(1);
+        }
     }
 }

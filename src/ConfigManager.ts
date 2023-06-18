@@ -1,4 +1,5 @@
 import fs from "fs";
+import iconv from "iconv-lite";
 import { MinecraftDiscordChatSync } from "./MinecraftDiscordChatSync";
 
 /**
@@ -36,6 +37,23 @@ export class ConfigManager {
                     return {
                         isValid: value.endsWith(".log"),
                         message: "The game log file must end with \".log\"."
+                    }
+                }
+                else {
+                    return {
+                        isValid: false,
+                        message: `The provided config value type "${typeof value}" does not match valid type "string".`
+                    }
+                }
+            }
+        },
+        logCharCode: {
+            value: "utf-8",
+            verificationFunction: (value: any): VerificationResult => {
+                if(typeof value == "string") {
+                    return {
+                        isValid: iconv.encodingExists(value),
+                        message: `The provided character code "${value}" is invalid or not supported.`
                     }
                 }
                 else {

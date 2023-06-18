@@ -3,5 +3,6 @@ bot.message.server_opened	:white_check_mark: **Server started**
 bot.message.server_closed	:no_entry: **Server closed**
 bot.message.player_join	:city_sunrise: %1$s joined the game
 bot.message.player_leave	:night_with_stars: %1$s left the game
+bot.message.chat	:speech_balloon: <%1$s> %2$s
 bot.embed.player_join.title	Joined the game
 bot.embed.player_leave.title	Left the game

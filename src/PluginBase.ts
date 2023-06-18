@@ -73,10 +73,17 @@ export abstract class PluginBase {
     /**
      * 現在の設定言語での、指定されたキー対応する文字列を返す。
      * @param key 対象のキーの名前。
+     * @param replacer1 "%1$s"から置き換える文字列
+     * @param replacer2 "%2$s"から置き換える文字列
+     * @param replacer3 "%3$s"から置き換える文字列
      * @return 現在の設定言語のキーに対応する文字列。もし、現在の設定言語でキーに対応する文字列がなければデフォルトの言語（en_us）での文字列を返す。それもなければ、キーをそのまま返す。
      */
-    protected getLocale(key: string): string {
-        return MinecraftDiscordChatSync.locale.getLocale(key);
+    protected getLocale(key: string, replacer1?: string, replacer2?: string, replacer3?: string): string {
+        let localeString: string = MinecraftDiscordChatSync.locale.getLocale(key);
+        if(replacer1) localeString = localeString.replace(/%1\$s/g, replacer1);
+        if(replacer2) localeString = localeString.replace(/%2\$s/g, replacer2);
+        if(replacer3) localeString = localeString.replace(/%3\$s/g, replacer3);
+        return localeString;
     }
 
     /**

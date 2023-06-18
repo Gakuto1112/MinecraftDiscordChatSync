@@ -27,11 +27,11 @@ export class PlayerJoinLeave extends PluginBase {
         else this.logger.error(`The provided player name "${playerName}" does not conform to Minecraft's player name rules.`);
     }
 
-    public async onNewLog(time: Date, sender: string, logType: LogType, message: string): Promise<void> {
+    public async onNewLog(_time: Date, _sender: string, _logType: LogType, message: string): Promise<void> {
         if(/^\w{3,16} (\(formerly known as \w{3,16}\) )?joined the game$/.test(message)) {
             //プレイヤー参加
             const playerName: string = (message.match(/^(\w{3,16}) (\(formerly known as \w{3,16}\) )?joined the game$/) as RegExpMatchArray)[1];
-            this.sendMessage(this.getLocale("bot.message.player_join").replace(/%1\$s/g, playerName), {
+            this.sendMessage(this.getLocale("bot.message.player_join", playerName), {
                 title: this.getLocale("bot.embed.player_join.title"),
                 author: playerName,
                 imageURL: await this.getPlayerAvatarURL(playerName),
@@ -42,7 +42,7 @@ export class PlayerJoinLeave extends PluginBase {
         else if(/^\w{3,16} left the game$/.test(message)) {
             //プレイヤー退出
             const playerName: string = (message.match(/^(\w{3,16}) left the game$/) as RegExpMatchArray)[1];
-            this.sendMessage(this.getLocale("bot.message.player_leave").replace(/%1\$s/g, playerName), {
+            this.sendMessage(this.getLocale("bot.message.player_leave", playerName), {
                 title: this.getLocale("bot.embed.player_leave.title"),
                 author: playerName,
                 imageURL: await this.getPlayerAvatarURL(playerName),

@@ -4,5 +4,9 @@ bot.message.server_closed	:no_entry: **サーバーが閉鎖されました**
 bot.message.player_join	:city_sunrise: %1$s がゲームに参加しました
 bot.message.player_leave	:night_with_stars: %1$s がゲームから退出しました
 bot.message.chat	:speech_balloon: <%1$s> %2$s
+bot.message.advancement.advancement	:third_place: %1$s は進捗 [%2$s] を達成した
+bot.message.advancement.goal	:second_place: %1$s は目標 [%2$s] を達成した
+bot.message.advancement.challenge	:first_place: %1$s は挑戦 [%2$s] を完了した
 bot.embed.player_join.title	ゲームに参加しました
 bot.embed.player_leave.title	ゲームから退出しました
+bot.embed.unknown_advancement.description	情報がありません

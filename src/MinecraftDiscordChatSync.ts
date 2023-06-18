@@ -5,6 +5,7 @@ import { LogObserver } from "./LogObserver";
 import { RConManager } from "./RconManager";
 import { PluginManager } from "./PluginManager";
 import { BotManager } from "./BotManager";
+import { PluginBase } from "./PluginBase";
 
 export class MinecraftDiscordChatSync {
     /**
@@ -15,6 +16,9 @@ export class MinecraftDiscordChatSync {
      * コンフィグマネージャーのインスタンス
      */
     public static readonly config: ConfigManager = new ConfigManager();
+    /**
+     * 言語マネージャーのインデックス
+     */
     public static readonly locale: LocaleManager = new LocaleManager();
     /**
      * ログ監視のインスタンス
@@ -52,6 +56,14 @@ export class MinecraftDiscordChatSync {
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
         MinecraftDiscordChatSync.locale.loadLocales();
+        MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
+            try {
+                plugin.onLoad();
+            }
+            catch(error: any) {
+                MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onLoad()".\n${error}`);
+            }
+        });
         await this.log.observe();
         if(this.rConInit) MinecraftDiscordChatSync.rCon.connect();
         MinecraftDiscordChatSync.bot.login();

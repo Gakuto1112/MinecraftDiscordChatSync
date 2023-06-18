@@ -1,5 +1,4 @@
 import fs from "fs";
-import readline from "readline";
 import iconv from "iconv-lite";
 import { MinecraftDiscordChatSync } from "./MinecraftDiscordChatSync";
 import { PluginBase, LogType } from "./PluginBase";

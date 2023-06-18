@@ -71,6 +71,15 @@ export abstract class PluginBase {
     protected readonly logger: Logger = MinecraftDiscordChatSync.logger;
 
     /**
+     * 設定値を取得する。
+     * @param key 取得する設定値のキーの名前
+     * @return キーに対応する設定値。対応する設定値がなければundefinedを返す。
+     */
+    protected getConfig(key: string): any {
+        return MinecraftDiscordChatSync.config.getConfig(key);
+    }
+
+    /**
      * 現在の設定言語での、指定されたキー対応する文字列を返す。
      * @param key 対象のキーの名前。
      * @param replacer1 "%1$s"から置き換える文字列
@@ -103,12 +112,34 @@ export abstract class PluginBase {
                     else MinecraftDiscordChatSync.logger.error("The image URL of embedded messages must start with \"https://\" or \"http://\".");
                 }
                 if(embed.color) {
-                    if(embed.color.length == 3) {
+                    if(!embed.color.startsWith("#")) {
                         let fullColor: string = "";
-                        for(let i: number = 0; i < 3; i++) fullColor += embed.color[i].repeat(2);
+                        let errorFlag: boolean = false;
+                        switch(embed.color.length) {
+                            case 1:
+                                fullColor = embed.color[0].repeat(6);
+                                break;
+                            case 2:
+                                fullColor = `${embed.color[0]}${embed.color[1]}`.repeat(3);
+                                break;
+                            case 3:
+                                for(let i: number = 0; i < 3; i++) fullColor += embed.color[i].repeat(2);
+                                break;
+                            case 6:
+                                fullColor = embed.color;
+                                break;
+                            default:
+                                MinecraftDiscordChatSync.logger.error("The provided color code is invalid.");
+                                errorFlag = true;
+                                break;
+                        }
+                        if(errorFlag) return;
                         embedObject.setColor(`#${fullColor}`);
                     }
-                    else embedObject.setColor(`#${embed.color}`);
+                    else {
+                        MinecraftDiscordChatSync.logger.error("The provided color code is invalid. it must not start with \"#\".");
+                        return;
+                    }
                 }
                 MinecraftDiscordChatSync.bot.sendMessage(message, embedObject);
             }
@@ -128,34 +159,39 @@ export abstract class PluginBase {
 
     //イベント関数
     /**
+     * システムの各種読み込みが完了した時のイベント
+     */
+    public onLoad(): void {}
+
+    /**
      * 新しいログが検出された時のイベント
      * @param time ログが送信された時刻（日付は実行時の日時になる）
      * @param sender ログの送信元
      * @param logType ログのレベル
      * @param message ログの本文
      */
-    public onNewLog(time: Date, sender: string, logType: LogType, message: string) {}
+    public onNewLog(time: Date, sender: string, logType: LogType, message: string): void {}
 
     /**
      * 新しいログが検出された時のイベント。onNewLogとは異なり、ログを解釈せずそのまま出力する。
      * @param message ログの文
      */
-    public onNewLogRaw(message: string) {}
+    public onNewLogRaw(message: string): void {}
 
     /**
      * RConがサーバーに接続された時のイベント
      */
-    public onRConOpen() {}
+    public onRConOpen(): void {}
 
     /**
      * RConがサーバーから切断された時のイベント
      */
-    public onRConClose() {}
+    public onRConClose(): void {}
 
     /**
      * ボットがDiscordにログインした時のイベント
      */
-    public onDiscordLogin() {}
+    public onDiscordLogin(): void {}
 
     /**
      * ListenChannelsのいずれかのチャンネルでメッセージを送信された時のイベント
@@ -165,5 +201,5 @@ export abstract class PluginBase {
      * @param content 送信されたメッセージ本文
      * @param attachments メッセージの添付ファイルの情報
      */
-    public onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]) {}
+    public onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]): void {}
 }

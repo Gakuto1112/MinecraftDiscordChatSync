@@ -18,10 +18,10 @@ export class LocaleManager {
     private async loadLocaleFile(localeName: string): Promise<void> {
         let readCount: number = 0;
         this.localeData[localeName] = {};
-        for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${localeName}.tsv`, {encoding: "utf-8"})})) {
+        for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${localeName}/${localeName}.tsv`, {encoding: "utf-8"})})) {
             if(readCount++ >= 1) {
-                const chunk: string[] = line.split("\t");
-                this.localeData[localeName][chunk[0]] = chunk[1];
+                const tsv: string[] = line.split("\t");
+                this.localeData[localeName][tsv[0]] = tsv[1];
             }
         }
     }
@@ -37,15 +37,15 @@ export class LocaleManager {
         catch(error: any) {
             if(error.code == "ENOENT") {
                 //デフォルトの言語ファイルがない
-                MinecraftDiscordChatSync.logger.error("The default locale file (/locales/en_us.tsv) does not exist.");
+                MinecraftDiscordChatSync.logger.error("The default locale file (/locales/en_us/en_us.tsv) does not exist.");
             }
             else if(error.code == "EPERM") {
                 //デフォルトの言語ファイルの読み取り権限がない
-                MinecraftDiscordChatSync.logger.error("No permission to read default locale file (/locales/en_us.tsv).");
+                MinecraftDiscordChatSync.logger.error("No permission to read default locale file (/locales/en_us/en_us.tsv).");
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.error(`An error occurred while reading default locale file (/locales/en_us.tsv).\n${error}`);
+                MinecraftDiscordChatSync.logger.error(`An error occurred while reading default locale file (/locales/en_us/en_us.tsv).\n${error}`);
             }
             process.exit(1);
         }
@@ -57,15 +57,15 @@ export class LocaleManager {
             catch(error: any) {
                 if(error.code == "ENOENT") {
                     //現在の言語ファイルがない
-                    MinecraftDiscordChatSync.logger.error(`The current locale file (/locales/${currentLocale}.tsv) does not exist.`);
+                    MinecraftDiscordChatSync.logger.error(`The current locale file (/locales/${currentLocale}/${currentLocale}.tsv) does not exist.`);
                 }
                 else if(error.code == "EPERM") {
                     //現在の言語ファイルの読み取り権限がない
-                    MinecraftDiscordChatSync.logger.error(`No permission to read current locale file (/locales/${currentLocale}.tsv).`);
+                    MinecraftDiscordChatSync.logger.error(`No permission to read current locale file (/locales/${currentLocale}/${currentLocale}.tsv).`);
                 }
                 else {
                     //その他エラー
-                    MinecraftDiscordChatSync.logger.error(`An error occurred while reading current locale file (/locales/${currentLocale}.tsv).\n${error}`);
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while reading current locale file (/locales/${currentLocale}/${currentLocale}.tsv).\n${error}`);
                 }
                 MinecraftDiscordChatSync.logger.warn("Failed to load current locale data! \"en_us\" locale will be used instead.");
             }

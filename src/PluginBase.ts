@@ -71,6 +71,15 @@ export abstract class PluginBase {
     protected readonly logger: Logger = MinecraftDiscordChatSync.logger;
 
     /**
+     * 現在の設定言語での、指定されたキー対応する文字列を返す。
+     * @param key 対象のキーの名前。
+     * @return 現在の設定言語のキーに対応する文字列。もし、現在の設定言語でキーに対応する文字列がなければデフォルトの言語（en_us）での文字列を返す。それもなければ、キーをそのまま返す。
+     */
+    protected getLocale(key: string): string {
+        return MinecraftDiscordChatSync.locale.getLocale(key);
+    }
+
+    /**
      * DiscordのSendChannelsの各チャンネルに向けてメッセージを送信する。
      * @param message 送信するメッセージ本文
      * @param embed メッセージの埋め込みコンテンツ

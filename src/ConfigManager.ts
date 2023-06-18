@@ -32,6 +32,23 @@ export class ConfigManager {
         pathToLog: {
             value: "../../logs/latest.log",
             verificationFunction: (value: any): VerificationResult => {
+                if(typeof value == "string") {
+                    return {
+                        isValid: value.endsWith(".log"),
+                        message: "The game log file must end with \".log\"."
+                    }
+                }
+                else {
+                    return {
+                        isValid: false,
+                        message: `The provided config value type "${typeof value}" does not match valid type "string".`
+                    }
+                }
+            }
+        },
+        locale: {
+            value: "en_us",
+            verificationFunction: (value: any): VerificationResult => {
                 return {
                     isValid: typeof value == "string",
                     message: `The provided config value type "${typeof value}" does not match valid type "string".`
@@ -224,7 +241,7 @@ export class ConfigManager {
             }
             else if(readError.code == "EPERM") {
                 //設定ファイルの読み取り権限がない
-                MinecraftDiscordChatSync.logger.warn("No permission to read config file.");
+                MinecraftDiscordChatSync.logger.error("No permission to read config file.");
             }
             else {
                 //その他エラー

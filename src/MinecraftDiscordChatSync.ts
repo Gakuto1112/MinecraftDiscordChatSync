@@ -1,5 +1,6 @@
 import { Logger } from "./Logger";
 import { ConfigManager } from "./ConfigManager";
+import { LocaleManager } from "./LocaleManager";
 import { LogObserver } from "./LogObserver";
 import { RConManager } from "./RconManager";
 import { PluginManager } from "./PluginManager";
@@ -14,6 +15,7 @@ export class MinecraftDiscordChatSync {
      * コンフィグマネージャーのインスタンス
      */
     public static readonly config: ConfigManager = new ConfigManager();
+    public static readonly locale: LocaleManager = new LocaleManager();
     /**
      * ログ監視のインスタンス
      */
@@ -49,6 +51,7 @@ export class MinecraftDiscordChatSync {
         await MinecraftDiscordChatSync.plugin.loadPlugins();
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
+        MinecraftDiscordChatSync.locale.loadLocales();
         await this.log.observe();
         if(this.rConInit) MinecraftDiscordChatSync.rCon.connect();
         MinecraftDiscordChatSync.bot.login();

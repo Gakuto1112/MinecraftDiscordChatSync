@@ -1,5 +1,6 @@
-import { Logger } from "./Logger";
+import discordJS from "discord.js";
 import { MinecraftDiscordChatSync } from "./MinecraftDiscordChatSync";
+import { Logger } from "./Logger";
 
 /**
  * ゲームログの種類
@@ -47,6 +48,22 @@ export type DiscordAttachment = {
 }
 
 /**
+ * Discordの埋め込みメッセージを作成する為のデータ
+ */
+export type EmbedData = {
+    /** タイトル */
+    title?: string,
+    /** 本文 */
+    description?: string,
+    /** 作者（このボット以外も可） */
+    author?: string,
+    /** 画像のURL */
+    imageURL?: string,
+    /** 左端の色。RGB Hex値で指定する（"#"は不要）。 */
+    color?: string
+}
+
+/**
  * 全てのプラグインの基礎となる抽象クラス
  */
 export abstract class PluginBase {
@@ -56,9 +73,25 @@ export abstract class PluginBase {
     /**
      * DiscordのSendChannelsの各チャンネルに向けてメッセージを送信する。
      * @param message 送信するメッセージ本文
+     * @param embed メッセージの埋め込みコンテンツ
      */
-    protected sendMessage(message: string): void {
-        MinecraftDiscordChatSync.bot.sendMessage(message);
+    protected sendMessage(message?: string, embed?: EmbedData): void {
+        if((message && message.length > 0) || embed) {
+            if(typeof embed == "object") {
+                const embedObject = new discordJS.EmbedBuilder();
+                if(embed.title) embedObject.setTitle(embed.title);
+                if(embed.description) embedObject.setDescription(embed.description);
+                if(embed.author) embedObject.setAuthor({name: embed.author});
+                if(embed.imageURL) {
+                    if(/^https?:\/\//.test(embed.imageURL)) embedObject.setImage(embed.imageURL);
+                    else MinecraftDiscordChatSync.logger.error("The image URL of embedded messages must start with \"https://\" or \"http://\".");
+                }
+                if(embed.color) embedObject.setColor(`#${embed.color}`);
+                MinecraftDiscordChatSync.bot.sendMessage(message, embedObject);
+            }
+            else MinecraftDiscordChatSync.bot.sendMessage(message);
+        }
+        else MinecraftDiscordChatSync.logger.warn("The message will not be sent to Discord because both message body and embed are empty.");
     }
 
     /**

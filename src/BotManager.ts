@@ -65,12 +65,20 @@ export class BotManager {
     }
 
     /**
-     * 送信チャンネルに向けてメッセージを送信する。
+     * 送信チャンネルに向けてメッセージを送信する。messageが空文字かつembedが指定されていない場合はメッセージは送信されない。
+     * @param message 送信するメッセージ本文
+     * @param embed メッセージの埋め込みコンテンツ
      */
-    public sendMessage(message: string): void {
-        (MinecraftDiscordChatSync.config.getConfig("sendChannels") as string[]).forEach((channelId: string) => {
-            const channel: discordJS.Channel|undefined = this.client.channels.cache.get(channelId);
-            if(channel instanceof discordJS.TextChannel) channel.send(message).then(() => MinecraftDiscordChatSync.logger.debug(`Sent message "${message}" to channel "${channelId}".`)).catch((error: any) => MinecraftDiscordChatSync.logger.error(`An error occurred while sending message to channel "${channelId}".\n${error}`));
-        });
+    public sendMessage(message?: string, embed?: discordJS.EmbedBuilder): void {
+        if((message && message.length > 0) || embed) {
+            const messageContent: discordJS.BaseMessageOptions = {};
+            if(message && message.length > 0) messageContent.content = message;
+            if(embed) messageContent.embeds = [embed];
+            (MinecraftDiscordChatSync.config.getConfig("sendChannels") as string[]).forEach((channelId: string) => {
+                const channel: discordJS.Channel|undefined = this.client.channels.cache.get(channelId);
+                if(channel instanceof discordJS.TextChannel) channel.send(messageContent).then(() => MinecraftDiscordChatSync.logger.debug(`Sent message "${message}" to channel "${channelId}".`)).catch((error: any) => MinecraftDiscordChatSync.logger.error(`An error occurred while sending message to channel "${channelId}".\n${error}`));
+            });
+        }
+        else MinecraftDiscordChatSync.logger.warn("The message will not be sent to Discord because both message body and embed are empty.");
     }
 }

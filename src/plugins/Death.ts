@@ -137,7 +137,7 @@ export class Death extends PluginBase {
     }
 
     public onNewLog(_time: Date, _sender: string, _logType: LogType, message: string): void {
-        if(/^\w{3,16} .+$/.test(message) && !/^\w{3,16} (.* )?\w{3}\['.+'\/\d{3}, l='.+', x=[\d.-]+, y=[\d.-]+, z=[\d.-]+\] died(, message)?: '?.+'?$/.test(message) && !/^\w{3,16} (\(formerly known as \w{3,16}\) )?joined the game$/.test(message) && !/^\w{3,16} left the game$/.test(message)) {
+        if(/^\w{3,16} .+$/.test(message) && !/^\w{3,16} (.* )?\w{3}\['.+'\/\d{3}, l='.+', x=[\d.-]+, y=[\d.-]+, z=[\d.-]+\] .+$/.test(message) && !/^\w{3,16} (\(formerly known as \w{3,16}\) )?joined the game$/.test(message) && !/^\w{3,16} left the game$/.test(message)) {
             if(this.isLoading) this.deathMessageQueue.push(message);
             else this.sendDeathMessage(message);
         }

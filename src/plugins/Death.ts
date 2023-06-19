@@ -29,6 +29,7 @@ export class Death extends PluginBase {
     private readonly deathMessageMap: DeathMessageMap = {
         map: {}
     };
+    private readonly entityData: {[key: string]: string} = {};
     private readonly deathMessageQueue: string[] = []; //データ読み込み中に死亡ログの候補を検出したらここに一時保持される。
     private isLoading: boolean = true; //データ読み込み中かどうか
 
@@ -59,7 +60,8 @@ export class Death extends PluginBase {
                 global: currentPos.data.global,
                 local: currentPos.data.local
             }
-            this.sendMessage(this.getLocale("bot.message.death", deathMessage.local.replace(/%1\$s/g, replacers[0]).replace(/%2\$s/g, replacers[1]).replace(/%3\$s/g, replacers[2])));
+            const entityName: string = this.entityData[replacers[1]] ? this.entityData[replacers[1]] : replacers[1];
+            this.sendMessage(this.getLocale("bot.message.death", deathMessage.local.replace(/%1\$s/g, replacers[0]).replace(/%2\$s/g, entityName).replace(/%3\$s/g, replacers[2])));
             this.logger.info(deathMessage.global.replace(/%1\$s/g, replacers[0]).replace(/%2\$s/g, replacers[1]).replace(/%3\$s/g, replacers[2]));
         }
     }
@@ -105,6 +107,31 @@ export class Death extends PluginBase {
             process.exit(1);
         }
         this.logger.info("Finished loading death message data.");
+        this.logger.info("Loading entity data...");
+        try {
+            for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${locale}/entity.tsv`, {encoding: "utf-8"})})) {
+                if(readCount++ >= 1) {
+                    const tsv: string[] = line.split("\t");
+                    this.entityData[tsv[0]] = tsv[1];
+                }
+            }
+        }
+        catch(error: any) {
+            if(error.code == "ENOENT") {
+                //エンティティファイルがない
+                this.logger.error(`The entity file (/locales/${locale}/entity.tsv) does not exist.`);
+            }
+            else if(error.code == "EPERM") {
+                //エンティティファイルの読み取り権限がない
+                this.logger.error(`No permission to read entity file (/locales/${locale}/entity.tsv).`);
+            }
+            else {
+                //その他エラー
+                this.logger.error(`An error occurred while reading entity file (/locales/${locale}/entity.tsv).\n${error}`);
+            }
+            process.exit(1);
+        }
+        this.logger.info("Finished loading entity data.");
         while(this.deathMessageQueue.length > 0) this.sendDeathMessage((this.deathMessageQueue.shift() as string));
         this.isLoading = false;
     }

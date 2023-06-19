@@ -7,6 +7,7 @@ bot.message.chat	:speech_balloon: <%1$s> %2$s
 bot.message.advancement.advancement	:third_place: %1$s has made the advancement [%2$s]
 bot.message.advancement.goal	:second_place: %1$s has reached the goal [%2$s]
 bot.message.advancement.challenge	:first_place: %1$s has completed the challenge [%2$s]
+bot.message.death	:skull: %1$s
 bot.embed.player_join.title	Joined the game
 bot.embed.player_leave.title	Left the game
 bot.embed.unknown_advancement.description	No information provided

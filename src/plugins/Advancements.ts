@@ -37,6 +37,10 @@ export class Advancements extends PluginBase {
     private readonly advancementQueue: AdvancementParamData[] = []; //データ読み込み中に実績取得ログを検出したらここに一時保持される。
     private isLoading: boolean = true; //データ読み込み中かどうか
 
+    /**
+     * 進捗メッセージをDiscordに送信する。
+     * @param advancement 対象の進捗データ
+     */
     private sendAdvancementMessage(advancement: AdvancementParamData) {
         let embed: EmbedData;
         const normalizedAdvancementName: string = advancement.name.replace(/"/g, "\\\"");

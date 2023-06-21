@@ -38,6 +38,10 @@ export class MinecraftDiscordChatSync {
     public static readonly bot: BotManager = new BotManager();
 
     /**
+     * システムが初期読み込み中かどうか
+     */
+    private static isLoading: boolean = true;
+    /**
      * システム開始時にRConに接続するかどうか
      */
     private readonly rConInit: boolean;
@@ -45,6 +49,14 @@ export class MinecraftDiscordChatSync {
     constructor(logDebug: boolean, rConInit: boolean) {
         MinecraftDiscordChatSync.logger = new Logger(logDebug);
         this.rConInit = rConInit;
+    }
+
+    /**
+     * システムが初期読み込み中かどうか返す。
+     * @returns システムが初期読み込み中かどうか
+     */
+    public static getIsLoading(): boolean {
+        return MinecraftDiscordChatSync.isLoading;
     }
 
     /**
@@ -56,6 +68,7 @@ export class MinecraftDiscordChatSync {
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
         MinecraftDiscordChatSync.locale.loadLocales();
+        MinecraftDiscordChatSync.isLoading = false;
         MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
             try {
                 plugin.onLoad();

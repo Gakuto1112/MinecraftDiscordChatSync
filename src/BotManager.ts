@@ -31,7 +31,9 @@ export class BotManager {
                         }, {
                             id: message.author.id,
                             name: message.author.username, //TODO: DiscordJSが更新されたらここをdisplayNameに置き換える（一意の名前への以降への対応）
-                            displayName: (message.member as discordJS.GuildMember).displayName
+                            displayName: (message.member as discordJS.GuildMember).displayName,
+                            color: (message.member as discordJS.GuildMember).displayHexColor,
+                            isBot: message.author.bot
                         }, message.content, message.attachments.map((attachment: discordJS.Attachment) => ({
                             id: attachment.id,
                             name: attachment.name,

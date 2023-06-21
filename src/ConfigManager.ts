@@ -204,15 +204,18 @@ export class ConfigManager {
      * @param verificationFunction 設定値の検証用の関数
      */
     public registerConfig(keyName: string, defaultValue: any, verificationFunction: (valueToVerification: any) => VerificationResult): void {
-        if(this.config[keyName]) this.config[keyName].verificationFunction = verificationFunction;
-        else {
-            this.config[keyName] = {
-                value: defaultValue,
-                verificationFunction: verificationFunction
-            };
-            this.configAdded = true;
-            MinecraftDiscordChatSync.logger.debug(`Set new config key "${keyName}" value.`);
+        if(MinecraftDiscordChatSync.getIsLoading()) {
+            if(this.config[keyName]) this.config[keyName].verificationFunction = verificationFunction;
+            else {
+                this.config[keyName] = {
+                    value: defaultValue,
+                    verificationFunction: verificationFunction
+                };
+                this.configAdded = true;
+                MinecraftDiscordChatSync.logger.debug(`Set new config key "${keyName}" value.`);
+            }
         }
+        else MinecraftDiscordChatSync.logger.error("Registering new config is not allowed after finished initial load.");
     }
 
     /**
@@ -311,6 +314,7 @@ export class ConfigManager {
      * @return キーに対応する設定値。対応する設定値がなければundefinedを返す。
      */
     public getConfig(key: string): any {
-        return this.config[key].value;
+        if(this.config[key]) return this.config[key].value;
+        else MinecraftDiscordChatSync.logger.error(`Config key "${key}" does not exist.`);
     }
 }

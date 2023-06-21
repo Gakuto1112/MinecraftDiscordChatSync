@@ -9,6 +9,15 @@ export type LogType = "info" | "warn" | "error" | "fatal";
 /**
  * Discordのサーバーに関する情報
  */
+/**
+ * 設定値検証関数での戻り値
+ */
+export type VerificationResult = {
+    /** 入力された値 */
+    isValid: boolean;
+    /** エラー時に出すメッセージ（省略可） */
+    message?: string;
+}
 export type DiscordGuild = {
     /** サーバーID */
     id: string,
@@ -33,7 +42,11 @@ export type DiscordUser = {
     /** ユーザー名 */
     name: string,
     /** サーバーでのユーザーの表示名 */
-    displayName: string
+    displayName: string,
+    /** サーバーでの名前の色のカラーコード */
+    color: string,
+    /** メッセージの送信者がボットかどうか */
+    isBot: boolean
 }
 /**
  * Discordのメッセージの添付ファイルに関する情報
@@ -69,6 +82,16 @@ export type EmbedData = {
 export abstract class PluginBase {
     //ラッパー関数
     protected readonly logger: Logger = MinecraftDiscordChatSync.logger;
+
+    /**
+     * コンフィグマネージャーに設定項目を登録する。
+     * @param keyName 設定項目のキーの名前
+     * @param defaultValue 初期値
+     * @param verificationFunction 設定値の検証用の関数
+     */
+    protected registerConfig(keyName: string, defaultValue: any, verificationFunction: (value: any) => VerificationResult) {
+        MinecraftDiscordChatSync.config.registerConfig(keyName, defaultValue, verificationFunction);
+    }
 
     /**
      * 設定値を取得する。

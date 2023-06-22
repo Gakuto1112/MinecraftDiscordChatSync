@@ -98,7 +98,7 @@ export class Advancements extends PluginBase {
             }
             else {
                 //その他エラー
-                this.logger.error(`An error occurred while reading advancement file (/locales/${locale}/advancement.tsv).\n${error}`);
+                this.logger.error(`An error occurred while reading advancement file (/locales/${locale}/advancement.tsv).\n${error.stack}`);
             }
             process.exit(1);
         }

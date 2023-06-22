@@ -27,7 +27,7 @@ export class LogObserver {
                         plugin.onNewLogRaw(line);
                     }
                     catch(error: any) {
-                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error}`);
+                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error.stack}`);
                     }
                 });
                 const logData: RegExpMatchArray|null = line.match(/^\[(\d{2}:\d{2}:\d{2})\] \[(.+)\/([A-Z]+)\]: (.+)/);
@@ -42,7 +42,7 @@ export class LogObserver {
                             plugin.onNewLog(date, logData[2], logData[3] as LogType, logData[4]);
                         }
                         catch(error: any) {
-                            MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLog()".\n${error}`);
+                            MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLog()".\n${error.stack}`);
                         }
                     });
                 }
@@ -90,7 +90,7 @@ export class LogObserver {
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.error(`An error occurred while reading log file.\n${error}`);
+                MinecraftDiscordChatSync.logger.error(`An error occurred while reading log file.\n${error.stack}`);
             }
             process.exit(1);
         }

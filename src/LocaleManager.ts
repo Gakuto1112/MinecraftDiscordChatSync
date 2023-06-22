@@ -45,7 +45,7 @@ export class LocaleManager {
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.error(`An error occurred while reading default locale file (/locales/en_us/en_us.tsv).\n${error}`);
+                MinecraftDiscordChatSync.logger.error(`An error occurred while reading default locale file (/locales/en_us/en_us.tsv).\n${error.stack}`);
             }
             process.exit(1);
         }
@@ -65,7 +65,7 @@ export class LocaleManager {
                 }
                 else {
                     //その他エラー
-                    MinecraftDiscordChatSync.logger.error(`An error occurred while reading current locale file (/locales/${currentLocale}/${currentLocale}.tsv).\n${error}`);
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while reading current locale file (/locales/${currentLocale}/${currentLocale}.tsv).\n${error.stack}`);
                 }
                 MinecraftDiscordChatSync.logger.warn("Failed to load current locale data! \"en_us\" locale will be used instead.");
             }

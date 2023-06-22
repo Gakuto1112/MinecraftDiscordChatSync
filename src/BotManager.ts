@@ -13,7 +13,7 @@ export class BotManager {
                     plugin.onDiscordLogin();
                 }
                 catch(error: any) {
-                    MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordLogin()".\n${error}`);
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordLogin()".\n${error.stack}`);
                 }
             });
         });
@@ -41,7 +41,7 @@ export class BotManager {
                         })));
                     }
                     catch(error: any) {
-                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordLogin()".\n${error}`);
+                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordLogin()".\n${error.stack}`);
                     }
                 });
             }
@@ -60,7 +60,7 @@ export class BotManager {
             }
             else {
                 //その他エラー
-                MinecraftDiscordChatSync.logger.error(`An error occurred during login.\n${error}`);
+                MinecraftDiscordChatSync.logger.error(`An error occurred during login.\n${error.stack}`);
             }
             process.exit(1);
         });
@@ -78,7 +78,7 @@ export class BotManager {
             if(embed) messageContent.embeds = [embed];
             (MinecraftDiscordChatSync.config.getConfig("sendChannels") as string[]).forEach((channelId: string) => {
                 const channel: discordJS.Channel|undefined = this.client.channels.cache.get(channelId);
-                if(channel instanceof discordJS.TextChannel) channel.send(messageContent).then(() => MinecraftDiscordChatSync.logger.debug(`Sent message "${message}" to channel "${channelId}".`)).catch((error: any) => MinecraftDiscordChatSync.logger.error(`An error occurred while sending message to channel "${channelId}".\n${error}`));
+                if(channel instanceof discordJS.TextChannel) channel.send(messageContent).then(() => MinecraftDiscordChatSync.logger.debug(`Sent message "${message}" to channel "${channelId}".`)).catch((error: any) => MinecraftDiscordChatSync.logger.error(`An error occurred while sending message to channel "${channelId}".\n${error.stack}`));
             });
         }
         else MinecraftDiscordChatSync.logger.warn("The message will not be sent to Discord because both message body and embed are empty.");

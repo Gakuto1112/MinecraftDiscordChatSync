@@ -74,7 +74,7 @@ export class MinecraftDiscordChatSync {
                 plugin.onLoad();
             }
             catch(error: any) {
-                MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onLoad()".\n${error}`);
+                MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onLoad()".\n${error.stack}`);
             }
         });
         await this.log.observe();

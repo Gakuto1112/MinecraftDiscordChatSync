@@ -21,7 +21,7 @@ export class RConManager {
                         plugin.onRConOpen();
                     }
                     catch(error: any) {
-                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onRConOpen()".\n${error}`);
+                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onRConOpen()".\n${error.stack}`);
                     }
                 });
                 MinecraftDiscordChatSync.logger.info("RCon connected.");
@@ -32,7 +32,7 @@ export class RConManager {
                         plugin.onRConClose();
                     }
                     catch(error: any) {
-                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onRConClose()".\n${error}`);
+                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onRConClose()".\n${error.stack}`);
                     }
                 });
                 MinecraftDiscordChatSync.logger.info("RCon connection closed.");
@@ -47,7 +47,7 @@ export class RConManager {
                 else {
                     if(error.code == "ECONNREFUSED") MinecraftDiscordChatSync.logger.error("RCon connection refused.");
                     else if(error.message == "Authentication failed") MinecraftDiscordChatSync.logger.error("RCon authentication failed.");
-                    else MinecraftDiscordChatSync.logger.error(`An error occurred during RCon connection.\n${error}`);
+                    else MinecraftDiscordChatSync.logger.error(`An error occurred during RCon connection.\n${error.stack}`);
                     MinecraftDiscordChatSync.logger.warn("RCON IS NOT CONNECTED! You can still send message from Minecraft to Discord, but cannot send from Discord to Minecraft, or sending commands to the server.");
                     this.rCon = undefined;
                 }

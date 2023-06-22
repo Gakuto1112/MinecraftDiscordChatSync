@@ -102,7 +102,7 @@ export class Death extends PluginBase {
             }
             else {
                 //その他エラー
-                this.logger.error(`An error occurred while reading death message file (/locales/${locale}/death.tsv).\n${error}`);
+                this.logger.error(`An error occurred while reading death message file (/locales/${locale}/death.tsv).\n${error.stack}`);
             }
             process.exit(1);
         }
@@ -127,7 +127,7 @@ export class Death extends PluginBase {
             }
             else {
                 //その他エラー
-                this.logger.error(`An error occurred while reading entity file (/locales/${locale}/entity.tsv).\n${error}`);
+                this.logger.error(`An error occurred while reading entity file (/locales/${locale}/entity.tsv).\n${error.stack}`);
             }
             process.exit(1);
         }

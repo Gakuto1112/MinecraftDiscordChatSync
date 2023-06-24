@@ -5,6 +5,14 @@ import { DiscordAttachment, DiscordChannel, DiscordGuild, DiscordUser, PluginBas
  */
 type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "headline" | "link";
 /**
+ * クリックイベントのアクションの種類
+ */
+type clickEventActionType = "open_url" | "open_file" | "run_command" | "suggest_command" | "change_page" | "copy_to_clipboard" | "show";
+/**
+ * ホバーイベントのアクションの種類
+ */
+type hoverEventActionType = "show_text" | "show_item" | "show_entity";
+/**
  * 構文木のトークン
  */
 type Token = {
@@ -70,6 +78,41 @@ type TellrawElement = {
     /** テキストに適用する文字装飾 */
     decorations: {[key: string]: boolean}
 };
+/**
+ * マインクラフトのjsonフォーマット。必要なもののみ定義されている。
+ */
+type MinecraftJsonFormat = {
+    /** 表示されるテキスト */
+    text: string,
+    /** テキストの文字色。マインクラフトの色名かカラーコードで指定する。レガシーフォーマットではカラーコード指定は利用出来ない。 */
+    color?: string,
+    /** テキストを太字にするかどうか */
+    bold?: boolean,
+    /** テキストをイタリック体にするかどうか */
+    italic?: boolean,
+    /** テキストに下線を引くかどうか */
+    underlined?: boolean,
+    /** テキストに打ち消し線を引くかどうか */
+    strikethrough?: boolean,
+    /** テキストを難読化するかどうか */
+    obfuscated?: boolean,
+    /** クリックイベント（テキストをクリックした時に発火するイベント） */
+    clickEvent?: {
+        /** アクション */
+        action: clickEventActionType,
+        /** アクションの引数 */
+        value: string,
+    },
+    /** ホバーイベント（テキストにカーソルを当てた時に発火するイベント） */
+    hoverEvent?: {
+        /** アクション */
+        action: hoverEventActionType,
+        /** アクションの引数 */
+        contents?: string,
+        /** アクションの引数（レガシーフォーマットを使用する場合はこちらを使用する。） */
+        value?: string
+    }
+}
 
 export class DiscordMessage extends PluginBase {
     constructor() {
@@ -82,10 +125,9 @@ export class DiscordMessage extends PluginBase {
         });
     }
 
-    public onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]): void {
-        if(!sender.isBot) {
+    public async onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]): Promise<void> {
+        if(this.rcon.isConnected() && !sender.isBot) {
             if(content.length > 0) {
-                const userColor: string = this.getConfig("plugins.discord_message.use_legacy_format") ? "yellow" : (sender.color == "#000000" ? "white" : sender.color);
                 const ast: Token[] = [];
                 //終了トークン待ちの囲みトークン。-1は終了待ちではない。それ以外は該当のIDでの終了トークン待ち。
                 const waitingForEndToken: {[key: string]: CandidateToken} = {
@@ -568,10 +610,73 @@ export class DiscordMessage extends PluginBase {
                         }];
                     }
                 }
-
-                ast.forEach((root: Token) => {
-                    console.log(astToArray(root));
-                });
+                const legacyFormat: boolean = this.getConfig("plugins.discord_message.use_legacy_format"); //レガシーフォーマットを使用するかどうか
+                const messageHeader: (MinecraftJsonFormat|string)[] = [
+                    "<",
+                    {
+                        text: sender.displayName,
+                        color: legacyFormat ? "yellow" : (sender.color == "#000000" ? "white" : sender.color),
+                        hoverEvent: {
+                            action: "show_text",
+                            contents: legacyFormat ? undefined : channel.name,
+                            value: legacyFormat ? channel.name : undefined
+                        }
+                    }
+                ]; //tellrawメッセージのヘッダー（Discord名、ユーザタグ、チャンネル名）
+                let messageCount: number = 1; //メッセージの送信階数（1から始まるので注意！！）
+                for(const root of ast) {
+                    //ASTをtellraw用に分解する。
+                    const messageElements: TellrawElement[] = astToArray(root);
+                    //tellrawコマンドを組み立てる。
+                    const tellrawData: (MinecraftJsonFormat|string)[] = messageHeader.concat();
+                    if(ast.length > 1) {
+                        tellrawData.push({
+                            text: ` #${messageCount++}`,
+                            color: "gold"
+                        });
+                    }
+                    tellrawData.push("> ");
+                    if(messageElements.find((element: TellrawElement) => element.decorations.quote)) {
+                        tellrawData.push({
+                            text: "||  ",
+                            color: "gray"
+                        });
+                    }
+                    for(const element of messageElements) {
+                        const tellrawElement: MinecraftJsonFormat = {
+                            text: element.text
+                        };
+                        tellrawElement.bold = element.decorations.headline || element.decorations.bold;
+                        tellrawElement.italic = element.decorations.italic;
+                        tellrawElement.underlined = element.decorations.underline;
+                        tellrawElement.strikethrough = element.decorations.strike;
+                        if(element.decorations.quote) tellrawElement.color = "gray";
+                        if(element.decorations.spoiler) {
+                            tellrawElement.obfuscated = true;
+                            tellrawElement.hoverEvent = {
+                                action: "show_text",
+                                contents: legacyFormat ? undefined : element.text,
+                                value: legacyFormat ? element.text : undefined
+                            };
+                        }
+                        if(element.decorations.link) {
+                            const linkOpenMessage: string = this.getLocale("tellraw.hover.open_url");
+                            tellrawElement.color = "blue";
+                            tellrawElement.underlined = true;
+                            tellrawElement.clickEvent = {
+                                action: "open_url",
+                                value: element.text
+                            };
+                            tellrawElement.hoverEvent = {
+                                action: "show_text",
+                                contents: legacyFormat ? undefined : linkOpenMessage,
+                                value: legacyFormat ? linkOpenMessage : undefined
+                            }
+                        }
+                        tellrawData.push(tellrawElement);
+                    }
+                    await this.rcon.sendCommand(`tellraw @a ${JSON.stringify(tellrawData)}`);
+                }
             }
         }
     }

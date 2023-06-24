@@ -75,4 +75,12 @@ export class RConManager {
         }
         else MinecraftDiscordChatSync.logger.error("RCon is not connected.");
     }
+
+    /**
+     * RConが接続済みかどうかを返す。
+     * @returns RConでサーバーに接続済みかどうか
+     */
+    public isConnected(): boolean {
+        return this.rCon instanceof Rcon;
+    }
 }

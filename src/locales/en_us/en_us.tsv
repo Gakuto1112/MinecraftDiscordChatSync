@@ -1,4 +1,5 @@
 key	locale
+tellraw.hover.open_url	Click to open URL
 bot.message.server_opened	:white_check_mark: **Server started**
 bot.message.server_closed	:no_entry: **Server closed**
 bot.message.player_join	:city_sunrise: %1$s joined the game

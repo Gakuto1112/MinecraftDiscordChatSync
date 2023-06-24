@@ -171,13 +171,23 @@ export abstract class PluginBase {
         else MinecraftDiscordChatSync.logger.warn("The message will not be sent to Discord because both message body and embed are empty.");
     }
 
-    /**
-     * RConを通じてサーバーにコマンドを送信する。
-     * @param command 送信するマインクラフトのコマンド
-     * @returns 送信したコマンドの実行結果。RCon上でエラーが発生したらnullが返される。
-     */
-    protected async sendCommand(command: string): Promise<string|void> {
-        return await MinecraftDiscordChatSync.rCon.send(command);
+    protected readonly rcon = {
+        /**
+         * RConを通じてサーバーにコマンドを送信する。
+         * @param command 送信するマインクラフトのコマンド
+         * @returns 送信したコマンドの実行結果。RCon上でエラーが発生したらnullが返される。
+         */
+        sendCommand: async (command: string): Promise<string|void> => {
+            return await MinecraftDiscordChatSync.rCon.send(command);
+        },
+
+        /**
+         * RConが接続済みかどうかを返す。
+         * @returns RConでサーバーに接続済みかどうか
+         */
+        isConnected: (): boolean => {
+            return MinecraftDiscordChatSync.rCon.isConnected();
+        }
     }
 
     //イベント関数

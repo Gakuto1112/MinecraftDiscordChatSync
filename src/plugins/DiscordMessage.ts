@@ -3,7 +3,7 @@ import { DiscordAttachment, DiscordChannel, DiscordGuild, DiscordUser, PluginBas
 /**
  * トークンの種類
  */
-type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "link";
+type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "headline" | "link";
 /**
  * 構文木のトークン
  */
@@ -50,7 +50,7 @@ type TokenRegExp = {
     /** トークンのシンボル（シンボルで判別が必要なトークンのみ付与） */
     tokenSymbol: TokenSymbol,
     /** 囲みトークン片方だけの正規表現かどうか */
-    halfBlock: boolean
+    halfBlock?: boolean
 };
 /**
  * 正規表現にマッチしたトークンの情報
@@ -132,15 +132,32 @@ export class DiscordMessage extends PluginBase {
                     //トークン探索用正規表現の準備
                     let tokenRegexArray: TokenRegExp[] = [];
                     let halfBlockRegexArray: TokenRegExp[] = []; //囲みトークン片方だけの正規表現配列
-                    tokenRegexArray.push({
-                        regExp: /http(s?:\/\/\S{2,})/,
-                        tokenType: "link",
-                        tokenSymbol: {
-                            symbol: "http",
-                            startToken: true
+                    tokenRegexArray = tokenRegexArray.concat([
+                        {
+                            regExp: /^[^\S]*> +(.+)$/,
+                            tokenType: "quote",
+                            tokenSymbol: {
+                                symbol: "> ",
+                                startToken: true
+                            }
                         },
-                        halfBlock: false
-                    });
+                        {
+                            regExp: /^[^\S]*#{1,3} +(.+)$/,
+                            tokenType: "headline",
+                            tokenSymbol: {
+                                symbol: "# ",
+                                startToken: true
+                            }
+                        },
+                        {
+                            regExp: /http(s?:\/\/\S{2,})/,
+                            tokenType: "link",
+                            tokenSymbol: {
+                                symbol: "http",
+                                startToken: true
+                            }
+                        }
+                    ]);
                     if(waitingForEndToken.code_block.id == -1) {
                         tokenRegexArray = tokenRegexArray.concat([
                             {
@@ -150,8 +167,7 @@ export class DiscordMessage extends PluginBase {
                                     symbol: "```",
                                     startToken: true,
                                     endToken: true
-                                },
-                                halfBlock: false
+                                }
                             },
                             {
                                 regExp: /(?<!\\)`{3}(.*?)$/,
@@ -181,8 +197,7 @@ export class DiscordMessage extends PluginBase {
                                 symbol: "**",
                                 startToken: true,
                                 endToken: true
-                            },
-                            halfBlock: false
+                            }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)\*{2}(.*?)$/,
@@ -211,8 +226,7 @@ export class DiscordMessage extends PluginBase {
                                 symbol: "__",
                                 startToken: true,
                                 endToken: true
-                            },
-                            halfBlock: false
+                            }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)_{2}(.*?)$/,
@@ -241,8 +255,7 @@ export class DiscordMessage extends PluginBase {
                                 symbol: "~~",
                                 startToken: true,
                                 endToken: true
-                            },
-                            halfBlock: false
+                            }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)~{2}(.*?)$/,
@@ -271,8 +284,7 @@ export class DiscordMessage extends PluginBase {
                                 symbol: "||",
                                 startToken: true,
                                 endToken: true
-                            },
-                            halfBlock: false
+                            }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)\|{2}(.*?)$/,
@@ -302,8 +314,7 @@ export class DiscordMessage extends PluginBase {
                                     symbol: "``",
                                     startToken: true,
                                     endToken: true
-                                },
-                                halfBlock: false
+                                }
                             },
                             {
                                 regExp: /(?<!\\)`(.*?[^\\])`/,
@@ -312,8 +323,7 @@ export class DiscordMessage extends PluginBase {
                                     symbol: "`",
                                     startToken: true,
                                     endToken: true
-                                },
-                                halfBlock: false
+                                }
                             }
                         ]);
                         halfBlockRegexArray = halfBlockRegexArray.concat([
@@ -364,8 +374,7 @@ export class DiscordMessage extends PluginBase {
                                     symbol: "*",
                                     startToken: true,
                                     endToken: true
-                                },
-                                halfBlock: false
+                                }
                             },
                             {
                                 regExp: /(?<!\\)_(.*?[^\\])_/,
@@ -374,8 +383,7 @@ export class DiscordMessage extends PluginBase {
                                     symbol: "_",
                                     startToken: true,
                                     endToken: true
-                                },
-                                halfBlock: false
+                                }
                             }
                         ]);
                         halfBlockRegexArray = halfBlockRegexArray.concat([
@@ -425,8 +433,7 @@ export class DiscordMessage extends PluginBase {
                                 symbol: "`",
                                 startToken: true,
                                 endToken: true
-                            },
-                            halfBlock: false
+                            }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)`(.*?)$/,
@@ -444,22 +451,22 @@ export class DiscordMessage extends PluginBase {
                      * トークン化する。
                      * @param discordMessage トークン化するDiscordのメッセージ
                      * @param parentToken 親トークン。トークン化したトークンはこの親トークンの子になる。
+                     * @param matchLineHeadToken 行頭のトークンを発見するかどうか
                      */
-                    function tokenize(discordMessage: string, parentToken: Token): void {
+                    function tokenize(discordMessage: string, parentToken: Token, matchLineHeadToken: boolean): void {
                         //トークンの探索
                         let remainLine: string = discordMessage; //未処理の文字列
+                        let lineHeadTokenEnabled: boolean = matchLineHeadToken; //行頭トークンを有効にするかどうか
                         while(remainLine.length > 0) {
                             let earliestToken: TokenMatchData|undefined = undefined; //入力された文字列内で最も左に位置するトークン
                             for(const tokenRegexData of tokenRegexArray) {
                                 const matchData = remainLine.match(tokenRegexData.regExp);
-                                if(matchData) {
-                                    if(earliestToken == undefined || (matchData.index as number) < ((earliestToken as TokenMatchData).matchData.index as number)) {
-                                        earliestToken = {
-                                            matchData: matchData,
-                                            tokenRegExp: tokenRegexData
-                                        };
-                                        if(earliestToken.matchData.index == 0) break;
-                                    }
+                                if(matchData && (earliestToken == undefined || (matchData.index as number) < ((earliestToken as TokenMatchData).matchData.index as number)) && ((tokenRegexData.tokenType != "quote" && tokenRegexData.tokenType != "headline") || lineHeadTokenEnabled)) {
+                                    earliestToken = {
+                                        matchData: matchData,
+                                        tokenRegExp: tokenRegexData
+                                    };
+                                    if(earliestToken.matchData.index == 0) break;
                                 }
                             }
                             //見つけたトークンの処理
@@ -471,6 +478,7 @@ export class DiscordMessage extends PluginBase {
                                         text: remainLine.substring(0, earliestToken.matchData.index)
                                     });
                                     remainLine = remainLine.substring(earliestToken.matchData.index as number, remainLine.length);
+                                    lineHeadTokenEnabled = false;
                                 }
                                 if(earliestToken.tokenRegExp.halfBlock) {
                                     if(waitingForEndToken[earliestToken.tokenRegExp.tokenType].id == -1) {
@@ -489,7 +497,8 @@ export class DiscordMessage extends PluginBase {
                                     children: []
                                 };
                                 (parentToken.children as Token[]).push(token);
-                                tokenize(earliestToken.matchData[1], token)
+                                lineHeadTokenEnabled = lineHeadTokenEnabled && (token.type == "quote" || token.type == "headline");
+                                tokenize(earliestToken.matchData[1], token, lineHeadTokenEnabled);
                                 remainLine = remainLine.replace(earliestToken.matchData[0], "");
                             }
                             //トークンが見つからなかった場合、残りを"text"トークンとして処理
@@ -503,7 +512,7 @@ export class DiscordMessage extends PluginBase {
                             }
                         }
                     }
-                    tokenize(line.replace(/^> /, ""), initialToken);
+                    tokenize(line, initialToken, true);
                     //全体を候補トークンで囲む処理
                     for(const tokenType in waitingForEndToken) {
                         if(waitingForEndToken[tokenType].id > -1 && !candidateStartIds.includes(waitingForEndToken[tokenType].id)) {

@@ -77,7 +77,7 @@ export class MinecraftDiscordChatSync {
      * @returns システムが初期読み込み中かどうか
      */
     public static getIsLoading(): boolean {
-        return this.loadCount == 4
+        return this.loadCount < 4;
     }
 
     /**

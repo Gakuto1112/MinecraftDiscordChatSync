@@ -61,7 +61,10 @@ export class RConManager {
      * @param command 送信するマインクラフトのコマンド
      */
     public async send(command: string): Promise<string|void> {
-        if(this.rCon != undefined) return await this.rCon.send(command);
+        if(this.rCon != undefined) {
+            MinecraftDiscordChatSync.logger.debug(`Sent command "${command}".`);
+            return await this.rCon.send(command);
+        }
         else MinecraftDiscordChatSync.logger.error("RCon is not connected.");
     }
 

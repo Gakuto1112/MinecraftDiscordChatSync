@@ -25,6 +25,17 @@ export type DiscordGuild = {
     name: string
 }
 /**
+ * Discordのロールに関する情報
+ */
+export type DiscordRole = {
+    /** ロールID */
+    id: string,
+    /** ロール表示名 */
+    name: string,
+    /** ロール表示色 */
+    color: string
+}
+/**
  * Discordのチャンネルに関する情報
  */
 export type DiscordChannel = {
@@ -43,6 +54,8 @@ export type DiscordUser = {
     name: string,
     /** サーバーでのユーザーの表示名 */
     displayName: string,
+    /** ユーザーがそのサーバー内で持っているロールの配列 */
+    roles: DiscordRole[],
     /** サーバーでの名前の色のカラーコード */
     color: string,
     /** メッセージの送信者がボットかどうか */
@@ -118,60 +131,92 @@ export abstract class PluginBase {
         return localeString;
     }
 
-    /**
-     * DiscordのSendChannelsの各チャンネルに向けてメッセージを送信する。
-     * @param message 送信するメッセージ本文
-     * @param embed メッセージの埋め込みコンテンツ
-     */
-    protected sendMessage(message?: string, embed?: EmbedData): void {
-        if((message && message.length > 0) || embed) {
-            if(typeof embed == "object") {
-                const embedObject = new discordJS.EmbedBuilder();
-                if(embed.title) embedObject.setTitle(embed.title);
-                if(embed.description) embedObject.setDescription(embed.description);
-                if(embed.author) embedObject.setAuthor({name: embed.author});
-                if(embed.imageURL) {
-                    if(/^https?:\/\//.test(embed.imageURL)) embedObject.setThumbnail(embed.imageURL);
-                    else MinecraftDiscordChatSync.logger.error("The image URL of embedded messages must start with \"https://\" or \"http://\".");
-                }
-                if(embed.color) {
-                    if(!embed.color.startsWith("#")) {
-                        let fullColor: string = "";
-                        let errorFlag: boolean = false;
-                        switch(embed.color.length) {
-                            case 1:
-                                fullColor = embed.color[0].repeat(6);
-                                break;
-                            case 2:
-                                fullColor = `${embed.color[0]}${embed.color[1]}`.repeat(3);
-                                break;
-                            case 3:
-                                for(let i: number = 0; i < 3; i++) fullColor += embed.color[i].repeat(2);
-                                break;
-                            case 6:
-                                fullColor = embed.color;
-                                break;
-                            default:
-                                MinecraftDiscordChatSync.logger.error("The provided color code is invalid.");
-                                errorFlag = true;
-                                break;
+    protected readonly discord: {[key: string]: Function} = {
+        /**
+         * DiscordのSendChannelsの各チャンネルに向けてメッセージを送信する。
+         * @param message 送信するメッセージ本文
+         * @param embed メッセージの埋め込みコンテンツ
+         */
+        sendMessage: (message?: string, embed?: EmbedData): void => {
+            if((message && message.length > 0) || embed) {
+                if(typeof embed == "object") {
+                    const embedObject = new discordJS.EmbedBuilder();
+                    if(embed.title) embedObject.setTitle(embed.title);
+                    if(embed.description) embedObject.setDescription(embed.description);
+                    if(embed.author) embedObject.setAuthor({name: embed.author});
+                    if(embed.imageURL) {
+                        if(/^https?:\/\//.test(embed.imageURL)) embedObject.setThumbnail(embed.imageURL);
+                        else MinecraftDiscordChatSync.logger.error("The image URL of embedded messages must start with \"https://\" or \"http://\".");
+                    }
+                    if(embed.color) {
+                        if(!embed.color.startsWith("#")) {
+                            let fullColor: string = "";
+                            let errorFlag: boolean = false;
+                            switch(embed.color.length) {
+                                case 1:
+                                    fullColor = embed.color[0].repeat(6);
+                                    break;
+                                case 2:
+                                    fullColor = `${embed.color[0]}${embed.color[1]}`.repeat(3);
+                                    break;
+                                case 3:
+                                    for(let i: number = 0; i < 3; i++) fullColor += embed.color[i].repeat(2);
+                                    break;
+                                case 6:
+                                    fullColor = embed.color;
+                                    break;
+                                default:
+                                    MinecraftDiscordChatSync.logger.error("The provided color code is invalid.");
+                                    errorFlag = true;
+                                    break;
+                            }
+                            if(errorFlag) return;
+                            embedObject.setColor(`#${fullColor}`);
                         }
-                        if(errorFlag) return;
-                        embedObject.setColor(`#${fullColor}`);
+                        else {
+                            MinecraftDiscordChatSync.logger.error("The provided color code is invalid. it must not start with \"#\".");
+                            return;
+                        }
                     }
-                    else {
-                        MinecraftDiscordChatSync.logger.error("The provided color code is invalid. it must not start with \"#\".");
-                        return;
-                    }
+                    MinecraftDiscordChatSync.bot.sendMessage(message, embedObject);
                 }
-                MinecraftDiscordChatSync.bot.sendMessage(message, embedObject);
+                else MinecraftDiscordChatSync.bot.sendMessage(message);
             }
-            else MinecraftDiscordChatSync.bot.sendMessage(message);
+            else MinecraftDiscordChatSync.logger.warn("The message will not be sent to Discord because both message body and embed are empty.");
+        },
+
+        /**
+         * サーバーのメンバーの情報を取得する。
+         * @param guildId 取得対象のメンバーが所属するサーバーのID
+         * @param userId 取得対象のメンバーのID
+         * @returns 取得したメンバーの情報。引数が不正な場合はundefinedが返る。
+         */
+        getMember: (guildId: string, userId: string): DiscordUser|undefined => {
+            return MinecraftDiscordChatSync.bot.getMember(guildId, userId);
+        },
+
+        /**
+         * サーバーのロールの情報を取得する。
+         * @param guildId 取得対象のロールが設定されているサーバーのID
+         * @param roleId 取得対象のロールのID
+         * @returns 取得したロールの情報。引数が不正な場合はundefinedが返る。
+         */
+        getRole: (guildId: string, roleId: string): DiscordRole|undefined => {
+            return MinecraftDiscordChatSync.bot.getRole(guildId, roleId);
+        },
+
+        /**
+         * サーバーのロールの情報を取得する。
+         * @param guildId 取得対象のロールが設定されているサーバーのID
+         * @param roleId 取得対象のロールのID
+         * @returns 取得したロールの情報。引数が不正な場合はundefinedが返る。
+         */
+        getChannel: (guildId: string, channelId: string): DiscordChannel|undefined => {
+            return MinecraftDiscordChatSync.bot.getChannel(guildId, channelId);
         }
-        else MinecraftDiscordChatSync.logger.warn("The message will not be sent to Discord because both message body and embed are empty.");
     }
 
-    protected readonly rcon = {
+    protected readonly rcon: {[key: string]: Function} = {
         /**
          * RConを通じてサーバーにコマンドを送信する。
          * @param command 送信するマインクラフトのコマンド

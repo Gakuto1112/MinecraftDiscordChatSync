@@ -61,7 +61,7 @@ export class Death extends PluginBase {
                 local: currentPos.data.local
             }
             const entityName: string = this.entityData[replacers[1]] ? this.entityData[replacers[1]] : replacers[1];
-            this.sendMessage(this.getLocale("bot.message.death", deathMessage.local.replace(/%1\$s/g, replacers[0]).replace(/%2\$s/g, entityName).replace(/%3\$s/g, replacers[2])));
+            this.discord.sendMessage(this.getLocale("bot.message.death", deathMessage.local.replace(/%1\$s/g, replacers[0]).replace(/%2\$s/g, entityName).replace(/%3\$s/g, replacers[2])));
             this.logger.info(deathMessage.global.replace(/%1\$s/g, replacers[0]).replace(/%2\$s/g, replacers[1]).replace(/%3\$s/g, replacers[2]));
         }
     }

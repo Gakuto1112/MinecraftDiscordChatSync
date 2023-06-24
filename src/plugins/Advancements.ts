@@ -56,17 +56,17 @@ export class Advancements extends PluginBase {
         switch(advancement.type) {
             case "advancement":
                 embed.color = "b87333";
-                this.sendMessage(this.getLocale("bot.message.advancement.advancement", advancement.player, knownAdvancement ? this.advancementData[normalizedAdvancementName].localName : advancement.name), embed);
+                this.discord.sendMessage(this.getLocale("bot.message.advancement.advancement", advancement.player, knownAdvancement ? this.advancementData[normalizedAdvancementName].localName : advancement.name), embed);
                 this.logger.info(`${advancement.player} has made the advancement [${advancement.name}].`);
                 break;
             case "goal":
                 embed.color = "c0";
-                this.sendMessage(this.getLocale("bot.message.advancement.goal", advancement.player, knownAdvancement ? this.advancementData[normalizedAdvancementName].localName : advancement.name), embed);
+                this.discord.sendMessage(this.getLocale("bot.message.advancement.goal", advancement.player, knownAdvancement ? this.advancementData[normalizedAdvancementName].localName : advancement.name), embed);
                 this.logger.info(`${advancement.player} has reached the goal [${advancement.name}].`);
                 break;
             case "challenge":
                 embed.color = "e6b422";
-                this.sendMessage(this.getLocale("bot.message.advancement.challenge", advancement.player, knownAdvancement ? this.advancementData[normalizedAdvancementName].localName : advancement.name), embed);
+                this.discord.sendMessage(this.getLocale("bot.message.advancement.challenge", advancement.player, knownAdvancement ? this.advancementData[normalizedAdvancementName].localName : advancement.name), embed);
                 this.logger.info(`${advancement.player} has completed the challenge [${advancement.name}].`);
                 break;
         }

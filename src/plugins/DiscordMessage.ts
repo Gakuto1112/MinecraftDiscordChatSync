@@ -1,9 +1,9 @@
-import { DiscordAttachment, DiscordChannel, DiscordGuild, DiscordUser, PluginBase, VerificationResult } from "../PluginBase";
+import { DiscordAttachment, DiscordChannel, DiscordGuild, DiscordRole, DiscordUser, PluginBase, VerificationResult } from "../PluginBase";
 
 /**
  * トークンの種類
  */
-type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "headline" | "link";
+type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "headline" | "link" | "mention_general" | "mention_user" | "mention_role" | "mention_channel";
 /**
  * クリックイベントのアクションの種類
  */
@@ -157,20 +157,11 @@ export class DiscordMessage extends PluginBase {
                 let nextId: number = 0; //次に割り振るID
                 content.split("\n").forEach((line: string, index: number) => {
                     const candidateStartIds: number[] = []; //この行で始まった候補IDの配列
-                    let initialToken: Token = {
+                    ast.push({
                         candidateId: -1,
                         type: "root",
                         children: []
-                    };
-                    ast.push(initialToken);
-                    if(/^> +\S+$/.test(line)) {
-                        initialToken = {
-                            candidateId: -1,
-                            type: "quote",
-                            children: []
-                        };
-                        (ast[index].children as Token[]).push(initialToken);
-                    }
+                    });
                     //トークン探索用正規表現の準備
                     let tokenRegexArray: TokenRegExp[] = [];
                     let halfBlockRegexArray: TokenRegExp[] = []; //囲みトークン片方だけの正規表現配列
@@ -196,6 +187,38 @@ export class DiscordMessage extends PluginBase {
                             tokenType: "link",
                             tokenSymbol: {
                                 symbol: "http",
+                                startToken: true
+                            }
+                        },
+                        {
+                            regExp: /@(here|everyone)/,
+                            tokenType: "mention_general",
+                            tokenSymbol: {
+                                symbol: "@",
+                                startToken: true
+                            }
+                        },
+                        {
+                            regExp: /<@(\d+)>/,
+                            tokenType: "mention_user",
+                            tokenSymbol: {
+                                symbol: "<@",
+                                startToken: true
+                            }
+                        },
+                        {
+                            regExp: /<@&(\d+)>/,
+                            tokenType: "mention_role",
+                            tokenSymbol: {
+                                symbol: "<@&",
+                                startToken: true
+                            }
+                        },
+                        {
+                            regExp: /<#(\d+)>/,
+                            tokenType: "mention_channel",
+                            tokenSymbol: {
+                                symbol: "<#",
                                 startToken: true
                             }
                         }
@@ -554,7 +577,7 @@ export class DiscordMessage extends PluginBase {
                             }
                         }
                     }
-                    tokenize(line, initialToken, true);
+                    tokenize(line, ast[index], true);
                     //全体を候補トークンで囲む処理
                     for(const tokenType in waitingForEndToken) {
                         if(waitingForEndToken[tokenType].id > -1 && !candidateStartIds.includes(waitingForEndToken[tokenType].id)) {
@@ -564,9 +587,9 @@ export class DiscordMessage extends PluginBase {
                                 symbol: {
                                     symbol: waitingForEndToken[tokenType].symbol as string,
                                 },
-                                children: (initialToken.children as Token[]).concat()
+                                children: (ast[index].children as Token[]).concat()
                             }
-                            initialToken.children = [token];
+                            ast[index].children = [token];
                         }
                     }
                 });
@@ -660,13 +683,41 @@ export class DiscordMessage extends PluginBase {
                             };
                         }
                         if(element.decorations.link) {
-                            const linkOpenMessage: string = this.getLocale("tellraw.hover.open_url");
                             tellrawElement.color = "blue";
                             tellrawElement.underlined = true;
                             tellrawElement.clickEvent = {
                                 action: "open_url",
                                 value: element.text
                             };
+                            const linkOpenMessage: string = this.getLocale("tellraw.hover.open_url");
+                            tellrawElement.hoverEvent = {
+                                action: "show_text",
+                                contents: legacyFormat ? undefined : linkOpenMessage,
+                                value: legacyFormat ? linkOpenMessage : undefined
+                            }
+                        }
+                        if(element.decorations.mention_general) {
+                            tellrawElement.text = `@${tellrawElement.text}`;
+                            tellrawElement.color = "aqua";
+                        }
+                        if(element.decorations.mention_user) {
+                            tellrawElement.text = `@${this.discord.getMember(guild.id, tellrawElement.text).displayName}`;
+                            tellrawElement.color = "aqua";
+                        }
+                        if(element.decorations.mention_role) {
+                            const role: DiscordRole = this.discord.getRole(guild.id, tellrawElement.text);
+                            tellrawElement.text = `@${role.name}`;
+                            tellrawElement.color = legacyFormat || role.color == "#000000" ? "aqua" : role.color;
+                        }
+                        if(element.decorations.mention_channel) {
+                            const channel: DiscordChannel = this.discord.getChannel(guild.id, tellrawElement.text)
+                            tellrawElement.text = `#${channel.name}`;
+                            tellrawElement.color = "aqua";
+                            tellrawElement.clickEvent = {
+                                action: "open_url",
+                                value: `https://discord.com/channels/${guild.id}/${channel.id}`
+                            };
+                            const linkOpenMessage: string = this.getLocale("tellraw.hover.open_channel", `#${channel.name}`);
                             tellrawElement.hoverEvent = {
                                 action: "show_text",
                                 contents: legacyFormat ? undefined : linkOpenMessage,

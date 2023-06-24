@@ -1,5 +1,6 @@
 key	locale
 tellraw.hover.open_url	クリックしてURLを開く
+tellraw.hover.open_channel	クリックして %1$s を開く
 bot.message.server_opened	:white_check_mark: **サーバーが起動しました**
 bot.message.server_closed	:no_entry: **サーバーが閉鎖されました**
 bot.message.player_join	:city_sunrise: %1$s がゲームに参加しました

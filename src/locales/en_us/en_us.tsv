@@ -1,4 +1,6 @@
 key	locale
+tellraw.text.attachments_before	%1$s's message has 
+tellraw.text.attachments_after  
 tellraw.hover.open_url	Click to open URL
 tellraw.hover.open_channel	Click to open %1$s
 bot.message.server_opened	:white_check_mark: **Server started**

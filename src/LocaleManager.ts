@@ -21,7 +21,7 @@ export class LocaleManager {
         for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${localeName}/${localeName}.tsv`, {encoding: "utf-8"})})) {
             if(readCount++ >= 1) {
                 const tsv: string[] = line.split("\t");
-                this.localeData[localeName][tsv[0]] = tsv[1];
+                this.localeData[localeName][tsv[0]] = typeof tsv[1] == "string" ? tsv[1] : "";
             }
         }
     }
@@ -80,8 +80,8 @@ export class LocaleManager {
      */
     public getLocale(key: string): string {
         const currentLocale: string = MinecraftDiscordChatSync.config.getConfig("locale");
-        if(currentLocale != "en_us" && this.localeData[currentLocale][key]) return this.localeData[currentLocale][key];
-        else if(this.localeData["en_us"][key]) return this.localeData["en_us"][key];
+        if(currentLocale != "en_us" && typeof this.localeData[currentLocale][key] == "string") return this.localeData[currentLocale][key];
+        else if(typeof this.localeData["en_us"][key] == "string") return this.localeData["en_us"][key];
         else return key;
     }
 }

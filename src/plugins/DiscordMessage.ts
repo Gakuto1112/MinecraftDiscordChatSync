@@ -127,6 +127,7 @@ export class DiscordMessage extends PluginBase {
 
     public async onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]): Promise<void> {
         if(this.rcon.isConnected() && !sender.isBot) {
+            const legacyFormat: boolean = this.getConfig("plugins.discord_message.use_legacy_format"); //レガシーフォーマットを使用するかどうか
             if(content.length > 0) {
                 const ast: Token[] = [];
                 //終了トークン待ちの囲みトークン。-1は終了待ちではない。それ以外は該当のIDでの終了トークン待ち。
@@ -633,7 +634,6 @@ export class DiscordMessage extends PluginBase {
                         }];
                     }
                 }
-                const legacyFormat: boolean = this.getConfig("plugins.discord_message.use_legacy_format"); //レガシーフォーマットを使用するかどうか
                 const messageHeader: (MinecraftJsonFormat|string)[] = [
                     "<",
                     {
@@ -728,6 +728,36 @@ export class DiscordMessage extends PluginBase {
                     }
                     await this.rcon.sendCommand(`tellraw @a ${JSON.stringify(tellrawData)}`);
                 }
+            }
+            if(attachments.length > 0) {
+                const linkOpenMessage: string = this.getLocale("tellraw.hover.open_url");
+                const tellrawData: (MinecraftJsonFormat|string)[] = [
+                    {
+                        text: this.getLocale("tellraw.text.attachments_before", sender.displayName),
+                        color: "gray"
+                    }
+                ];
+                attachments.forEach((attachment: DiscordAttachment, index: number) => {
+                    tellrawData.push({
+                        text: `[${attachment.name}]`,
+                        color: "gray",
+                        clickEvent: {
+                            action: "open_url",
+                            value: attachment.url
+                        },
+                        hoverEvent: {
+                            action: "show_text",
+                            contents: legacyFormat ? undefined : linkOpenMessage,
+                            value: legacyFormat ? linkOpenMessage : undefined
+                        }
+                    });
+                    if(index < attachments.length -1) tellrawData.push(", ");
+                });
+                tellrawData.push({
+                    text: this.getLocale("tellraw.text.attachments_after"),
+                    color: "gray"
+                });
+                await this.rcon.sendCommand(`tellraw @a ${JSON.stringify(tellrawData)}`);
             }
         }
     }

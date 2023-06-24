@@ -84,7 +84,7 @@ export class DiscordMessage extends PluginBase {
 
     public onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]): void {
         if(!sender.isBot) {
-            if(content != "") {
+            if(content.length > 0) {
                 const userColor: string = this.getConfig("plugins.discord_message.use_legacy_format") ? "yellow" : (sender.color == "#000000" ? "white" : sender.color);
                 const ast: Token[] = [];
                 //終了トークン待ちの囲みトークン。-1は終了待ちではない。それ以外は該当のIDでの終了トークン待ち。
@@ -129,303 +129,183 @@ export class DiscordMessage extends PluginBase {
                         };
                         (ast[index].children as Token[]).push(initialToken);
                     }
-
-                    /**
-                     * トークン化する。
-                     * @param discordMessage トークン化するDiscordのメッセージ
-                     * @param parentToken 親トークン。トークン化したトークンはこの親トークンの子になる。
-                     */
-                    function tokenize(discordMessage: string, parentToken: Token): void {
-                        //トークン探索用正規表現の準備
-                        let tokenRegexArray: TokenRegExp[] = [];
-                        let halfBlockRegexArray: TokenRegExp[] = []; //囲みトークン片方だけの正規表現配列
-                        tokenRegexArray.push({
-                            regExp: /http(s?:\/\/\S{2,})/,
-                            tokenType: "link",
-                            tokenSymbol: {
-                                symbol: "http",
-                                startToken: true
-                            },
-                            halfBlock: false
-                        });
-                        if(waitingForEndToken.code_block.id == -1) {
-                            tokenRegexArray = tokenRegexArray.concat([
-                                {
-                                    regExp: /(?<!\\)`{3}(.*?[^\\])`{3}/,
-                                    tokenType: "code_block",
-                                    tokenSymbol: {
-                                        symbol: "```",
-                                        startToken: true,
-                                        endToken: true
-                                    },
-                                    halfBlock: false
-                                },
-                                {
-                                    regExp: /(?<!\\)`{3}(.*?)$/,
-                                    tokenType: "code_block",
-                                    tokenSymbol: {
-                                        symbol: "```",
-                                        startToken: true
-                                    },
-                                    halfBlock: true
-                                }
-                            ]);
-                        }
-                        else tokenRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)`{3}/,
-                            tokenType: "code_block",
-                            tokenSymbol: {
-                                symbol: "```",
-                                endToken: true
-                            },
-                            halfBlock: true
-                        });
-                        if(waitingForEndToken.bold.id == -1) {
-                            tokenRegexArray.push({
-                                regExp: /(?<!\\)\*{2}(.*?[^\\])\*{2}/,
-                                tokenType: "bold",
+                    //トークン探索用正規表現の準備
+                    let tokenRegexArray: TokenRegExp[] = [];
+                    let halfBlockRegexArray: TokenRegExp[] = []; //囲みトークン片方だけの正規表現配列
+                    tokenRegexArray.push({
+                        regExp: /http(s?:\/\/\S{2,})/,
+                        tokenType: "link",
+                        tokenSymbol: {
+                            symbol: "http",
+                            startToken: true
+                        },
+                        halfBlock: false
+                    });
+                    if(waitingForEndToken.code_block.id == -1) {
+                        tokenRegexArray = tokenRegexArray.concat([
+                            {
+                                regExp: /(?<!\\)`{3}(.*?[^\\])`{3}/,
+                                tokenType: "code_block",
                                 tokenSymbol: {
-                                    symbol: "**",
+                                    symbol: "```",
                                     startToken: true,
                                     endToken: true
                                 },
                                 halfBlock: false
-                            });
-                            halfBlockRegexArray.push({
-                                regExp: /(?<!\\)\*{2}(.*?)$/,
-                                tokenType: "bold",
+                            },
+                            {
+                                regExp: /(?<!\\)`{3}(.*?)$/,
+                                tokenType: "code_block",
                                 tokenSymbol: {
-                                    symbol: "**",
+                                    symbol: "```",
                                     startToken: true
                                 },
                                 halfBlock: true
-                            });
-                        }
-                        else halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)\*{2}/,
+                            }
+                        ]);
+                    }
+                    else tokenRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)`{3}/,
+                        tokenType: "code_block",
+                        tokenSymbol: {
+                            symbol: "```",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.bold.id == -1) {
+                        tokenRegexArray.push({
+                            regExp: /(?<!\\)\*{2}(.*?[^\\])\*{2}/,
                             tokenType: "bold",
                             tokenSymbol: {
                                 symbol: "**",
+                                startToken: true,
                                 endToken: true
+                            },
+                            halfBlock: false
+                        });
+                        halfBlockRegexArray.push({
+                            regExp: /(?<!\\)\*{2}(.*?)$/,
+                            tokenType: "bold",
+                            tokenSymbol: {
+                                symbol: "**",
+                                startToken: true
                             },
                             halfBlock: true
                         });
-                        if(waitingForEndToken.underline.id == -1) {
-                            tokenRegexArray.push({
-                                regExp: /(?<!\\)_{2}(.*?[^\\])_{2}/,
-                                tokenType: "underline",
-                                tokenSymbol: {
-                                    symbol: "__",
-                                    startToken: true,
-                                    endToken: true
-                                },
-                                halfBlock: false
-                            });
-                            halfBlockRegexArray.push({
-                                regExp: /(?<!\\)_{2}(.*?)$/,
-                                tokenType: "underline",
-                                tokenSymbol: {
-                                    symbol: "__",
-                                    startToken: true
-                                },
-                                halfBlock: true
-                            });
-                        }
-                        else halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)_{2}/,
+                    }
+                    else halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)\*{2}/,
+                        tokenType: "bold",
+                        tokenSymbol: {
+                            symbol: "**",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.underline.id == -1) {
+                        tokenRegexArray.push({
+                            regExp: /(?<!\\)_{2}(.*?[^\\])_{2}/,
                             tokenType: "underline",
                             tokenSymbol: {
                                 symbol: "__",
+                                startToken: true,
                                 endToken: true
+                            },
+                            halfBlock: false
+                        });
+                        halfBlockRegexArray.push({
+                            regExp: /(?<!\\)_{2}(.*?)$/,
+                            tokenType: "underline",
+                            tokenSymbol: {
+                                symbol: "__",
+                                startToken: true
                             },
                             halfBlock: true
                         });
-                        if(waitingForEndToken.strike.id == -1) {
-                            tokenRegexArray.push({
-                                regExp: /(?<!\\)~{2}(.*?[^\\])~{2}/,
-                                tokenType: "strike",
-                                tokenSymbol: {
-                                    symbol: "~~",
-                                    startToken: true,
-                                    endToken: true
-                                },
-                                halfBlock: false
-                            });
-                            halfBlockRegexArray.push({
-                                regExp: /(?<!\\)~{2}(.*?)$/,
-                                tokenType: "strike",
-                                tokenSymbol: {
-                                    symbol: "~~",
-                                    startToken: true
-                                },
-                                halfBlock: true
-                            });
-                        }
-                        else halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)~{2}/,
+                    }
+                    else halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)_{2}/,
+                        tokenType: "underline",
+                        tokenSymbol: {
+                            symbol: "__",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.strike.id == -1) {
+                        tokenRegexArray.push({
+                            regExp: /(?<!\\)~{2}(.*?[^\\])~{2}/,
                             tokenType: "strike",
                             tokenSymbol: {
                                 symbol: "~~",
+                                startToken: true,
                                 endToken: true
+                            },
+                            halfBlock: false
+                        });
+                        halfBlockRegexArray.push({
+                            regExp: /(?<!\\)~{2}(.*?)$/,
+                            tokenType: "strike",
+                            tokenSymbol: {
+                                symbol: "~~",
+                                startToken: true
                             },
                             halfBlock: true
                         });
-                        if(waitingForEndToken.spoiler.id == -1) {
-                            tokenRegexArray.push({
-                                regExp: /(?<!\\)\|{2}(.*?[^\\])\|{2}/,
-                                tokenType: "spoiler",
+                    }
+                    else halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)~{2}/,
+                        tokenType: "strike",
+                        tokenSymbol: {
+                            symbol: "~~",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.spoiler.id == -1) {
+                        tokenRegexArray.push({
+                            regExp: /(?<!\\)\|{2}(.*?[^\\])\|{2}/,
+                            tokenType: "spoiler",
+                            tokenSymbol: {
+                                symbol: "||",
+                                startToken: true,
+                                endToken: true
+                            },
+                            halfBlock: false
+                        });
+                        halfBlockRegexArray.push({
+                            regExp: /(?<!\\)\|{2}(.*?)$/,
+                            tokenType: "spoiler",
+                            tokenSymbol: {
+                                symbol: "||",
+                                startToken: true
+                            },
+                            halfBlock: true
+                        });
+                    }
+                    else halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)\|{2}/,
+                        tokenType: "spoiler",
+                        tokenSymbol: {
+                            symbol: "||",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.code_inline.id == -1) {
+                        tokenRegexArray = tokenRegexArray.concat([
+                            {
+                                regExp: /(?<!\\)`{2}(.*?[^\\])`{2}/,
+                                tokenType: "code_inline",
                                 tokenSymbol: {
-                                    symbol: "||",
+                                    symbol: "``",
                                     startToken: true,
                                     endToken: true
                                 },
                                 halfBlock: false
-                            });
-                            halfBlockRegexArray.push({
-                                regExp: /(?<!\\)\|{2}(.*?)$/,
-                                tokenType: "spoiler",
-                                tokenSymbol: {
-                                    symbol: "||",
-                                    startToken: true
-                                },
-                                halfBlock: true
-                            });
-                        }
-                        else halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)\|{2}/,
-                            tokenType: "spoiler",
-                            tokenSymbol: {
-                                symbol: "||",
-                                endToken: true
                             },
-                            halfBlock: true
-                        });
-                        if(waitingForEndToken.code_inline.id == -1) {
-                            tokenRegexArray = tokenRegexArray.concat([
-                                {
-                                    regExp: /(?<!\\)`{2}(.*?[^\\])`{2}/,
-                                    tokenType: "code_inline",
-                                    tokenSymbol: {
-                                        symbol: "``",
-                                        startToken: true,
-                                        endToken: true
-                                    },
-                                    halfBlock: false
-                                },
-                                {
-                                    regExp: /(?<!\\)`(.*?[^\\])`/,
-                                    tokenType: "code_inline",
-                                    tokenSymbol: {
-                                        symbol: "`",
-                                        startToken: true,
-                                        endToken: true
-                                    },
-                                    halfBlock: false
-                                }
-                            ]);
-                            halfBlockRegexArray = halfBlockRegexArray.concat([
-                                {
-                                    regExp: /(?<!\\)`{2}(.*?)$/,
-                                    tokenType: "code_inline",
-                                    tokenSymbol: {
-                                        symbol: "``",
-                                        startToken: true
-                                    },
-                                    halfBlock: true
-                                },
-                                {
-                                    regExp: /(?<!\\)`(.*?)$/,
-                                    tokenType: "code_inline",
-                                    tokenSymbol: {
-                                        symbol: "`",
-                                        startToken: true
-                                    },
-                                    halfBlock: true
-                                },
-                            ]);
-                        }
-                        else if(waitingForEndToken.code_inline.symbol == "``") halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)`{2}/,
-                            tokenType: "code_inline",
-                            tokenSymbol: {
-                                symbol: "``",
-                                endToken: true
-                            },
-                            halfBlock: true
-                        });
-                        else halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)`/,
-                            tokenType: "code_inline",
-                            tokenSymbol: {
-                                symbol: "`",
-                                endToken: true
-                            },
-                            halfBlock: true
-                        });
-                        if(waitingForEndToken.italic.id == -1) {
-                            tokenRegexArray = tokenRegexArray.concat([
-                                {
-                                    regExp: /(?<!\\)\*(.*?[^\\])\*/,
-                                    tokenType: "italic",
-                                    tokenSymbol: {
-                                        symbol: "*",
-                                        startToken: true,
-                                        endToken: true
-                                    },
-                                    halfBlock: false
-                                },
-                                {
-                                    regExp: /(?<!\\)_(.*?[^\\])_/,
-                                    tokenType: "italic",
-                                    tokenSymbol: {
-                                        symbol: "_",
-                                        startToken: true,
-                                        endToken: true
-                                    },
-                                    halfBlock: false
-                                }
-                            ]);
-                            halfBlockRegexArray = halfBlockRegexArray.concat([
-                                {
-                                    regExp: /(?<!\\)\*(.*?)$/,
-                                    tokenType: "italic",
-                                    tokenSymbol: {
-                                        symbol: "*",
-                                        startToken: true
-                                    },
-                                    halfBlock: true
-                                },
-                                {
-                                    regExp: /(?<!\\)_(.*?)$/,
-                                    tokenType: "italic",
-                                    tokenSymbol: {
-                                        symbol: "_",
-                                        startToken: true
-                                    },
-                                    halfBlock: true
-                                }
-                            ]);
-                        }
-                        else if(waitingForEndToken.italic.symbol == "*") halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)\*/,
-                            tokenType: "italic",
-                            tokenSymbol: {
-                                symbol: "*",
-                                endToken: true
-                            },
-                            halfBlock: true
-                        });
-                        else halfBlockRegexArray.push({
-                            regExp: /^(.*?)(?<!\\)_/,
-                            tokenType: "italic",
-                            tokenSymbol: {
-                                symbol: "_",
-                                endToken: true
-                            },
-                            halfBlock: true
-                        });
-                        if(waitingForEndToken.code_inline.id == -1) {
-                            tokenRegexArray.push({
+                            {
                                 regExp: /(?<!\\)`(.*?[^\\])`/,
                                 tokenType: "code_inline",
                                 tokenSymbol: {
@@ -434,8 +314,19 @@ export class DiscordMessage extends PluginBase {
                                     endToken: true
                                 },
                                 halfBlock: false
-                            });
-                            halfBlockRegexArray.push({
+                            }
+                        ]);
+                        halfBlockRegexArray = halfBlockRegexArray.concat([
+                            {
+                                regExp: /(?<!\\)`{2}(.*?)$/,
+                                tokenType: "code_inline",
+                                tokenSymbol: {
+                                    symbol: "``",
+                                    startToken: true
+                                },
+                                halfBlock: true
+                            },
+                            {
                                 regExp: /(?<!\\)`(.*?)$/,
                                 tokenType: "code_inline",
                                 tokenSymbol: {
@@ -443,9 +334,118 @@ export class DiscordMessage extends PluginBase {
                                     startToken: true
                                 },
                                 halfBlock: true
-                            });
-                        }
-                        tokenRegexArray = tokenRegexArray.concat(halfBlockRegexArray);
+                            },
+                        ]);
+                    }
+                    else if(waitingForEndToken.code_inline.symbol == "``") halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)`{2}/,
+                        tokenType: "code_inline",
+                        tokenSymbol: {
+                            symbol: "``",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    else halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)`/,
+                        tokenType: "code_inline",
+                        tokenSymbol: {
+                            symbol: "`",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.italic.id == -1) {
+                        tokenRegexArray = tokenRegexArray.concat([
+                            {
+                                regExp: /(?<!\\)\*(.*?[^\\])\*/,
+                                tokenType: "italic",
+                                tokenSymbol: {
+                                    symbol: "*",
+                                    startToken: true,
+                                    endToken: true
+                                },
+                                halfBlock: false
+                            },
+                            {
+                                regExp: /(?<!\\)_(.*?[^\\])_/,
+                                tokenType: "italic",
+                                tokenSymbol: {
+                                    symbol: "_",
+                                    startToken: true,
+                                    endToken: true
+                                },
+                                halfBlock: false
+                            }
+                        ]);
+                        halfBlockRegexArray = halfBlockRegexArray.concat([
+                            {
+                                regExp: /(?<!\\)\*(.*?)$/,
+                                tokenType: "italic",
+                                tokenSymbol: {
+                                    symbol: "*",
+                                    startToken: true
+                                },
+                                halfBlock: true
+                            },
+                            {
+                                regExp: /(?<!\\)_(.*?)$/,
+                                tokenType: "italic",
+                                tokenSymbol: {
+                                    symbol: "_",
+                                    startToken: true
+                                },
+                                halfBlock: true
+                            }
+                        ]);
+                    }
+                    else if(waitingForEndToken.italic.symbol == "*") halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)\*/,
+                        tokenType: "italic",
+                        tokenSymbol: {
+                            symbol: "*",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    else halfBlockRegexArray.push({
+                        regExp: /^(.*?)(?<!\\)_/,
+                        tokenType: "italic",
+                        tokenSymbol: {
+                            symbol: "_",
+                            endToken: true
+                        },
+                        halfBlock: true
+                    });
+                    if(waitingForEndToken.code_inline.id == -1) {
+                        tokenRegexArray.push({
+                            regExp: /(?<!\\)`(.*?[^\\])`/,
+                            tokenType: "code_inline",
+                            tokenSymbol: {
+                                symbol: "`",
+                                startToken: true,
+                                endToken: true
+                            },
+                            halfBlock: false
+                        });
+                        halfBlockRegexArray.push({
+                            regExp: /(?<!\\)`(.*?)$/,
+                            tokenType: "code_inline",
+                            tokenSymbol: {
+                                symbol: "`",
+                                startToken: true
+                            },
+                            halfBlock: true
+                        });
+                    }
+                    tokenRegexArray = tokenRegexArray.concat(halfBlockRegexArray);
+
+                    /**
+                     * トークン化する。
+                     * @param discordMessage トークン化するDiscordのメッセージ
+                     * @param parentToken 親トークン。トークン化したトークンはこの親トークンの子になる。
+                     */
+                    function tokenize(discordMessage: string, parentToken: Token): void {
                         //トークンの探索
                         let remainLine: string = discordMessage; //未処理の文字列
                         while(remainLine.length > 0) {
@@ -504,6 +504,7 @@ export class DiscordMessage extends PluginBase {
                         }
                     }
                     tokenize(line.replace(/^> /, ""), initialToken);
+                    //全体を候補トークンで囲む処理
                     for(const tokenType in waitingForEndToken) {
                         if(waitingForEndToken[tokenType].id > -1 && !candidateStartIds.includes(waitingForEndToken[tokenType].id)) {
                             const token: Token = {
@@ -534,10 +535,14 @@ export class DiscordMessage extends PluginBase {
                                 childArray.forEach((childElement: TellrawElement) => text += childElement.text);
                                 if((child.symbol as TokenSymbol).endToken) text += (child.symbol as TokenSymbol).symbol;
                                 if(text != (child.symbol as TokenSymbol).symbol) {
-                                    result.push({
+                                    const textElement: TellrawElement = {
                                         text: text,
-                                        decorations: (child.type == "code_inline" || child.type == "code_block" || child.type == "link") ? {[child.type]: true} : {}
-                                    });
+                                        decorations: {}
+                                    }
+                                    if(token.type != "root") textElement.decorations[token.type] = true;
+                                    if(child.type == "code_inline" || child.type == "code_block" || child.type == "link") textElement.decorations[child.type] = true;
+                                    if(result.length > 0 && JSON.stringify(textElement.decorations) == JSON.stringify(result[result.length - 1].decorations)) result[result.length - 1].text += textElement.text;
+                                    else result.push(textElement);
                                 }
                             }
                             else {

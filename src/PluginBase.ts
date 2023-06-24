@@ -72,7 +72,6 @@ export type DiscordAttachment = {
     /** 添付ファイルのURL */
     url: string
 }
-
 /**
  * Discordの埋め込みメッセージを作成する為のデータ
  */
@@ -87,6 +86,15 @@ export type EmbedData = {
     imageURL?: string,
     /** 左端の色。RGB Hex値で指定する（"#"は不要）。 */
     color?: string
+}
+/**
+ * Discordのコマンドのデータ
+ */
+export type DiscordCommand = {
+    /** コマンドの名前（/"name"） */
+    name: string,
+    /** コマンドに応答する関数 */
+    reply: (message: string) => Promise<void>
 }
 
 /**
@@ -125,13 +133,22 @@ export abstract class PluginBase {
      */
     protected getLocale(key: string, replacer1?: string, replacer2?: string, replacer3?: string): string {
         let localeString: string = MinecraftDiscordChatSync.locale.getLocale(key);
-        if(replacer1) localeString = localeString.replace(/%1\$s/g, replacer1);
-        if(replacer2) localeString = localeString.replace(/%2\$s/g, replacer2);
-        if(replacer3) localeString = localeString.replace(/%3\$s/g, replacer3);
+        if(typeof replacer1 == "string") localeString = localeString.replace(/%1\$s/g, replacer1);
+        if(typeof replacer2 == "string") localeString = localeString.replace(/%2\$s/g, replacer2);
+        if(typeof replacer3 == "string") localeString = localeString.replace(/%3\$s/g, replacer3);
         return localeString;
     }
 
     protected readonly discord: {[key: string]: Function} = {
+        /**
+         * ボットのコマンドを登録する。ボットがログインする前に呼び出す。（onLoad()で呼び出すと良い）
+         * @param name コマンドの名前（"/name"）
+         * @param description コマンドの説明（コマンド入力中に表示される。）
+         */
+        registerCommand: (name: string, description: string): void => {
+            MinecraftDiscordChatSync.bot.registerCommand(name, description);
+        },
+
         /**
          * DiscordのSendChannelsの各チャンネルに向けてメッセージを送信する。
          * @param message 送信するメッセージ本文
@@ -280,4 +297,10 @@ export abstract class PluginBase {
      * @param attachments メッセージの添付ファイルの情報
      */
     public onDiscordMessage(guild: DiscordGuild, channel: DiscordChannel, sender: DiscordUser, content: string, attachments: DiscordAttachment[]): void {}
+
+    /**
+     * Discordでコマンドが送信された時のイベント。command内にあるreply()で必ず返信すること。
+     * @param command 使用されたコマンドのデータ
+     */
+    public onDiscordCommand(command: DiscordCommand): void {}
 }

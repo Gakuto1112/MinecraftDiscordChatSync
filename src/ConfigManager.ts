@@ -215,7 +215,7 @@ export class ConfigManager {
                 MinecraftDiscordChatSync.logger.debug(`Set new config key "${keyName}" value.`);
             }
         }
-        else MinecraftDiscordChatSync.logger.error("Registering new config is not allowed after finished initial load.");
+        else MinecraftDiscordChatSync.logger.warn("registerConfig() does not take effects after this system finished loading.");
     }
 
     /**
@@ -271,6 +271,7 @@ export class ConfigManager {
             process.exit(1);
         }
         MinecraftDiscordChatSync.logger.info("Finished reading config file.");
+        MinecraftDiscordChatSync.proceedLoadCount();
     }
 
     /**
@@ -283,6 +284,7 @@ export class ConfigManager {
             this.writeConfigFile();
             MinecraftDiscordChatSync.logger.info("Finished Updating config file.");
         }
+        MinecraftDiscordChatSync.proceedLoadCount();
     }
 
     /**
@@ -306,6 +308,7 @@ export class ConfigManager {
             else MinecraftDiscordChatSync.logger.error(`${verificationErrors} errors were found in the config. Please fix them.`);
             process.exit(1);
         }
+        MinecraftDiscordChatSync.proceedLoadCount();
     }
 
     /**

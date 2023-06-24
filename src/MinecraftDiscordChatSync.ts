@@ -23,7 +23,7 @@ export class MinecraftDiscordChatSync {
     /**
      * ログ監視のインスタンス
      */
-    public readonly log: LogObserver = new LogObserver();
+    public static readonly log: LogObserver = new LogObserver();
     /**
      * RConのインスタンス
      */
@@ -38,17 +38,38 @@ export class MinecraftDiscordChatSync {
     public static readonly bot: BotManager = new BotManager();
 
     /**
-     * システムが初期読み込み中かどうか
+     * システムの読み込みカウンター
      */
-    private static isLoading: boolean = true;
+    private static loadCount: number = 0;
     /**
      * システム開始時にRConに接続するかどうか
      */
-    private readonly rConInit: boolean;
+    private static rConInit: boolean;
 
     constructor(logDebug: boolean, rConInit: boolean) {
         MinecraftDiscordChatSync.logger = new Logger(logDebug);
-        this.rConInit = rConInit;
+        MinecraftDiscordChatSync.rConInit = rConInit;
+    }
+
+    /**
+     * 読み込みカウントを進めて、全てを読み込んだら読み込み完了フェーズに移行する。
+     */
+    public static async proceedLoadCount(): Promise<void> {
+        if(++this.loadCount == 4) {
+            this.logger.info("Finished loading.");
+            this.plugin.plugins.forEach((plugin: PluginBase) => {
+                try {
+                    plugin.onLoad();
+                }
+                catch(error: any) {
+                    this.logger.error(`An error occurred while executing "onLoad()".\n${error.stack}`);
+                }
+            });
+            await this.log.observe();
+            if(this.rConInit) this.rCon.connect();
+            this.bot.login();
+        }
+        else this.logger.debug(`Loading phase ${this.loadCount} of 4...`);
     }
 
     /**
@@ -56,7 +77,7 @@ export class MinecraftDiscordChatSync {
      * @returns システムが初期読み込み中かどうか
      */
     public static getIsLoading(): boolean {
-        return MinecraftDiscordChatSync.isLoading;
+        return this.loadCount == 4
     }
 
     /**
@@ -68,18 +89,6 @@ export class MinecraftDiscordChatSync {
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
         MinecraftDiscordChatSync.locale.loadLocales();
-        MinecraftDiscordChatSync.isLoading = false;
-        MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
-            try {
-                plugin.onLoad();
-            }
-            catch(error: any) {
-                MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onLoad()".\n${error.stack}`);
-            }
-        });
-        await this.log.observe();
-        if(this.rConInit) MinecraftDiscordChatSync.rCon.connect();
-        MinecraftDiscordChatSync.bot.login();
     }
 }
 

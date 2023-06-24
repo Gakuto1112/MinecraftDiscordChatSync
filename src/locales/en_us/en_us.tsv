@@ -15,3 +15,6 @@ bot.message.death	:skull: %1$s
 bot.embed.player_join.title	Joined the game
 bot.embed.player_leave.title	Left the game
 bot.embed.unknown_advancement.description	No information provided
+bot.command.list.desc	Shows the list of players in the server
+bot.command.list.reply	:cityscape: There are %1$s of a max of %2$s players online: %3$s
+bot.command.list.reply_error	:x: Could not get server informations becaise the server is not running or for some reason

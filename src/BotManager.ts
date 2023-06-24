@@ -2,12 +2,24 @@ import discordJS from "discord.js";
 import { MinecraftDiscordChatSync } from "./MinecraftDiscordChatSync";
 import { DiscordChannel, DiscordRole, DiscordUser, PluginBase } from "./PluginBase";
 
+/**
+ * Discordのコマンドの情報
+ */
+type DiscordCommand = {
+    name: string,
+    description: string
+}
+
 export class BotManager {
     private readonly client: discordJS.Client = new discordJS.Client({intents: [discordJS.GatewayIntentBits.Guilds, discordJS.GatewayIntentBits.GuildMessages, discordJS.GatewayIntentBits.MessageContent]});
+    private readonly commandArray: DiscordCommand[] = []; //ボットに登録するコマンドの配列
+    private loggedIn: boolean = false; //ボットがログインしたかどうか
 
     constructor() {
         this.client.addListener("ready", () => {
+            this.loggedIn = true;
             MinecraftDiscordChatSync.logger.info(`Succeeded to login as "${(this.client.user as discordJS.ClientUser).tag}".`);
+            this.registerCommands();
             MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                 try {
                     plugin.onDiscordLogin();
@@ -53,6 +65,49 @@ export class BotManager {
                 });
             }
         });
+        this.client.addListener("interactionCreate", (interaction: discordJS.Interaction) => {
+            if(interaction.isCommand()) {
+                MinecraftDiscordChatSync.logger.info(`${(interaction.member as discordJS.GuildMember).displayName} used "${interaction.commandName}" command.`);
+                MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
+                    try {
+                        plugin.onDiscordCommand({
+                            name: interaction.commandName,
+                            reply: async (message: string): Promise<void> => {
+                                await interaction.reply(message);
+                            }
+                        });
+                    }
+                    catch(error: any) {
+                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onDiscordCommand()".\n${error.stack}`);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * ボットのコマンドを登録してボットに表示されるようにする。
+     */
+    private async registerCommands(): Promise<void> {
+        await Promise.all(this.client.guilds.cache.map(async (guild: discordJS.Guild) => {
+            await (this.client.application as discordJS.ClientApplication).commands.set(this.commandArray, guild.id);
+        }));
+    }
+
+    /**
+     * ボットのコマンドを登録する。ボット起動後に呼び出しても意味がない。
+     * @param name コマンドの名前（"/name"）
+     * @param description コマンドの説明（コマンド入力中に表示される。）
+     */
+    public registerCommand(name: string, description: string): void {
+        if(!this.loggedIn) {
+            this.commandArray.push({
+                name: name,
+                description: description
+            });
+            MinecraftDiscordChatSync.logger.debug(`Registered "${name}" command.`);
+        }
+        else MinecraftDiscordChatSync.logger.warn("registerCommand() does not take effects after the bot logged in.");
     }
 
     /**

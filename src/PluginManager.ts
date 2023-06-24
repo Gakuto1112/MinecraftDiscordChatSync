@@ -31,18 +31,18 @@ export class PluginManager {
                                         MinecraftDiscordChatSync.logger.debug(`Loaded "${className}".`);
                                     }
                                     catch(importError: any) {
-                                        MinecraftDiscordChatSync.logger.warn(`An error occurred while importing "${className}". Skipping.\n${importError}`);
+                                        MinecraftDiscordChatSync.logger.error(`An error occurred while importing "${className}". Skipping.\n${importError.stack}`);
                                     }
                                 });
                             }
                             catch(pluginError: any) {
                                 if(pluginError.code == "EPERM") {
                                     //ファイルの読み取り権限なし
-                                    MinecraftDiscordChatSync.logger.warn(`No permission to read "${entry.name}". Skipping.`);
+                                    MinecraftDiscordChatSync.logger.error(`No permission to read "${entry.name}". Skipping.`);
                                 }
                                 else {
                                     //その他エラー
-                                    MinecraftDiscordChatSync.logger.warn(`An error occurred while reading "${entry.name}". Skipping.\n${pluginError}`);
+                                    MinecraftDiscordChatSync.logger.warn(`An error occurred while reading "${entry.name}". Skipping.\n${pluginError.stack}`);
                                 }
                             }
                         }

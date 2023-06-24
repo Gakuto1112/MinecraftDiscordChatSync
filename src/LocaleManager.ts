@@ -71,6 +71,7 @@ export class LocaleManager {
             }
         }
         MinecraftDiscordChatSync.logger.info("Finished loading locale data.");
+        MinecraftDiscordChatSync.proceedLoadCount();
     }
 
     /**

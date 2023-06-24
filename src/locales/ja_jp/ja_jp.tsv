@@ -15,3 +15,6 @@ bot.message.death	:skull: %1$s
 bot.embed.player_join.title	ゲームに参加しました
 bot.embed.player_leave.title	ゲームから退出しました
 bot.embed.unknown_advancement.description	情報がありません
+bot.command.list.desc	サーバーに参加中のプレイヤーの一覧を表示します
+bot.command.list.reply	:cityscape: %1$s人のプレイヤーがオンラインです（最大%2$s人）：%3$s
+bot.command.list.reply_error	:x: サーバーが起動していないなどの理由でサーバーと通信ができませんでした

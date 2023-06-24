@@ -528,7 +528,7 @@ export class DiscordMessage extends PluginBase {
                     if(token.children) {
                         let result: TellrawElement[] = [];
                         token.children.forEach((child: Token) => {
-                            const outputAsText: boolean = asTextToken || (child.candidateId > -1 && !candidateEnabled.includes(child.candidateId)) || child.type == "code_inline" || child.type == "code_block" || child.type == "link";
+                            const outputAsText: boolean = asTextToken || (child.candidateId > -1 && !candidateEnabled.includes(child.candidateId)) || token.type == "code_inline" || token.type == "code_block" || child.type == "link";
                             const childArray: TellrawElement[] = astToArray(child, outputAsText);
                             if(outputAsText && child.type != "text") {
                                 let text: string = (child.symbol as TokenSymbol).startToken ? (child.symbol as TokenSymbol).symbol : "";

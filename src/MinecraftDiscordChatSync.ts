@@ -46,8 +46,8 @@ export class MinecraftDiscordChatSync {
      */
     private static rConInit: boolean;
 
-    constructor(logDebug: boolean, rConInit: boolean) {
-        MinecraftDiscordChatSync.logger = new Logger(logDebug);
+    constructor(colorLog: boolean, logDebug: boolean, rConInit: boolean) {
+        MinecraftDiscordChatSync.logger = new Logger(colorLog, logDebug);
         MinecraftDiscordChatSync.rConInit = rConInit;
     }
 
@@ -93,11 +93,15 @@ export class MinecraftDiscordChatSync {
 }
 
 //引数の確認
+let colorLog: boolean = false;
 let logDebug: boolean = false;
 let rConInit: boolean = false;
 process.argv.forEach((arg: string, i: number) => {
     if(i >= 2) {
         switch(arg) {
+            case "-c":
+                colorLog = true;
+                break;
             case "-d":
                 logDebug = true;
                 break;
@@ -108,5 +112,5 @@ process.argv.forEach((arg: string, i: number) => {
     }
 });
 
-const minecraftDiscordChatSync = new MinecraftDiscordChatSync(logDebug, rConInit);
+const minecraftDiscordChatSync = new MinecraftDiscordChatSync(colorLog, logDebug, rConInit);
 minecraftDiscordChatSync.main();

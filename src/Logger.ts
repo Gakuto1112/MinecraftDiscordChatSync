@@ -3,11 +3,16 @@
  */
 export class Logger {
     /**
+     * 色付きログ出力を有効にするかどうか
+     */
+    private readonly colorLog: boolean;
+    /**
      * デバッグログを出力するかどうか
      */
-    private logDebug: boolean;
+    private readonly logDebug: boolean;
 
-    constructor(logDebug: boolean) {
+    constructor(colorLog: boolean, logDebug: boolean) {
+        this.colorLog = colorLog;
         this.logDebug = logDebug;
     }
 
@@ -36,7 +41,7 @@ export class Logger {
      * @param message 出力するメッセージ
      */
     public debug(message: string): void {
-        if(this.logDebug) console.debug(`[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[34mDEBUG\u001b[0m]: ${message}`);
+        if(this.logDebug) console.debug(this.colorLog ? `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[34mDEBUG\u001b[0m]: ${message}` : `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [DEBUG]: ${message}`);
     }
 
     /**
@@ -44,7 +49,7 @@ export class Logger {
      * @param message 出力するメッセージ
      */
     public info(message: string): void {
-        console.info(`[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[32mINFO\u001b[0m]: ${message}`);
+        console.info(this.colorLog ? `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[32mINFO\u001b[0m]: ${message}` : `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [INFO]: ${message}`);
     }
 
     /**
@@ -52,7 +57,7 @@ export class Logger {
      * @param message 出力するメッセージ
      */
     public warn(message: string): void {
-        console.info(`[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[33mWARN\u001b[0m]: ${message}`);
+        console.warn(this.colorLog ? `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[33mWARN\u001b[0m]: ${message}` : `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [WARN]: ${message}`);
     }
 
     /**
@@ -60,6 +65,6 @@ export class Logger {
      * @param message 出力するメッセージ
      */
     public error(message: string): void {
-        console.info(`[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[31mERROR\u001b[0m]: ${message}`);
+        console.error(this.colorLog ? `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [\u001b[31mERROR\u001b[0m]: ${message}` : `[${this.getDateTimeString()}] [${this.getCallerFilePath()}] [ERROR]: ${message}`);
     }
 }

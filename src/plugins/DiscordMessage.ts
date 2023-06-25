@@ -3,7 +3,7 @@ import { DiscordAttachment, DiscordChannel, DiscordGuild, DiscordRole, DiscordUs
 /**
  * トークンの種類
  */
-type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "headline" | "link" | "mention_general" | "mention_user" | "mention_role" | "mention_channel";
+type TokenType = "root" | "text" | "bold" | "italic" | "underline" | "strike" | "spoiler" | "code_inline" | "code_block" | "quote" | "headline" | "link" | "mention_general" | "mention_user" | "mention_role" | "mention_channel" | "custom_emoji";
 /**
  * クリックイベントのアクションの種類
  */
@@ -203,7 +203,7 @@ export class DiscordMessage extends PluginBase {
                             regExp: /<@(\d+)>/,
                             tokenType: "mention_user",
                             tokenSymbol: {
-                                symbol: "<@",
+                                symbol: "",
                                 startToken: true
                             }
                         },
@@ -211,7 +211,7 @@ export class DiscordMessage extends PluginBase {
                             regExp: /<@&(\d+)>/,
                             tokenType: "mention_role",
                             tokenSymbol: {
-                                symbol: "<@&",
+                                symbol: "",
                                 startToken: true
                             }
                         },
@@ -219,8 +219,17 @@ export class DiscordMessage extends PluginBase {
                             regExp: /<#(\d+)>/,
                             tokenType: "mention_channel",
                             tokenSymbol: {
-                                symbol: "<#",
+                                symbol: "",
                                 startToken: true
+                            }
+                        },
+                        {
+                            regExp: /<:(\w+):\d+>/,
+                            tokenType: "custom_emoji",
+                            tokenSymbol: {
+                                symbol: ":",
+                                startToken: true,
+                                endToken: true
                             }
                         }
                     ]);
@@ -603,7 +612,7 @@ export class DiscordMessage extends PluginBase {
                     if(token.children) {
                         let result: TellrawElement[] = [];
                         token.children.forEach((child: Token) => {
-                            const outputAsText: boolean = asTextToken || (child.candidateId > -1 && !candidateEnabled.includes(child.candidateId)) || token.type == "code_inline" || token.type == "code_block" || child.type == "link";
+                            const outputAsText: boolean = asTextToken || (child.candidateId > -1 && !candidateEnabled.includes(child.candidateId)) || token.type == "code_inline" || token.type == "code_block" || child.type == "link" || child.type == "custom_emoji";
                             const childArray: TellrawElement[] = astToArray(child, outputAsText);
                             if(outputAsText && child.type != "text") {
                                 let text: string = (child.symbol as TokenSymbol).startToken ? (child.symbol as TokenSymbol).symbol : "";
@@ -615,7 +624,7 @@ export class DiscordMessage extends PluginBase {
                                         decorations: {}
                                     }
                                     if(token.type != "root") textElement.decorations[token.type] = true;
-                                    if(child.type == "code_inline" || child.type == "code_block" || child.type == "link") textElement.decorations[child.type] = true;
+                                    if(child.type == "code_inline" || child.type == "code_block" || child.type == "link" || child.type == "custom_emoji") textElement.decorations[child.type] = true;
                                     if(result.length > 0 && JSON.stringify(textElement.decorations) == JSON.stringify(result[result.length - 1].decorations)) result[result.length - 1].text += textElement.text;
                                     else result.push(textElement);
                                 }

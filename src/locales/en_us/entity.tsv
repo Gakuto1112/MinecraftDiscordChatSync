@@ -1,0 +1,143 @@
+key	global	local
+death.attack.badRespawnPoint.link	[Intentional Game Design]	Intentional Game Design
+entity.minecraft.allay	Allay	Allay
+entity.minecraft.area_effect_cloud	Area Effect Cloud	Area Effect Cloud
+entity.minecraft.armor_stand	Armor Stand	Armor Stand
+entity.minecraft.arrow	Arrow	Arrow
+entity.minecraft.axolotl	Axolotl	Axolotl
+entity.minecraft.bat	Bat	Bat
+entity.minecraft.bee	Bee	Bee
+entity.minecraft.blaze	Blaze	Blaze
+entity.minecraft.block_display	Block Display	Block Display
+entity.minecraft.boat	Boat	Boat
+entity.minecraft.camel	Camel	Camel
+entity.minecraft.cat	Cat	Cat
+entity.minecraft.cave_spider	Cave Spider	Cave Spider
+entity.minecraft.chest_boat	Boat with Chest	Boat with Chest
+entity.minecraft.chest_minecart	Minecart with Chest	Minecart with Chest
+entity.minecraft.chicken	Chicken	Chicken
+entity.minecraft.cod	Cod	Cod
+entity.minecraft.command_block_minecart	Minecart with Command Block	Minecart with Command Block
+entity.minecraft.cow	Cow	Cow
+entity.minecraft.creeper	Creeper	Creeper
+entity.minecraft.dolphin	Dolphin	Dolphin
+entity.minecraft.donkey	Donkey	Donkey
+entity.minecraft.dragon_fireball	Dragon Fireball	Dragon Fireball
+entity.minecraft.drowned	Drowned	Drowned
+entity.minecraft.egg	Thrown Egg	Thrown Egg
+entity.minecraft.elder_guardian	Elder Guardian	Elder Guardian
+entity.minecraft.end_crystal	End Crystal	End Crystal
+entity.minecraft.ender_dragon	Ender Dragon	Ender Dragon
+entity.minecraft.ender_pearl	Thrown Ender Pearl	Thrown Ender Pearl
+entity.minecraft.enderman	Enderman	Enderman
+entity.minecraft.endermite	Endermite	Endermite
+entity.minecraft.evoker	Evoker	Evoker
+entity.minecraft.evoker_fangs	Evoker Fangs	Evoker Fangs
+entity.minecraft.experience_bottle	Thrown Bottle o' Enchanting	Thrown Bottle o' Enchanting
+entity.minecraft.experience_orb	Experience Orb	Experience Orb
+entity.minecraft.eye_of_ender	Eye of Ender	Eye of Ender
+entity.minecraft.falling_block	Falling Block	Falling Block
+entity.minecraft.falling_block_type	Falling %s	Falling %s
+entity.minecraft.fireball	Fireball	Fireball
+entity.minecraft.firework_rocket	Firework Rocket	Firework Rocket
+entity.minecraft.fishing_bobber	Fishing Bobber	Fishing Bobber
+entity.minecraft.fox	Fox	Fox
+entity.minecraft.frog	Frog	Frog
+entity.minecraft.furnace_minecart	Minecart with Furnace	Minecart with Furnace
+entity.minecraft.ghast	Ghast	Ghast
+entity.minecraft.giant	Giant	Giant
+entity.minecraft.glow_item_frame	Glow Item Frame	Glow Item Frame
+entity.minecraft.glow_squid	Glow Squid	Glow Squid
+entity.minecraft.goat	Goat	Goat
+entity.minecraft.guardian	Guardian	Guardian
+entity.minecraft.hoglin	Hoglin	Hoglin
+entity.minecraft.hopper_minecart	Minecart with Hopper	Minecart with Hopper
+entity.minecraft.horse	Horse	Horse
+entity.minecraft.husk	Husk	Husk
+entity.minecraft.illusioner	Illusioner	Illusioner
+entity.minecraft.interaction	Interaction	Interaction
+entity.minecraft.iron_golem	Iron Golem	Iron Golem
+entity.minecraft.item	Item	Item
+entity.minecraft.item_display	Item Display	Item Display
+entity.minecraft.item_frame	Item Frame	Item Frame
+entity.minecraft.killer_bunny	The Killer Bunny	The Killer Bunny
+entity.minecraft.leash_knot	Leash Knot	Leash Knot
+entity.minecraft.lightning_bolt	Lightning Bolt	Lightning Bolt
+entity.minecraft.llama	Llama	Llama
+entity.minecraft.llama_spit	Llama Spit	Llama Spit
+entity.minecraft.magma_cube	Magma Cube	Magma Cube
+entity.minecraft.marker	Marker	Marker
+entity.minecraft.minecart	Minecart	Minecart
+entity.minecraft.mooshroom	Mooshroom	Mooshroom
+entity.minecraft.mule	Mule	Mule
+entity.minecraft.ocelot	Ocelot	Ocelot
+entity.minecraft.painting	Painting	Painting
+entity.minecraft.panda	Panda	Panda
+entity.minecraft.parrot	Parrot	Parrot
+entity.minecraft.phantom	Phantom	Phantom
+entity.minecraft.pig	Pig	Pig
+entity.minecraft.piglin	Piglin	Piglin
+entity.minecraft.piglin_brute	Piglin Brute	Piglin Brute
+entity.minecraft.pillager	Pillager	Pillager
+entity.minecraft.player	Player	Player
+entity.minecraft.polar_bear	Polar Bear	Polar Bear
+entity.minecraft.potion	Potion	Potion
+entity.minecraft.pufferfish	Pufferfish	Pufferfish
+entity.minecraft.rabbit	Rabbit	Rabbit
+entity.minecraft.ravager	Ravager	Ravager
+entity.minecraft.salmon	Salmon	Salmon
+entity.minecraft.sheep	Sheep	Sheep
+entity.minecraft.shulker	Shulker	Shulker
+entity.minecraft.shulker_bullet	Shulker Bullet	Shulker Bullet
+entity.minecraft.silverfish	Silverfish	Silverfish
+entity.minecraft.skeleton	Skeleton	Skeleton
+entity.minecraft.skeleton_horse	Skeleton Horse	Skeleton Horse
+entity.minecraft.slime	Slime	Slime
+entity.minecraft.small_fireball	Small Fireball	Small Fireball
+entity.minecraft.sniffer	Sniffer	Sniffer
+entity.minecraft.snow_golem	Snow Golem	Snow Golem
+entity.minecraft.snowball	Snowball	Snowball
+entity.minecraft.spawner_minecart	Minecart with Monster Spawner	Minecart with Monster Spawner
+entity.minecraft.spectral_arrow	Spectral Arrow	Spectral Arrow
+entity.minecraft.spider	Spider	Spider
+entity.minecraft.squid	Squid	Squid
+entity.minecraft.stray	Stray	Stray
+entity.minecraft.strider	Strider	Strider
+entity.minecraft.tadpole	Tadpole	Tadpole
+entity.minecraft.text_display	Text Display	Text Display
+entity.minecraft.tnt	Primed TNT	Primed TNT
+entity.minecraft.tnt_minecart	Minecart with TNT	Minecart with TNT
+entity.minecraft.trader_llama	Trader Llama	Trader Llama
+entity.minecraft.trident	Trident	Trident
+entity.minecraft.tropical_fish	Tropical Fish	Tropical Fish
+entity.minecraft.turtle	Turtle	Turtle
+entity.minecraft.vex	Vex	Vex
+entity.minecraft.villager	Villager	Villager
+entity.minecraft.villager.armorer	Armorer	Armorer
+entity.minecraft.villager.butcher	Butcher	Butcher
+entity.minecraft.villager.cartographer	Cartographer	Cartographer
+entity.minecraft.villager.cleric	Cleric	Cleric
+entity.minecraft.villager.farmer	Farmer	Farmer
+entity.minecraft.villager.fisherman	Fisherman	Fisherman
+entity.minecraft.villager.fletcher	Fletcher	Fletcher
+entity.minecraft.villager.leatherworker	Leatherworker	Leatherworker
+entity.minecraft.villager.librarian	Librarian	Librarian
+entity.minecraft.villager.mason	Mason	Mason
+entity.minecraft.villager.nitwit	Nitwit	Nitwit
+entity.minecraft.villager.none	Villager	Villager
+entity.minecraft.villager.shepherd	Shepherd	Shepherd
+entity.minecraft.villager.toolsmith	Toolsmith	Toolsmith
+entity.minecraft.villager.weaponsmith	Weaponsmith	Weaponsmith
+entity.minecraft.vindicator	Vindicator	Vindicator
+entity.minecraft.wandering_trader	Wandering Trader	Wandering Trader
+entity.minecraft.warden	Warden	Warden
+entity.minecraft.witch	Witch	Witch
+entity.minecraft.wither	Wither	Wither
+entity.minecraft.wither_skeleton	Wither Skeleton	Wither Skeleton
+entity.minecraft.wither_skull	Wither Skull	Wither Skull
+entity.minecraft.wolf	Wolf	Wolf
+entity.minecraft.zoglin	Zoglin	Zoglin
+entity.minecraft.zombie	Zombie	Zombie
+entity.minecraft.zombie_horse	Zombie Horse	Zombie Horse
+entity.minecraft.zombie_villager	Zombie Villager	Zombie Villager
+entity.minecraft.zombified_piglin	Zombified Piglin	Zombified Piglin

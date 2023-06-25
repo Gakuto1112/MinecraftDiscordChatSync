@@ -18,8 +18,27 @@ export class LogObserver {
      */
     public async observe(): Promise<void> {
         MinecraftDiscordChatSync.logger.info("Started log observation.");
+        const logPath: string = MinecraftDiscordChatSync.config.getConfig("pathToLog");
+        if(!fs.existsSync(logPath)) {
+            try {
+                const logDirPath = logPath.replace(/[^\/]+$/, "");
+                if(!fs.existsSync(logDirPath)) fs.mkdirSync(logDirPath);
+                fs.writeFileSync(logPath, "", {encoding: "utf-8"});
+                MinecraftDiscordChatSync.logger.info("Created initial log file.");
+            }
+            catch(error: any) {
+                if(error.code == "EPERM") {
+                    //ログファイルへの書き込み権限がない
+                    MinecraftDiscordChatSync.logger.error("No permission to write initial log file.");
+                }
+                else {
+                    //その他エラー
+                    MinecraftDiscordChatSync.logger.error(`An error occurred while writing initial log file.\n${error.stack}`);
+                }
+            }
+        }
         await this.readLog(() => {});
-        fs.watchFile(MinecraftDiscordChatSync.config.getConfig("pathToLog"), {persistent: true, interval: 100}, async (current: fs.Stats, previous: fs.Stats) => {
+        fs.watchFile(logPath, {persistent: true, interval: 100}, async (current: fs.Stats, previous: fs.Stats) => {
             if(current.size < previous.size) this.linesPrev = 0;
             await this.readLog((line: string) => {
                 MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {

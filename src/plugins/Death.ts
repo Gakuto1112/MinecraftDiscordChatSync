@@ -75,7 +75,7 @@ export class Death extends PluginBase {
                 if(readCount++ >= 1) {
                     const tsv: string[] = line.split("\t");
                     let currentPos: DeathMessageMap = this.deathMessageMap;
-                    const deathMessageChunks: string[] = tsv[0].split(" ");
+                    const deathMessageChunks: string[] = tsv[1].split(" ");
                     deathMessageChunks.forEach((deathMessageChunk: string, index: number) => {
                         if(!/%[1-3]\$s/g.test(deathMessageChunk)) {
                             if(!currentPos.map[deathMessageChunk]) currentPos.map[deathMessageChunk] = {
@@ -84,8 +84,8 @@ export class Death extends PluginBase {
                             currentPos = currentPos.map[deathMessageChunk];
                         }
                         if(index == deathMessageChunks.length - 1) currentPos.data = {
-                            global: tsv[0],
-                            local: tsv[1]
+                            global: tsv[1],
+                            local: tsv[2]
                         }
                     });
                 }
@@ -112,7 +112,7 @@ export class Death extends PluginBase {
             for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${locale}/entity.tsv`, {encoding: "utf-8"})})) {
                 if(readCount++ >= 1) {
                     const tsv: string[] = line.split("\t");
-                    this.entityData[tsv[0]] = tsv[1];
+                    this.entityData[tsv[1]] = tsv[2];
                 }
             }
         }

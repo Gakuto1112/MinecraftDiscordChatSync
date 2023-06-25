@@ -40,12 +40,10 @@ type CandidateToken = {
  * トークンのシンボル情報。シンボルの復元に使用する。
  */
 type TokenSymbol = {
-    /** トークンのシンボル */
-    symbol: string,
-    /** トークンの前にシンボルがあるならtrue。 */
-    startToken?: boolean,
-    /** トークンの後にシンボルがあるならtrue。 */
-    endToken?: boolean
+    /** トークン前のシンボル */
+    startSymbol?: string,
+    /** トークン後のシンボル */
+    endSymbol?: string
 };
 /**
  * トークンの正規表現の情報
@@ -171,65 +169,60 @@ export class DiscordMessage extends PluginBase {
                             regExp: /^[^\S]*> +(.+)$/,
                             tokenType: "quote",
                             tokenSymbol: {
-                                symbol: "> ",
-                                startToken: true
+                                startSymbol: "> "
                             }
                         },
                         {
                             regExp: /^[^\S]*#{1,3} +(.+)$/,
                             tokenType: "headline",
                             tokenSymbol: {
-                                symbol: "# ",
-                                startToken: true
+                                startSymbol: "# "
                             }
                         },
                         {
                             regExp: /http(s?:\/\/\S{2,})/,
                             tokenType: "link",
                             tokenSymbol: {
-                                symbol: "http",
-                                startToken: true
+                                startSymbol: "http"
                             }
                         },
                         {
                             regExp: /@(here|everyone)/,
                             tokenType: "mention_general",
                             tokenSymbol: {
-                                symbol: "@",
-                                startToken: true
+                                startSymbol: "@"
                             }
                         },
                         {
                             regExp: /<@(\d+)>/,
                             tokenType: "mention_user",
                             tokenSymbol: {
-                                symbol: "",
-                                startToken: true
+                                startSymbol: "<@",
+                                endSymbol: ">"
                             }
                         },
                         {
                             regExp: /<@&(\d+)>/,
                             tokenType: "mention_role",
                             tokenSymbol: {
-                                symbol: "",
-                                startToken: true
+                                startSymbol: "<@&",
+                                endSymbol: ">"
                             }
                         },
                         {
                             regExp: /<#(\d+)>/,
                             tokenType: "mention_channel",
                             tokenSymbol: {
-                                symbol: "",
-                                startToken: true
+                                startSymbol: "<#",
+                                endSymbol: ">"
                             }
                         },
                         {
                             regExp: /<:(\w+):\d+>/,
                             tokenType: "custom_emoji",
                             tokenSymbol: {
-                                symbol: ":",
-                                startToken: true,
-                                endToken: true
+                                startSymbol: ":",
+                                endSymbol: ":"
                             }
                         }
                     ]);
@@ -239,18 +232,16 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)`{3}(.*?[^\\])`{3}/,
                                 tokenType: "code_block",
                                 tokenSymbol: {
-                                    symbol: "```",
-                                    startToken: true,
-                                    endToken: true
-                                }
+                                    startSymbol: "```",
+                                    endSymbol: "```"
+                                    }
                             },
                             {
                                 regExp: /(?<!\\)`{3}(.*?)$/,
                                 tokenType: "code_block",
                                 tokenSymbol: {
-                                    symbol: "```",
-                                    startToken: true
-                                },
+                                    startSymbol: "```"
+                                    },
                                 halfBlock: true
                             }
                         ]);
@@ -259,8 +250,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)`{3}/,
                         tokenType: "code_block",
                         tokenSymbol: {
-                            symbol: "```",
-                            endToken: true
+                            endSymbol: "```"
                         },
                         halfBlock: true
                     });
@@ -269,17 +259,15 @@ export class DiscordMessage extends PluginBase {
                             regExp: /(?<!\\)\*{2}(.*?[^\\])\*{2}/,
                             tokenType: "bold",
                             tokenSymbol: {
-                                symbol: "**",
-                                startToken: true,
-                                endToken: true
+                                startSymbol: "**",
+                                endSymbol: "**"
                             }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)\*{2}(.*?)$/,
                             tokenType: "bold",
                             tokenSymbol: {
-                                symbol: "**",
-                                startToken: true
+                                startSymbol: "**"
                             },
                             halfBlock: true
                         });
@@ -288,8 +276,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)\*{2}/,
                         tokenType: "bold",
                         tokenSymbol: {
-                            symbol: "**",
-                            endToken: true
+                            endSymbol: "**"
                         },
                         halfBlock: true
                     });
@@ -298,17 +285,15 @@ export class DiscordMessage extends PluginBase {
                             regExp: /(?<!\\)_{2}(.*?[^\\])_{2}/,
                             tokenType: "underline",
                             tokenSymbol: {
-                                symbol: "__",
-                                startToken: true,
-                                endToken: true
+                                startSymbol: "__",
+                                endSymbol: "__"
                             }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)_{2}(.*?)$/,
                             tokenType: "underline",
                             tokenSymbol: {
-                                symbol: "__",
-                                startToken: true
+                                startSymbol: "__"
                             },
                             halfBlock: true
                         });
@@ -317,8 +302,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)_{2}/,
                         tokenType: "underline",
                         tokenSymbol: {
-                            symbol: "__",
-                            endToken: true
+                            endSymbol: "__"
                         },
                         halfBlock: true
                     });
@@ -327,17 +311,15 @@ export class DiscordMessage extends PluginBase {
                             regExp: /(?<!\\)~{2}(.*?[^\\])~{2}/,
                             tokenType: "strike",
                             tokenSymbol: {
-                                symbol: "~~",
-                                startToken: true,
-                                endToken: true
+                                startSymbol: "~~",
+                                endSymbol: "~~"
                             }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)~{2}(.*?)$/,
                             tokenType: "strike",
                             tokenSymbol: {
-                                symbol: "~~",
-                                startToken: true
+                                startSymbol: "~~"
                             },
                             halfBlock: true
                         });
@@ -346,8 +328,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)~{2}/,
                         tokenType: "strike",
                         tokenSymbol: {
-                            symbol: "~~",
-                            endToken: true
+                            endSymbol: "~~"
                         },
                         halfBlock: true
                     });
@@ -356,17 +337,15 @@ export class DiscordMessage extends PluginBase {
                             regExp: /(?<!\\)\|{2}(.*?[^\\])\|{2}/,
                             tokenType: "spoiler",
                             tokenSymbol: {
-                                symbol: "||",
-                                startToken: true,
-                                endToken: true
+                                startSymbol: "||",
+                                endSymbol: "||"
                             }
                         });
                         halfBlockRegexArray.push({
                             regExp: /(?<!\\)\|{2}(.*?)$/,
                             tokenType: "spoiler",
                             tokenSymbol: {
-                                symbol: "||",
-                                startToken: true
+                                startSymbol: "||"
                             },
                             halfBlock: true
                         });
@@ -375,8 +354,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)\|{2}/,
                         tokenType: "spoiler",
                         tokenSymbol: {
-                            symbol: "||",
-                            endToken: true
+                            endSymbol: "||"
                         },
                         halfBlock: true
                     });
@@ -386,19 +364,17 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)`{2}(.*?[^\\])`{2}/,
                                 tokenType: "code_inline",
                                 tokenSymbol: {
-                                    symbol: "``",
-                                    startToken: true,
-                                    endToken: true
-                                }
+                                    startSymbol: "``",
+                                    endSymbol: "``"
+                                    }
                             },
                             {
                                 regExp: /(?<!\\)`(.*?[^\\])`/,
                                 tokenType: "code_inline",
                                 tokenSymbol: {
-                                    symbol: "`",
-                                    startToken: true,
-                                    endToken: true
-                                }
+                                    startSymbol: "`",
+                                    endSymbol: "`"
+                                    }
                             }
                         ]);
                         halfBlockRegexArray = halfBlockRegexArray.concat([
@@ -406,8 +382,7 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)`{2}(.*?)$/,
                                 tokenType: "code_inline",
                                 tokenSymbol: {
-                                    symbol: "``",
-                                    startToken: true
+                                    startSymbol: "``"
                                 },
                                 halfBlock: true
                             },
@@ -415,8 +390,7 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)`(.*?)$/,
                                 tokenType: "code_inline",
                                 tokenSymbol: {
-                                    symbol: "`",
-                                    startToken: true
+                                    startSymbol: "`"
                                 },
                                 halfBlock: true
                             },
@@ -426,8 +400,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)`{2}/,
                         tokenType: "code_inline",
                         tokenSymbol: {
-                            symbol: "``",
-                            endToken: true
+                            endSymbol: "``"
                         },
                         halfBlock: true
                     });
@@ -435,8 +408,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)`/,
                         tokenType: "code_inline",
                         tokenSymbol: {
-                            symbol: "`",
-                            endToken: true
+                            endSymbol: "`"
                         },
                         halfBlock: true
                     });
@@ -446,19 +418,17 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)\*(.*?[^\\])\*/,
                                 tokenType: "italic",
                                 tokenSymbol: {
-                                    symbol: "*",
-                                    startToken: true,
-                                    endToken: true
-                                }
+                                    startSymbol: "**",
+                                    endSymbol: "**"
+                                    }
                             },
                             {
                                 regExp: /(?<!\\)_(.*?[^\\])_/,
                                 tokenType: "italic",
                                 tokenSymbol: {
-                                    symbol: "_",
-                                    startToken: true,
-                                    endToken: true
-                                }
+                                    startSymbol: "_",
+                                    endSymbol: "_"
+                                    }
                             }
                         ]);
                         halfBlockRegexArray = halfBlockRegexArray.concat([
@@ -466,8 +436,7 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)\*(.*?)$/,
                                 tokenType: "italic",
                                 tokenSymbol: {
-                                    symbol: "*",
-                                    startToken: true
+                                    startSymbol: "*"
                                 },
                                 halfBlock: true
                             },
@@ -475,8 +444,7 @@ export class DiscordMessage extends PluginBase {
                                 regExp: /(?<!\\)_(.*?)$/,
                                 tokenType: "italic",
                                 tokenSymbol: {
-                                    symbol: "_",
-                                    startToken: true
+                                    startSymbol: "_"
                                 },
                                 halfBlock: true
                             }
@@ -486,8 +454,7 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)\*/,
                         tokenType: "italic",
                         tokenSymbol: {
-                            symbol: "*",
-                            endToken: true
+                            endSymbol: "*"
                         },
                         halfBlock: true
                     });
@@ -495,31 +462,10 @@ export class DiscordMessage extends PluginBase {
                         regExp: /^(.*?)(?<!\\)_/,
                         tokenType: "italic",
                         tokenSymbol: {
-                            symbol: "_",
-                            endToken: true
+                            endSymbol: "_"
                         },
                         halfBlock: true
                     });
-                    if(waitingForEndToken.code_inline.id == -1) {
-                        tokenRegexArray.push({
-                            regExp: /(?<!\\)`(.*?[^\\])`/,
-                            tokenType: "code_inline",
-                            tokenSymbol: {
-                                symbol: "`",
-                                startToken: true,
-                                endToken: true
-                            }
-                        });
-                        halfBlockRegexArray.push({
-                            regExp: /(?<!\\)`(.*?)$/,
-                            tokenType: "code_inline",
-                            tokenSymbol: {
-                                symbol: "`",
-                                startToken: true
-                            },
-                            halfBlock: true
-                        });
-                    }
                     tokenRegexArray = tokenRegexArray.concat(halfBlockRegexArray);
 
                     /**
@@ -595,7 +541,7 @@ export class DiscordMessage extends PluginBase {
                                 candidateId: waitingForEndToken[tokenType].id,
                                 type: tokenType as TokenType,
                                 symbol: {
-                                    symbol: waitingForEndToken[tokenType].symbol as string,
+                                    startSymbol: waitingForEndToken[tokenType].symbol
                                 },
                                 children: (ast[index].children as Token[]).concat()
                             }
@@ -615,10 +561,10 @@ export class DiscordMessage extends PluginBase {
                             const outputAsText: boolean = asTextToken || (child.candidateId > -1 && !candidateEnabled.includes(child.candidateId)) || token.type == "code_inline" || token.type == "code_block" || child.type == "link" || child.type == "custom_emoji";
                             const childArray: TellrawElement[] = astToArray(child, outputAsText);
                             if(outputAsText && child.type != "text") {
-                                let text: string = (child.symbol as TokenSymbol).startToken ? (child.symbol as TokenSymbol).symbol : "";
+                                let text: string = typeof (child.symbol as TokenSymbol).startSymbol == "string" ? (child.symbol as TokenSymbol).startSymbol as string : "";
                                 childArray.forEach((childElement: TellrawElement) => text += childElement.text);
-                                if((child.symbol as TokenSymbol).endToken) text += (child.symbol as TokenSymbol).symbol;
-                                if(text != (child.symbol as TokenSymbol).symbol) {
+                                if(typeof (child.symbol as TokenSymbol).endSymbol == "string") text += (child.symbol as TokenSymbol).endSymbol;
+                                if(text != (child.symbol as TokenSymbol).startSymbol) {
                                     const textElement: TellrawElement = {
                                         text: text,
                                         decorations: {}

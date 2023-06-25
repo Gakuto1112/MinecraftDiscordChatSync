@@ -67,25 +67,38 @@
 
 1. [Discord開発者ポータル](https://discord.com/developers/applications)アクセスします。
 2. 右上の「New Application」をクリックします。
+
   ![ボットの作成1](./README_images/creating_bot/1.jpg)
+
 3. テキストボックスにアプリケーションの名前（ボットの名前ではない）を入力します。[開発者利用規約](https://discord.com/developers/docs/policies-and-agreements/developer-terms-of-service)と[開発者ポリシー](https://discord.com/developers/docs/policies-and-agreements/developer-policy)を読んで「Create」をクリックします。
+
   ![ボットの作成2](./README_images/creating_bot/2.jpg)
+
 4. サイドバーの「Bot」をクリックします。
 5. 「Add Bot」をクリックしてボットを作成します。確認メッセージが表示されるので続行します。緑色の枠で「A wild bot has appeared!」というメッセージが表示されればボットが作成されたことになります。
+
   ![ボットの作成3](./README_images//creating_bot/3.jpg)
+
 6. 「Build-A-Bot」セクションでボットの名前やアイコンを設定します。
 7. トークンから「copy」をクリックしてトークンをメモ帳などに控えておきます。
    - **トークンは機密情報です。絶対に第三者に漏洩しないように管理して下さい。**
    - 万が一トークンの漏洩が疑われた場合は、速やかにトークンの再発行を行って下さい。
+
   ![ボットの作成4](./README_images//creating_bot/4.jpg)
+
 8. 「Privileged Gateway Intents」から「MESSAGE CONTENT INTENT」をオンにします。
+
   ![ボットの作成5](./README_images//creating_bot/5.jpg)
+
 9. 変更内容を保存します。
 10. サイドバーの「OAuth2」→「URL Generator」をクリックします。
 11. 「SCOPES」の欄の「bot」にチェックを入れ、ページ最下部のURLにアクセスします。
+
   ![ボットの作成6](./README_images//creating_bot/6.jpg)
+
 12. ボットを追加したいサーバーを選択して、認証をします。
 13. サーバーにボットが追加されます。
+
   ![ボットの作成7](./README_images//creating_bot/7.jpg)
 
 ### 3: Rconの有効化
@@ -152,9 +165,7 @@ ts-node MinecraftDiscordChatSync.ts <オプション1> <オプション2> ...
 5. 指示に従って必要な情報を入力すると言語データが生成されます。
 6. `../<言語コード>/<言語コード>.tsv`はシステムが直接使用する言語データです。これを開いて各項目を翻訳して下さい。
 
-[**注意**]
-
-言語データ生成ツールはバニラ用です。modの翻訳を追加したい場合は手動で追加する必要があります。
+[**注意**]　言語データ生成ツールはバニラ用です。modの翻訳を追加したい場合は手動で追加する必要があります。
 
 ## 注意事項
 - modやプラグインによって出力されるログのフォーマットが変更されている場合は正常に動作しない可能性があります。

@@ -75,7 +75,7 @@ function generateLocaleData(src: string, lang: string): void {
         const advancements: fs.WriteStream = fs.createWriteStream(`../${lang}/advancements.tsv`);
         const advancementsKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^advancements\.\w+\.\w+\.title$/.test(key) && !/advancements\.\w+\.root\.title/.test(key));
         advancements.write("key\tglobal\tlocal_title\tlocal_description\n");
-        advancementsKeys.forEach((key: string) => advancements.write(`${key}\t${defaultLangData[key]}\t${langData[key]}\t${langData[key.replace("title", "description")].replace(/\n/g, "\\n")}\n`));
+        advancementsKeys.forEach((key: string) => advancements.write(`${key}\t${defaultLangData[key].replace(/"/g, "\\\"")}\t${langData[key]}\t${langData[key.replace("title", "description")].replace(/\n/g, "\\n")}\n`));
         //死亡メッセージデータの出力
         log("Generating \"death.tsv\"...");
         const death: fs.WriteStream = fs.createWriteStream(`../${lang}/death.tsv`);

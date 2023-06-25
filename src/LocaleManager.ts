@@ -21,7 +21,7 @@ export class LocaleManager {
         for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${localeName}/${localeName}.tsv`, {encoding: "utf-8"})})) {
             if(readCount++ >= 1) {
                 const tsv: string[] = line.split("\t");
-                this.localeData[localeName][tsv[0]] = typeof tsv[1] == "string" ? tsv[1] : "";
+                this.localeData[localeName][tsv[0]] = typeof tsv[1] == "string" && !/^['"]{2}$/.test(tsv[1]) ? tsv[1] : "";
             }
         }
     }

@@ -58,11 +58,11 @@ async function main(path?: string, version?: string, lang?: string): Promise<voi
     log("Gathering index files...");
     let targetVersion: string;
     try {
-        const indexArray: string[] = fs.readdirSync(`${gamePath}/assets/indexes`, {withFileTypes: true}).map((value: fs.Dirent) => value.name.substring(0, value.name.length - 5)).sort((a: string, b: string) => {
+        const indexArray: string[] = fs.readdirSync(`${gamePath}/assets/indexes`, {withFileTypes: true}).map((value: fs.Dirent) => value.name.substring(0, value.name.length - 5)).filter((value: string) => Number(value)).sort((a: string, b: string) => {
             function splitVersion(stringToCheck: string): number[] {
                 const split: string[] = stringToCheck.split(".");
                 const versionNumbers: number[] = [];
-                for(let i = 0; i < 2; i++) versionNumbers.push(typeof split[i] == "string" ? (Number(split[i]) ? Number(split[i]) : 0) : 0);
+                for(let i = 0; i < 2; i++) versionNumbers.push(typeof split[i] == "string" ? Number(split[i]) : 0);
                 return versionNumbers;
             }
             const versionA: number[] = splitVersion(a);

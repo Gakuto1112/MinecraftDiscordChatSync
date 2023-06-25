@@ -84,8 +84,8 @@ export class MinecraftDiscordChatSync {
      * メイン関数
      */
     public async main(): Promise<void> {
-        MinecraftDiscordChatSync.config.readConfigFile();
         await MinecraftDiscordChatSync.plugin.loadPlugins();
+        MinecraftDiscordChatSync.config.readConfigFile();
         MinecraftDiscordChatSync.config.updateConfigFile();
         MinecraftDiscordChatSync.config.verifyConfig();
         MinecraftDiscordChatSync.locale.loadLocales();

@@ -1,144 +1,143 @@
-name_global	name_local
-Allay	アレイ
-Area Effect Cloud	エリアエフェクトクラウド
-Armor Stand	防具立て
-Arrow	矢
-Axolotl	ウーパールーパー
-Bat	コウモリ
-Bee	ミツバチ
-Blaze	ブレイズ
-Block Display	ブロック表示エンティティ
-Boat	ボート
-Camel	ラクダ
-Cat	ネコ
-Cave Spider	洞窟グモ
-Boat with Chest	チェスト付きのボート
-Minecart with Chest	チェスト付きのトロッコ
-Chicken	ニワトリ
-Cod	タラ
-Minecart with Command Block	コマンドブロック付きのトロッコ
-Cow	ウシ
-Creeper	クリーパー
-Dolphin	イルカ
-Donkey	ロバ
-Dragon Fireball	ドラゴンの火の玉
-Drowned	ドラウンド
-Thrown Egg	投げられた卵
-Elder Guardian	エルダーガーディアン
-End Crystal	エンドクリスタル
-Ender Dragon	エンダードラゴン
-Thrown Ender Pearl	投げられたエンダーパール
-Enderman	エンダーマン
-Endermite	エンダーマイト
-Evoker	エヴォーカー
-Evoker Fangs	エヴォーカーの牙
-Thrown Bottle o' Enchanting	投げられたエンチャントの瓶
-Experience Orb	経験値オーブ
-Eye of Ender	エンダーアイ
-Falling Block	落下中のブロック
-Falling %s	落下中の%s
-Fireball	火の玉
-Firework Rocket	ロケット花火
-Fishing Bobber	浮き
-Fox	キツネ
-Frog	カエル
-Minecart with Furnace	かまど付きのトロッコ
-Ghast	ガスト
-Giant	ジャイアント
-Glow Item Frame	輝く額縁
-Glow Squid	ヒカリイカ
-Goat	ヤギ
-Guardian	ガーディアン
-Hoglin	ホグリン
-Minecart with Hopper	ホッパー付きのトロッコ
-Horse	ウマ
-Husk	ハスク
-Illusioner	イリュージョナー
-Interaction	操作記録エンティティ
-Iron Golem	アイアンゴーレム
-Item	アイテム
-Item Display	アイテム表示エンティティ
-Item Frame	額縁
-The Killer Bunny	殺人ウサギ
-Leash Knot	リードの結び目
-Lightning Bolt	雷
-Llama	ラマ
-Llama Spit	ラマの唾
-Magma Cube	マグマキューブ
-Marker	マーカー
-Minecart	トロッコ
-Mooshroom	ムーシュルーム
-Mule	ラバ
-Ocelot	ヤマネコ
-Painting	絵画
-Panda	パンダ
-Parrot	オウム
-Phantom	ファントム
-Pig	ブタ
-Piglin	ピグリン
-Piglin Brute	ピグリンブルート
-Pillager	ピリジャー
-Player	プレイヤー
-Polar Bear	シロクマ
-Potion	ポーション
-Pufferfish	フグ
-Rabbit	ウサギ
-Ravager	ラヴェジャー
-Salmon	サケ
-Sheep	ヒツジ
-Shulker	シュルカー
-Shulker Bullet	シュルカーの弾
-Silverfish	シルバーフィッシュ
-Skeleton	スケルトン
-Skeleton Horse	スケルトンホース
-Slime	スライム
-Small Fireball	小さな火の玉
-Sniffer	スニッファー
-Snow Golem	スノウゴーレム
-Snowball	雪玉
-Minecart with Monster Spawner	モンスタースポナー付きのトロッコ
-Spectral Arrow	光の矢
-Spider	クモ
-Squid	イカ
-Stray	ストレイ
-Strider	ストライダー
-Tadpole	オタマジャクシ
-Text Display	テキスト表示エンティティ
-Primed TNT	着火されたTNT
-Minecart with TNT	TNT付きのトロッコ
-Trader Llama	商人のラマ
-Trident	トライデント
-Tropical Fish	熱帯魚
-Turtle	カメ
-Vex	ヴェックス
-Villager	村人
-Armorer	防具鍛冶
-Butcher	肉屋
-Cartographer	製図家
-Cleric	聖職者
-Farmer	農民
-Fisherman	釣り人
-Fletcher	矢師
-Leatherworker	革細工師
-Librarian	司書
-Mason	石工
-Nitwit	無職
-Villager	村人
-Shepherd	羊飼い
-Toolsmith	道具鍛冶
-Weaponsmith	武器鍛冶
-Vindicator	ヴィンディケーター
-Wandering Trader	行商人
-Warden	ウォーデン
-Witch	ウィッチ
-Wither	ウィザー
-Wither Skeleton	ウィザースケルトン
-Wither Skull	ウィザーの頭蓋骨
-Wolf	オオカミ
-Zoglin	ゾグリン
-Zombie	ゾンビ
-Zombie Horse	ゾンビホース
-Zombie Villager	村人ゾンビ
-Zombified Piglin	ゾンビピグリン
-Can't summon entity of type %s	%sという種類のエンティティを召喚することができません
-[Intentional Game Design]	[ゲームの仕様]
+key	global	local
+death.attack.badRespawnPoint.link	[Intentional Game Design]	ゲームの仕様
+entity.minecraft.allay	Allay	アレイ
+entity.minecraft.area_effect_cloud	Area Effect Cloud	エリアエフェクトクラウド
+entity.minecraft.armor_stand	Armor Stand	防具立て
+entity.minecraft.arrow	Arrow	矢
+entity.minecraft.axolotl	Axolotl	ウーパールーパー
+entity.minecraft.bat	Bat	コウモリ
+entity.minecraft.bee	Bee	ミツバチ
+entity.minecraft.blaze	Blaze	ブレイズ
+entity.minecraft.block_display	Block Display	ブロック表示エンティティ
+entity.minecraft.boat	Boat	ボート
+entity.minecraft.camel	Camel	ラクダ
+entity.minecraft.cat	Cat	ネコ
+entity.minecraft.cave_spider	Cave Spider	洞窟グモ
+entity.minecraft.chest_boat	Boat with Chest	チェスト付きのボート
+entity.minecraft.chest_minecart	Minecart with Chest	チェスト付きのトロッコ
+entity.minecraft.chicken	Chicken	ニワトリ
+entity.minecraft.cod	Cod	タラ
+entity.minecraft.command_block_minecart	Minecart with Command Block	コマンドブロック付きのトロッコ
+entity.minecraft.cow	Cow	ウシ
+entity.minecraft.creeper	Creeper	クリーパー
+entity.minecraft.dolphin	Dolphin	イルカ
+entity.minecraft.donkey	Donkey	ロバ
+entity.minecraft.dragon_fireball	Dragon Fireball	ドラゴンの火の玉
+entity.minecraft.drowned	Drowned	ドラウンド
+entity.minecraft.egg	Thrown Egg	投げられた卵
+entity.minecraft.elder_guardian	Elder Guardian	エルダーガーディアン
+entity.minecraft.end_crystal	End Crystal	エンドクリスタル
+entity.minecraft.ender_dragon	Ender Dragon	エンダードラゴン
+entity.minecraft.ender_pearl	Thrown Ender Pearl	投げられたエンダーパール
+entity.minecraft.enderman	Enderman	エンダーマン
+entity.minecraft.endermite	Endermite	エンダーマイト
+entity.minecraft.evoker	Evoker	エヴォーカー
+entity.minecraft.evoker_fangs	Evoker Fangs	エヴォーカーの牙
+entity.minecraft.experience_bottle	Thrown Bottle o' Enchanting	投げられたエンチャントの瓶
+entity.minecraft.experience_orb	Experience Orb	経験値オーブ
+entity.minecraft.eye_of_ender	Eye of Ender	エンダーアイ
+entity.minecraft.falling_block	Falling Block	落下中のブロック
+entity.minecraft.falling_block_type	Falling %s	落下中の%s
+entity.minecraft.fireball	Fireball	火の玉
+entity.minecraft.firework_rocket	Firework Rocket	ロケット花火
+entity.minecraft.fishing_bobber	Fishing Bobber	浮き
+entity.minecraft.fox	Fox	キツネ
+entity.minecraft.frog	Frog	カエル
+entity.minecraft.furnace_minecart	Minecart with Furnace	かまど付きのトロッコ
+entity.minecraft.ghast	Ghast	ガスト
+entity.minecraft.giant	Giant	ジャイアント
+entity.minecraft.glow_item_frame	Glow Item Frame	輝く額縁
+entity.minecraft.glow_squid	Glow Squid	ヒカリイカ
+entity.minecraft.goat	Goat	ヤギ
+entity.minecraft.guardian	Guardian	ガーディアン
+entity.minecraft.hoglin	Hoglin	ホグリン
+entity.minecraft.hopper_minecart	Minecart with Hopper	ホッパー付きのトロッコ
+entity.minecraft.horse	Horse	ウマ
+entity.minecraft.husk	Husk	ハスク
+entity.minecraft.illusioner	Illusioner	イリュージョナー
+entity.minecraft.interaction	Interaction	操作記録エンティティ
+entity.minecraft.iron_golem	Iron Golem	アイアンゴーレム
+entity.minecraft.item	Item	アイテム
+entity.minecraft.item_display	Item Display	アイテム表示エンティティ
+entity.minecraft.item_frame	Item Frame	額縁
+entity.minecraft.killer_bunny	The Killer Bunny	殺人ウサギ
+entity.minecraft.leash_knot	Leash Knot	リードの結び目
+entity.minecraft.lightning_bolt	Lightning Bolt	雷
+entity.minecraft.llama	Llama	ラマ
+entity.minecraft.llama_spit	Llama Spit	ラマの唾
+entity.minecraft.magma_cube	Magma Cube	マグマキューブ
+entity.minecraft.marker	Marker	マーカー
+entity.minecraft.minecart	Minecart	トロッコ
+entity.minecraft.mooshroom	Mooshroom	ムーシュルーム
+entity.minecraft.mule	Mule	ラバ
+entity.minecraft.ocelot	Ocelot	ヤマネコ
+entity.minecraft.painting	Painting	絵画
+entity.minecraft.panda	Panda	パンダ
+entity.minecraft.parrot	Parrot	オウム
+entity.minecraft.phantom	Phantom	ファントム
+entity.minecraft.pig	Pig	ブタ
+entity.minecraft.piglin	Piglin	ピグリン
+entity.minecraft.piglin_brute	Piglin Brute	ピグリンブルート
+entity.minecraft.pillager	Pillager	ピリジャー
+entity.minecraft.player	Player	プレイヤー
+entity.minecraft.polar_bear	Polar Bear	シロクマ
+entity.minecraft.potion	Potion	ポーション
+entity.minecraft.pufferfish	Pufferfish	フグ
+entity.minecraft.rabbit	Rabbit	ウサギ
+entity.minecraft.ravager	Ravager	ラヴェジャー
+entity.minecraft.salmon	Salmon	サケ
+entity.minecraft.sheep	Sheep	ヒツジ
+entity.minecraft.shulker	Shulker	シュルカー
+entity.minecraft.shulker_bullet	Shulker Bullet	シュルカーの弾
+entity.minecraft.silverfish	Silverfish	シルバーフィッシュ
+entity.minecraft.skeleton	Skeleton	スケルトン
+entity.minecraft.skeleton_horse	Skeleton Horse	スケルトンホース
+entity.minecraft.slime	Slime	スライム
+entity.minecraft.small_fireball	Small Fireball	小さな火の玉
+entity.minecraft.sniffer	Sniffer	スニッファー
+entity.minecraft.snow_golem	Snow Golem	スノウゴーレム
+entity.minecraft.snowball	Snowball	雪玉
+entity.minecraft.spawner_minecart	Minecart with Monster Spawner	モンスタースポナー付きのトロッコ
+entity.minecraft.spectral_arrow	Spectral Arrow	光の矢
+entity.minecraft.spider	Spider	クモ
+entity.minecraft.squid	Squid	イカ
+entity.minecraft.stray	Stray	ストレイ
+entity.minecraft.strider	Strider	ストライダー
+entity.minecraft.tadpole	Tadpole	オタマジャクシ
+entity.minecraft.text_display	Text Display	テキスト表示エンティティ
+entity.minecraft.tnt	Primed TNT	着火されたTNT
+entity.minecraft.tnt_minecart	Minecart with TNT	TNT付きのトロッコ
+entity.minecraft.trader_llama	Trader Llama	商人のラマ
+entity.minecraft.trident	Trident	トライデント
+entity.minecraft.tropical_fish	Tropical Fish	熱帯魚
+entity.minecraft.turtle	Turtle	カメ
+entity.minecraft.vex	Vex	ヴェックス
+entity.minecraft.villager	Villager	村人
+entity.minecraft.villager.armorer	Armorer	防具鍛冶
+entity.minecraft.villager.butcher	Butcher	肉屋
+entity.minecraft.villager.cartographer	Cartographer	製図家
+entity.minecraft.villager.cleric	Cleric	聖職者
+entity.minecraft.villager.farmer	Farmer	農民
+entity.minecraft.villager.fisherman	Fisherman	釣り人
+entity.minecraft.villager.fletcher	Fletcher	矢師
+entity.minecraft.villager.leatherworker	Leatherworker	革細工師
+entity.minecraft.villager.librarian	Librarian	司書
+entity.minecraft.villager.mason	Mason	石工
+entity.minecraft.villager.nitwit	Nitwit	無職
+entity.minecraft.villager.none	Villager	村人
+entity.minecraft.villager.shepherd	Shepherd	羊飼い
+entity.minecraft.villager.toolsmith	Toolsmith	道具鍛冶
+entity.minecraft.villager.weaponsmith	Weaponsmith	武器鍛冶
+entity.minecraft.vindicator	Vindicator	ヴィンディケーター
+entity.minecraft.wandering_trader	Wandering Trader	行商人
+entity.minecraft.warden	Warden	ウォーデン
+entity.minecraft.witch	Witch	ウィッチ
+entity.minecraft.wither	Wither	ウィザー
+entity.minecraft.wither_skeleton	Wither Skeleton	ウィザースケルトン
+entity.minecraft.wither_skull	Wither Skull	ウィザーの頭蓋骨
+entity.minecraft.wolf	Wolf	オオカミ
+entity.minecraft.zoglin	Zoglin	ゾグリン
+entity.minecraft.zombie	Zombie	ゾンビ
+entity.minecraft.zombie_horse	Zombie Horse	ゾンビホース
+entity.minecraft.zombie_villager	Zombie Villager	村人ゾンビ
+entity.minecraft.zombified_piglin	Zombified Piglin	ゾンビピグリン

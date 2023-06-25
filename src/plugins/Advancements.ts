@@ -80,9 +80,9 @@ export class Advancements extends PluginBase {
             for await (const line of readline.createInterface({input: fs.createReadStream(`./locales/${locale}/advancements.tsv`, {encoding: "utf-8"})})) {
                 if(readCount++ >= 1) {
                     const tsv: string[] = line.split("\t");
-                    this.advancementData[tsv[1]] = {
-                        localName: tsv[2],
-                        description: tsv[3]
+                    this.advancementData[tsv[0]] = {
+                        localName: tsv[1],
+                        description: tsv[2]
                     }
                 }
             }

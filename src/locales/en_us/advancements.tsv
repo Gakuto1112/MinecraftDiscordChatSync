@@ -1,106 +1,106 @@
-key	global	local_title	local_description
-advancements.adventure.adventuring_time.title	Adventuring Time	Adventuring Time	Discover every biome
-advancements.adventure.arbalistic.title	Arbalistic	Arbalistic	Kill five unique mobs with one crossbow shot
-advancements.adventure.avoid_vibration.title	Sneak 100	Sneak 100	Sneak near a Sculk Sensor or Warden to prevent it from detecting you
-advancements.adventure.bullseye.title	Bullseye	Bullseye	Hit the bullseye of a Target block from at least 30 meters away
-advancements.adventure.craft_decorated_pot_using_only_sherds.title	Careful Restoration	Careful Restoration	Make a Decorated Pot out of 4 Pottery Sherds
-advancements.adventure.fall_from_world_height.title	Caves & Cliffs	Caves & Cliffs	Free fall from the top of the world (build limit) to the bottom of the world and survive
-advancements.adventure.hero_of_the_village.title	Hero of the Village	Hero of the Village	Successfully defend a village from a raid
-advancements.adventure.honey_block_slide.title	Sticky Situation	Sticky Situation	Jump into a Honey Block to break your fall
-advancements.adventure.kill_a_mob.title	Monster Hunter	Monster Hunter	Kill any hostile monster
-advancements.adventure.kill_all_mobs.title	Monsters Hunted	Monsters Hunted	Kill one of every hostile monster
-advancements.adventure.kill_mob_near_sculk_catalyst.title	It Spreads	It Spreads	Kill a mob near a Sculk Catalyst
-advancements.adventure.lightning_rod_with_villager_no_fire.title	Surge Protector	Surge Protector	Protect a Villager from an undesired shock without starting a fire
-advancements.adventure.ol_betsy.title	Ol' Betsy	Ol' Betsy	Shoot a Crossbow
-advancements.adventure.play_jukebox_in_meadows.title	Sound of Music	Sound of Music	Make the Meadows come alive with the sound of music from a Jukebox
-advancements.adventure.read_power_from_chiseled_bookshelf.title	The Power of Books	The Power of Books	Read the power signal of a Chiseled Bookshelf using a Comparator
-advancements.adventure.salvage_sherd.title	Respecting the Remnants	Respecting the Remnants	Brush a Suspicious block to obtain a Pottery Sherd
-advancements.adventure.shoot_arrow.title	Take Aim	Take Aim	Shoot something with an Arrow
-advancements.adventure.sleep_in_bed.title	Sweet Dreams	Sweet Dreams	Sleep in a Bed to change your respawn point
-advancements.adventure.sniper_duel.title	Sniper Duel	Sniper Duel	Kill a Skeleton from at least 50 meters away
-advancements.adventure.spyglass_at_dragon.title	Is It a Plane?	Is It a Plane?	Look at the Ender Dragon through a Spyglass
-advancements.adventure.spyglass_at_ghast.title	Is It a Balloon?	Is It a Balloon?	Look at a Ghast through a Spyglass
-advancements.adventure.spyglass_at_parrot.title	Is It a Bird?	Is It a Bird?	Look at a Parrot through a Spyglass
-advancements.adventure.summon_iron_golem.title	Hired Help	Hired Help	Summon an Iron Golem to help defend a village
-advancements.adventure.throw_trident.title	A Throwaway Joke	A Throwaway Joke	Throw a Trident at something.\nNote: Throwing away your only weapon is not a good idea.
-advancements.adventure.totem_of_undying.title	Postmortal	Postmortal	Use a Totem of Undying to cheat death
-advancements.adventure.trade_at_world_height.title	Star Trader	Star Trader	Trade with a Villager at the build height limit
-advancements.adventure.trade.title	What a Deal!	What a Deal!	Successfully trade with a Villager
-advancements.adventure.trim_with_all_exclusive_armor_patterns.title	Smithing with Style	Smithing with Style	Apply these smithing templates at least once: Spire, Snout, Rib, Ward, Silence, Vex, Tide, Wayfinder
-advancements.adventure.trim_with_any_armor_pattern.title	Crafting a New Look	Crafting a New Look	Craft a trimmed armor at a Smithing Table
-advancements.adventure.two_birds_one_arrow.title	Two Birds, One Arrow	Two Birds, One Arrow	Kill two Phantoms with a piercing Arrow
-advancements.adventure.very_very_frightening.title	Very Very Frightening	Very Very Frightening	Strike a Villager with lightning
-advancements.adventure.voluntary_exile.title	Voluntary Exile	Voluntary Exile	Kill a raid captain.\nMaybe consider staying away from villages for the time being...
-advancements.adventure.walk_on_powder_snow_with_leather_boots.title	Light as a Rabbit	Light as a Rabbit	Walk on Powder Snow... without sinking in it
-advancements.adventure.whos_the_pillager_now.title	Who's the Pillager Now?	Who's the Pillager Now?	Give a Pillager a taste of their own medicine
-advancements.end.dragon_breath.title	You Need a Mint	You Need a Mint	Collect Dragon's Breath in a Glass Bottle
-advancements.end.dragon_egg.title	The Next Generation	The Next Generation	Hold the Dragon Egg
-advancements.end.elytra.title	Sky's the Limit	Sky's the Limit	Find Elytra
-advancements.end.enter_end_gateway.title	Remote Getaway	Remote Getaway	Escape the island
-advancements.end.find_end_city.title	The City at the End of the Game	The City at the End of the Game	Go on in, what could happen?
-advancements.end.kill_dragon.title	Free the End	Free the End	Good luck
-advancements.end.levitate.title	Great View From Up Here	Great View From Up Here	Levitate up 50 blocks from the attacks of a Shulker
-advancements.end.respawn_dragon.title	The End... Again...	The End... Again...	Respawn the Ender Dragon
-advancements.husbandry.allay_deliver_cake_to_note_block.title	Birthday Song	Birthday Song	Have an Allay drop a Cake at a Note Block
-advancements.husbandry.allay_deliver_item_to_player.title	You've Got a Friend in Me	You've Got a Friend in Me	Have an Allay deliver items to you
-advancements.husbandry.axolotl_in_a_bucket.title	The Cutest Predator	The Cutest Predator	Catch an Axolotl in a Bucket
-advancements.husbandry.balanced_diet.title	A Balanced Diet	A Balanced Diet	Eat everything that is edible, even if it's not good for you
-advancements.husbandry.breed_all_animals.title	Two by Two	Two by Two	Breed all the animals!
-advancements.husbandry.breed_an_animal.title	The Parrots and the Bats	The Parrots and the Bats	Breed two animals together
-advancements.husbandry.complete_catalogue.title	A Complete Catalogue	A Complete Catalogue	Tame all Cat variants!
-advancements.husbandry.feed_snifflet.title	Little Sniffs	Little Sniffs	Feed a Snifflet
-advancements.husbandry.fishy_business.title	Fishy Business	Fishy Business	Catch a fish
-advancements.husbandry.froglights.title	With Our Powers Combined!	With Our Powers Combined!	Have all Froglights in your inventory
-advancements.husbandry.kill_axolotl_target.title	The Healing Power of Friendship!	The Healing Power of Friendship!	Team up with an Axolotl and win a fight
-advancements.husbandry.leash_all_frog_variants.title	When the Squad Hops into Town	When the Squad Hops into Town	Get each Frog variant on a Lead
-advancements.husbandry.make_a_sign_glow.title	Glow and Behold!	Glow and Behold!	Make the text of any kind of sign glow
-advancements.husbandry.netherite_hoe.title	Serious Dedication	Serious Dedication	Use a Netherite Ingot to upgrade a Hoe, and then reevaluate your life choices
-advancements.husbandry.obtain_sniffer_egg.title	Smells Interesting	Smells Interesting	Obtain a Sniffer Egg
-advancements.husbandry.plant_any_sniffer_seed.title	Planting the Past	Planting the Past	Plant any Sniffer seed
-advancements.husbandry.plant_seed.title	A Seedy Place	A Seedy Place	Plant a seed and watch it grow
-advancements.husbandry.ride_a_boat_with_a_goat.title	Whatever Floats Your Goat!	Whatever Floats Your Goat!	Get in a Boat and float with a Goat
-advancements.husbandry.safely_harvest_honey.title	Bee Our Guest	Bee Our Guest	Use a Campfire to collect Honey from a Beehive using a Glass Bottle without aggravating the Bees
-advancements.husbandry.silk_touch_nest.title	Total Beelocation	Total Beelocation	Move a Bee Nest, with 3 Bees inside, using Silk Touch
-advancements.husbandry.tactical_fishing.title	Tactical Fishing	Tactical Fishing	Catch a Fish... without a Fishing Rod!
-advancements.husbandry.tadpole_in_a_bucket.title	Bukkit Bukkit	Bukkit Bukkit	Catch a Tadpole in a Bucket
-advancements.husbandry.tame_an_animal.title	Best Friends Forever	Best Friends Forever	Tame an animal
-advancements.husbandry.wax_off.title	Wax Off	Wax Off	Scrape Wax off of a Copper block!
-advancements.husbandry.wax_on.title	Wax On	Wax On	Apply Honeycomb to a Copper block!
-advancements.nether.all_effects.title	How Did We Get Here?	How Did We Get Here?	Have every effect applied at the same time
-advancements.nether.all_potions.title	A Furious Cocktail	A Furious Cocktail	Have every potion effect applied at the same time
-advancements.nether.brew_potion.title	Local Brewery	Local Brewery	Brew a Potion
-advancements.nether.charge_respawn_anchor.title	Not Quite \"Nine\" Lives	Not Quite "Nine" Lives	Charge a Respawn Anchor to the maximum
-advancements.nether.create_beacon.title	Bring Home the Beacon	Bring Home the Beacon	Construct and place a Beacon
-advancements.nether.create_full_beacon.title	Beaconator	Beaconator	Bring a Beacon to full power
-advancements.nether.distract_piglin.title	Oh Shiny	Oh Shiny	Distract Piglins with gold
-advancements.nether.explore_nether.title	Hot Tourist Destinations	Hot Tourist Destinations	Explore all Nether biomes
-advancements.nether.fast_travel.title	Subspace Bubble	Subspace Bubble	Use the Nether to travel 7 km in the Overworld
-advancements.nether.find_bastion.title	Those Were the Days	Those Were the Days	Enter a Bastion Remnant
-advancements.nether.find_fortress.title	A Terrible Fortress	A Terrible Fortress	Break your way into a Nether Fortress
-advancements.nether.get_wither_skull.title	Spooky Scary Skeleton	Spooky Scary Skeleton	Obtain a Wither Skeleton's skull
-advancements.nether.loot_bastion.title	War Pigs	War Pigs	Loot a Chest in a Bastion Remnant
-advancements.nether.netherite_armor.title	Cover Me in Debris	Cover Me in Debris	Get a full suit of Netherite armor
-advancements.nether.obtain_ancient_debris.title	Hidden in the Depths	Hidden in the Depths	Obtain Ancient Debris
-advancements.nether.obtain_blaze_rod.title	Into Fire	Into Fire	Relieve a Blaze of its rod
-advancements.nether.obtain_crying_obsidian.title	Who is Cutting Onions?	Who is Cutting Onions?	Obtain Crying Obsidian
-advancements.nether.return_to_sender.title	Return to Sender	Return to Sender	Destroy a Ghast with a fireball
-advancements.nether.ride_strider_in_overworld_lava.title	Feels Like Home	Feels Like Home	Take a Strider for a loooong ride on a lava lake in the Overworld
-advancements.nether.ride_strider.title	This Boat Has Legs	This Boat Has Legs	Ride a Strider with a Warped Fungus on a Stick
-advancements.nether.summon_wither.title	Withering Heights	Withering Heights	Summon the Wither
-advancements.nether.uneasy_alliance.title	Uneasy Alliance	Uneasy Alliance	Rescue a Ghast from the Nether, bring it safely home to the Overworld... and then kill it
-advancements.nether.use_lodestone.title	Country Lode, Take Me Home	Country Lode, Take Me Home	Use a Compass on a Lodestone
-advancements.story.cure_zombie_villager.title	Zombie Doctor	Zombie Doctor	Weaken and then cure a Zombie Villager
-advancements.story.deflect_arrow.title	Not Today, Thank You	Not Today, Thank You	Deflect a projectile with a Shield
-advancements.story.enchant_item.title	Enchanter	Enchanter	Enchant an item at an Enchanting Table
-advancements.story.enter_the_end.title	The End?	The End?	Enter the End Portal
-advancements.story.enter_the_nether.title	We Need to Go Deeper	We Need to Go Deeper	Build, light and enter a Nether Portal
-advancements.story.follow_ender_eye.title	Eye Spy	Eye Spy	Follow an Eye of Ender
-advancements.story.form_obsidian.title	Ice Bucket Challenge	Ice Bucket Challenge	Obtain a block of Obsidian
-advancements.story.iron_tools.title	Isn't It Iron Pick	Isn't It Iron Pick	Upgrade your Pickaxe
-advancements.story.lava_bucket.title	Hot Stuff	Hot Stuff	Fill a Bucket with lava
-advancements.story.mine_diamond.title	Diamonds!	Diamonds!	Acquire diamonds
-advancements.story.mine_stone.title	Stone Age	Stone Age	Mine Stone with your new Pickaxe
-advancements.story.obtain_armor.title	Suit Up	Suit Up	Protect yourself with a piece of iron armor
-advancements.story.shiny_gear.title	Cover Me with Diamonds	Cover Me with Diamonds	Diamond armor saves lives
-advancements.story.smelt_iron.title	Acquire Hardware	Acquire Hardware	Smelt an Iron Ingot
-advancements.story.upgrade_tools.title	Getting an Upgrade	Getting an Upgrade	Construct a better Pickaxe
+global	local_title	local_description
+Adventuring Time	Adventuring Time	Discover every biome
+Arbalistic	Arbalistic	Kill five unique mobs with one crossbow shot
+Sneak 100	Sneak 100	Sneak near a Sculk Sensor or Warden to prevent it from detecting you
+Bullseye	Bullseye	Hit the bullseye of a Target block from at least 30 meters away
+Careful Restoration	Careful Restoration	Make a Decorated Pot out of 4 Pottery Sherds
+Caves & Cliffs	Caves & Cliffs	Free fall from the top of the world (build limit) to the bottom of the world and survive
+Hero of the Village	Hero of the Village	Successfully defend a village from a raid
+Sticky Situation	Sticky Situation	Jump into a Honey Block to break your fall
+Monster Hunter	Monster Hunter	Kill any hostile monster
+Monsters Hunted	Monsters Hunted	Kill one of every hostile monster
+It Spreads	It Spreads	Kill a mob near a Sculk Catalyst
+Surge Protector	Surge Protector	Protect a Villager from an undesired shock without starting a fire
+Ol' Betsy	Ol' Betsy	Shoot a Crossbow
+Sound of Music	Sound of Music	Make the Meadows come alive with the sound of music from a Jukebox
+The Power of Books	The Power of Books	Read the power signal of a Chiseled Bookshelf using a Comparator
+Respecting the Remnants	Respecting the Remnants	Brush a Suspicious block to obtain a Pottery Sherd
+Take Aim	Take Aim	Shoot something with an Arrow
+Sweet Dreams	Sweet Dreams	Sleep in a Bed to change your respawn point
+Sniper Duel	Sniper Duel	Kill a Skeleton from at least 50 meters away
+Is It a Plane?	Is It a Plane?	Look at the Ender Dragon through a Spyglass
+Is It a Balloon?	Is It a Balloon?	Look at a Ghast through a Spyglass
+Is It a Bird?	Is It a Bird?	Look at a Parrot through a Spyglass
+Hired Help	Hired Help	Summon an Iron Golem to help defend a village
+A Throwaway Joke	A Throwaway Joke	Throw a Trident at something.\nNote: Throwing away your only weapon is not a good idea.
+Postmortal	Postmortal	Use a Totem of Undying to cheat death
+Star Trader	Star Trader	Trade with a Villager at the build height limit
+What a Deal!	What a Deal!	Successfully trade with a Villager
+Smithing with Style	Smithing with Style	Apply these smithing templates at least once: Spire, Snout, Rib, Ward, Silence, Vex, Tide, Wayfinder
+Crafting a New Look	Crafting a New Look	Craft a trimmed armor at a Smithing Table
+Two Birds, One Arrow	Two Birds, One Arrow	Kill two Phantoms with a piercing Arrow
+Very Very Frightening	Very Very Frightening	Strike a Villager with lightning
+Voluntary Exile	Voluntary Exile	Kill a raid captain.\nMaybe consider staying away from villages for the time being...
+Light as a Rabbit	Light as a Rabbit	Walk on Powder Snow... without sinking in it
+Who's the Pillager Now?	Who's the Pillager Now?	Give a Pillager a taste of their own medicine
+You Need a Mint	You Need a Mint	Collect Dragon's Breath in a Glass Bottle
+The Next Generation	The Next Generation	Hold the Dragon Egg
+Sky's the Limit	Sky's the Limit	Find Elytra
+Remote Getaway	Remote Getaway	Escape the island
+The City at the End of the Game	The City at the End of the Game	Go on in, what could happen?
+Free the End	Free the End	Good luck
+Great View From Up Here	Great View From Up Here	Levitate up 50 blocks from the attacks of a Shulker
+The End... Again...	The End... Again...	Respawn the Ender Dragon
+Birthday Song	Birthday Song	Have an Allay drop a Cake at a Note Block
+You've Got a Friend in Me	You've Got a Friend in Me	Have an Allay deliver items to you
+The Cutest Predator	The Cutest Predator	Catch an Axolotl in a Bucket
+A Balanced Diet	A Balanced Diet	Eat everything that is edible, even if it's not good for you
+Two by Two	Two by Two	Breed all the animals!
+The Parrots and the Bats	The Parrots and the Bats	Breed two animals together
+A Complete Catalogue	A Complete Catalogue	Tame all Cat variants!
+Little Sniffs	Little Sniffs	Feed a Snifflet
+Fishy Business	Fishy Business	Catch a fish
+With Our Powers Combined!	With Our Powers Combined!	Have all Froglights in your inventory
+The Healing Power of Friendship!	The Healing Power of Friendship!	Team up with an Axolotl and win a fight
+When the Squad Hops into Town	When the Squad Hops into Town	Get each Frog variant on a Lead
+Glow and Behold!	Glow and Behold!	Make the text of any kind of sign glow
+Serious Dedication	Serious Dedication	Use a Netherite Ingot to upgrade a Hoe, and then reevaluate your life choices
+Smells Interesting	Smells Interesting	Obtain a Sniffer Egg
+Planting the Past	Planting the Past	Plant any Sniffer seed
+A Seedy Place	A Seedy Place	Plant a seed and watch it grow
+Whatever Floats Your Goat!	Whatever Floats Your Goat!	Get in a Boat and float with a Goat
+Bee Our Guest	Bee Our Guest	Use a Campfire to collect Honey from a Beehive using a Glass Bottle without aggravating the Bees
+Total Beelocation	Total Beelocation	Move a Bee Nest, with 3 Bees inside, using Silk Touch
+Tactical Fishing	Tactical Fishing	Catch a Fish... without a Fishing Rod!
+Bukkit Bukkit	Bukkit Bukkit	Catch a Tadpole in a Bucket
+Best Friends Forever	Best Friends Forever	Tame an animal
+Wax Off	Wax Off	Scrape Wax off of a Copper block!
+Wax On	Wax On	Apply Honeycomb to a Copper block!
+How Did We Get Here?	How Did We Get Here?	Have every effect applied at the same time
+A Furious Cocktail	A Furious Cocktail	Have every potion effect applied at the same time
+Local Brewery	Local Brewery	Brew a Potion
+Not Quite \"Nine\" Lives	Not Quite "Nine" Lives	Charge a Respawn Anchor to the maximum
+Bring Home the Beacon	Bring Home the Beacon	Construct and place a Beacon
+Beaconator	Beaconator	Bring a Beacon to full power
+Oh Shiny	Oh Shiny	Distract Piglins with gold
+Hot Tourist Destinations	Hot Tourist Destinations	Explore all Nether biomes
+Subspace Bubble	Subspace Bubble	Use the Nether to travel 7 km in the Overworld
+Those Were the Days	Those Were the Days	Enter a Bastion Remnant
+A Terrible Fortress	A Terrible Fortress	Break your way into a Nether Fortress
+Spooky Scary Skeleton	Spooky Scary Skeleton	Obtain a Wither Skeleton's skull
+War Pigs	War Pigs	Loot a Chest in a Bastion Remnant
+Cover Me in Debris	Cover Me in Debris	Get a full suit of Netherite armor
+Hidden in the Depths	Hidden in the Depths	Obtain Ancient Debris
+Into Fire	Into Fire	Relieve a Blaze of its rod
+Who is Cutting Onions?	Who is Cutting Onions?	Obtain Crying Obsidian
+Return to Sender	Return to Sender	Destroy a Ghast with a fireball
+Feels Like Home	Feels Like Home	Take a Strider for a loooong ride on a lava lake in the Overworld
+This Boat Has Legs	This Boat Has Legs	Ride a Strider with a Warped Fungus on a Stick
+Withering Heights	Withering Heights	Summon the Wither
+Uneasy Alliance	Uneasy Alliance	Rescue a Ghast from the Nether, bring it safely home to the Overworld... and then kill it
+Country Lode, Take Me Home	Country Lode, Take Me Home	Use a Compass on a Lodestone
+Zombie Doctor	Zombie Doctor	Weaken and then cure a Zombie Villager
+Not Today, Thank You	Not Today, Thank You	Deflect a projectile with a Shield
+Enchanter	Enchanter	Enchant an item at an Enchanting Table
+The End?	The End?	Enter the End Portal
+We Need to Go Deeper	We Need to Go Deeper	Build, light and enter a Nether Portal
+Eye Spy	Eye Spy	Follow an Eye of Ender
+Ice Bucket Challenge	Ice Bucket Challenge	Obtain a block of Obsidian
+Isn't It Iron Pick	Isn't It Iron Pick	Upgrade your Pickaxe
+Hot Stuff	Hot Stuff	Fill a Bucket with lava
+Diamonds!	Diamonds!	Acquire diamonds
+Stone Age	Stone Age	Mine Stone with your new Pickaxe
+Suit Up	Suit Up	Protect yourself with a piece of iron armor
+Cover Me with Diamonds	Cover Me with Diamonds	Diamond armor saves lives
+Acquire Hardware	Acquire Hardware	Smelt an Iron Ingot
+Getting an Upgrade	Getting an Upgrade	Construct a better Pickaxe

@@ -74,20 +74,20 @@ function generateLocaleData(src: string, lang: string): void {
         log("Generating \"advancements.tsv\"...");
         const advancements: fs.WriteStream = fs.createWriteStream(`../${lang}/advancements.tsv`);
         const advancementsKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^advancements\.\w+\.\w+\.title$/.test(key) && !/advancements\.\w+\.root\.title/.test(key));
-        advancements.write("key\tglobal\tlocal_title\tlocal_description\n");
-        advancementsKeys.forEach((key: string) => advancements.write(`${key}\t${defaultLangData[key].replace(/"/g, "\\\"")}\t${langData[key]}\t${langData[key.replace("title", "description")].replace(/\n/g, "\\n")}\n`));
+        advancements.write("global\tlocal_title\tlocal_description\n");
+        advancementsKeys.forEach((key: string) => advancements.write(`${defaultLangData[key].replace(/"/g, "\\\"")}\t${langData[key]}\t${langData[key.replace("title", "description")].replace(/\n/g, "\\n")}\n`));
         //死亡メッセージデータの出力
         log("Generating \"death.tsv\"...");
         const death: fs.WriteStream = fs.createWriteStream(`../${lang}/death.tsv`);
         const deathKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^death\.\w+\.\w+/.test(key) && key != "death.attack.badRespawnPoint.link");
-        death.write("key\tglobal\tlocal\n");
-        deathKeys.forEach((key: string) => death.write(`${key}\t${defaultLangData[key]}\t${langData[key]}\n`));
+        death.write("global\tlocal\n");
+        deathKeys.forEach((key: string) => death.write(`${defaultLangData[key]}\t${langData[key]}\n`));
         //エンティティデータの出力
         log("Generating \"entity.tsv\"...");
         const entity: fs.WriteStream = fs.createWriteStream(`../${lang}/entity.tsv`);
         const entityKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^entity\.minecraft\.\w+$/.test(key) || key.startsWith("entity.minecraft.villager") || key == "death.attack.badRespawnPoint.link");
-        entity.write("key\tglobal\tlocal\n");
-        entityKeys.forEach((key: string) => entity.write(key == "death.attack.badRespawnPoint.link" ? `${key}\t[${defaultLangData[key]}]\t${langData[key]}\n` : `${key}\t${defaultLangData[key]}\t${langData[key]}\n`));
+        entity.write("global\tlocal\n");
+        entityKeys.forEach((key: string) => entity.write(key == "death.attack.badRespawnPoint.link" ? `[${defaultLangData[key]}]\t${langData[key]}\n` : `${defaultLangData[key]}\t${langData[key]}\n`));
     }
     catch(caughtError: any) {
         if(caughtError.code == "EPERM") {

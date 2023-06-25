@@ -6,10 +6,18 @@ import readline from "readline";
 
 /**
  * 文字列を標準出力する。
- * @param message 出力対象の文字列（string型以外でも可）
+ * @param message 出力対象の文字列
  */
-export function print(message: any): void {
+export function print(message: string): void {
     console.info(message);
+}
+
+/**
+ * 文字列をバックログとして出力する。
+ * @param message 出力対象の文字列
+ */
+export function log(message: string): void {
+    console.info(`\u001b[36m${message}\u001b[0m`);
 }
 
 /**

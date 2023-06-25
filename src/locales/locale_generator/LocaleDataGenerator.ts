@@ -3,6 +3,16 @@ import fs from "fs";
 import { error, hint, input, log, print } from "./ConsoleUtils";
 
 /**
+ * インデックスファイルのエントリーデータ
+ */
+type IndexEntry = {
+    /** ファイルのハッシュ値 */
+    hash: string,
+    /** ファイルサイズ */
+    size: number
+}
+
+/**
  * メイン関数
  * @param path ゲームパスの初期入力値
  * @param version バージョン名の初期入力値
@@ -69,18 +79,54 @@ async function main(path?: string, version?: string, lang?: string): Promise<voi
             else error("Specified version value does not exist in the list! Please choose in above list.");
         }
     }
-    catch(error: any) {
-        if(error.code == "ENOENT") {
+    catch(caughtError: any) {
+        if(caughtError.code == "ENOENT") {
             //ディレクトリが存在しない
             error(`"${gamePath}/assets/indexes" does not exist! Make sure you specified correct game path and downloaded game data.`);
         }
-        else if(error.code == "EPERM") {
+        else if(caughtError.code == "EPERM") {
             //ディレクトリの読み取り権限ない
             error(`No permission to read "${gamePath}/assets/indexes" directory! This tool cannot get needed information.`);
         }
         else {
             //その他エラー
-            error(`An error occurred while analyzing "${gamePath}/assets/indexes" directory!\n${error.stack}`);
+            error(`An error occurred while analyzing "${gamePath}/assets/indexes" directory!\n${caughtError.stack}`);
+        }
+        process.exit(1);
+    }
+    log("Gathering available language data...");
+    let targetLangHash: string;
+    try {
+        const indexData: {[key: string]: IndexEntry} = JSON.parse(fs.readFileSync(`${gamePath}/assets/indexes/${targetVersion}.json`, {encoding: "utf-8"})).objects;
+        const langArray: {[key: string]: string} = {};
+        for(const filePath in indexData) {
+            if(/^minecraft\/lang\/.+\.json$/.test(filePath)) langArray[(filePath.match(/^minecraft\/lang\/(.+)\.json$/) as RegExpMatchArray)[1]] = indexData[filePath].hash;
+        }
+        print("Choose the language you want to generate data in below list.");
+        print(`[${Object.keys(langArray).join(", ")}]`);
+        let targetLang: string;
+        for(let i = 0; true; i++) {
+            if(i == 0 && typeof lang == "string") targetLang = lang;
+            else targetLang = await input();
+            if(Object.keys(langArray).includes(targetLang)) {
+                targetLangHash = langArray[targetLang];
+                break;
+            }
+            else error("Specified language does not exist in the list! Please choose in above list.");
+        }
+    }
+    catch(caughtError: any) {
+        if(caughtError.code == "EPERM") {
+            //インデックスファイルの読み取り権限がない
+            error("No permission to read index file! This tool cannot get needed information.");
+        }
+        else if(caughtError instanceof SyntaxError) {
+            //json構文解析失敗
+            error("Failed to analyze index file due to syntax error! The index file might be broken.");
+        }
+        else {
+            //その他エラー
+            error(`An error occurred while analyzing index file!\n${caughtError.stack}`);
         }
         process.exit(1);
     }

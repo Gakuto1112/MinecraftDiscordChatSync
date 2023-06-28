@@ -136,21 +136,24 @@ export class BotManager {
      */
     public getMember(guildId: string, userId: string): DiscordUser|undefined {
         if(!/\D/.test(guildId) || !/\D/.test(userId)) {
-            const member: discordJS.GuildMember = (this.client.guilds.cache.get(guildId) as discordJS.Guild).members.cache.get(userId) as discordJS.GuildMember;
-            return {
-                id: member.id,
-                name: member.client.user.id,
-                displayName: member.displayName,
-                roles: member.roles.cache.map((role: discordJS.Role) => {
-                    return {
-                        id: role.id,
-                        name: role.name,
-                        color: role.hexColor
-                    }
-                }),
-                color: member.displayHexColor,
-                isBot: member.client.user.bot
+            const member: discordJS.GuildMember|undefined = (this.client.guilds.cache.get(guildId) as discordJS.Guild).members.cache.get(userId);
+            if(member) {
+                return {
+                    id: member.id,
+                    name: member.client.user.id,
+                    displayName: member.displayName,
+                    roles: member.roles.cache.map((role: discordJS.Role) => {
+                        return {
+                            id: role.id,
+                            name: role.name,
+                            color: role.hexColor
+                        }
+                    }),
+                    color: member.displayHexColor,
+                    isBot: member.client.user.bot
+                }    
             }
+            else MinecraftDiscordChatSync.logger.warn(`The member "${userId}" does not exist in guild "${guildId}"`);
         }
         else MinecraftDiscordChatSync.logger.error(`The provided guild id "${guildId}" or user id "${userId}" is invalid.`);
     }
@@ -163,12 +166,15 @@ export class BotManager {
      */
     public getRole(guildId: string, roleId: string): DiscordRole|undefined {
         if(!/\D/.test(guildId) || !/\D/.test(roleId)) {
-            const role: discordJS.Role = (this.client.guilds.cache.get(guildId) as discordJS.Guild).roles.cache.get(roleId) as discordJS.Role;
-            return {
-                id: role.id,
-                name: role.name,
-                color: role.hexColor
+            const role: discordJS.Role|undefined = (this.client.guilds.cache.get(guildId) as discordJS.Guild).roles.cache.get(roleId);
+            if(role) {
+                return {
+                    id: role.id,
+                    name: role.name,
+                    color: role.hexColor
+                }    
             }
+            else MinecraftDiscordChatSync.logger.warn(`The role "${roleId}" does not exist in guild "${guildId}"`);
         }
         else MinecraftDiscordChatSync.logger.error(`The provided guild id "${guildId}" or role id "${roleId}" is invalid.`);
     }
@@ -181,11 +187,14 @@ export class BotManager {
      */
     public getChannel(guildId: string, channelId: string): DiscordChannel|undefined {
         if(!/\D/.test(guildId) || !/\D/.test(channelId)) {
-            const channel: discordJS.GuildBasedChannel = (this.client.guilds.cache.get(guildId) as discordJS.Guild).channels.cache.get(channelId) as discordJS.GuildBasedChannel;
-            return {
-                id: channel.id,
-                name: channel.name
+            const channel: discordJS.GuildBasedChannel|undefined = (this.client.guilds.cache.get(guildId) as discordJS.Guild).channels.cache.get(channelId) as discordJS.GuildBasedChannel;
+            if(channel) {
+                return {
+                    id: channel.id,
+                    name: channel.name
+                }    
             }
+            else MinecraftDiscordChatSync.logger.warn(`The channel "${channelId}" does not exist in guild "${guildId}"`);
         }
         else MinecraftDiscordChatSync.logger.error(`The provided guild id "${guildId}" or channel id "${channelId}" is invalid.`);
     }

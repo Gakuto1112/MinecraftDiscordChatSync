@@ -218,7 +218,15 @@ export class DiscordMessage extends PluginBase {
                             }
                         },
                         {
-                            regExp: /<:(\w+):\d+>/,
+                            regExp: /<:(\w+:\d+)>/,
+                            tokenType: "custom_emoji",
+                            tokenSymbol: {
+                                startSymbol: "<:",
+                                endSymbol: ">"
+                            }
+                        },
+                        {
+                            regExp: /:(\w+):/,
                             tokenType: "custom_emoji",
                             tokenSymbol: {
                                 startSymbol: ":",
@@ -656,28 +664,39 @@ export class DiscordMessage extends PluginBase {
                             tellrawElement.color = "aqua";
                         }
                         if(element.decorations.mention_user) {
-                            tellrawElement.text = `@${this.discord.getMember(guild.id, tellrawElement.text).displayName}`;
-                            tellrawElement.color = "aqua";
+                            const member: DiscordUser = this.discord.getMember(guild.id, tellrawElement.text);
+                            tellrawElement.text = `@${typeof member == "object" ? this.discord.getMember(guild.id, tellrawElement.text).displayName : this.getLocale("tellraw.text.unknown_user")}`;
+                            tellrawElement.color = "aqua";    
                         }
                         if(element.decorations.mention_role) {
                             const role: DiscordRole = this.discord.getRole(guild.id, tellrawElement.text);
-                            tellrawElement.text = `@${role.name}`;
-                            tellrawElement.color = legacyFormat || role.color == "#000000" ? "aqua" : role.color;
+                            if(typeof role == "object") {
+                                tellrawElement.text = `@${role.name}`;
+                                tellrawElement.color = legacyFormat || role.color == "#000000" ? "aqua" : role.color;    
+                            }
+                            else tellrawElement.text = `@${this.getLocale("tellraw.text.unknown_role")}`;
                         }
                         if(element.decorations.mention_channel) {
-                            const channel: DiscordChannel = this.discord.getChannel(guild.id, tellrawElement.text)
-                            tellrawElement.text = `#${channel.name}`;
-                            tellrawElement.color = "aqua";
-                            tellrawElement.clickEvent = {
-                                action: "open_url",
-                                value: `https://discord.com/channels/${guild.id}/${channel.id}`
-                            };
-                            const linkOpenMessage: string = this.getLocale("tellraw.hover.open_channel", `#${channel.name}`);
-                            tellrawElement.hoverEvent = {
-                                action: "show_text",
-                                contents: legacyFormat ? undefined : linkOpenMessage,
-                                value: legacyFormat ? linkOpenMessage : undefined
+                            const channel: DiscordChannel = this.discord.getChannel(guild.id, tellrawElement.text);
+                            if(typeof channel == "object") {
+                                tellrawElement.text = `#${channel.name}`;
+                                tellrawElement.clickEvent = {
+                                    action: "open_url",
+                                    value: `https://discord.com/channels/${guild.id}/${channel.id}`
+                                };
+                                const linkOpenMessage: string = this.getLocale("tellraw.hover.open_channel", `#${channel.name}`);
+                                tellrawElement.hoverEvent = {
+                                    action: "show_text",
+                                    contents: legacyFormat ? undefined : linkOpenMessage,
+                                    value: legacyFormat ? linkOpenMessage : undefined
+                                }    
                             }
+                            else tellrawElement.text = `#${this.getLocale("tellraw.text.unknown_channel")}`;
+                            tellrawElement.color = "aqua";
+                        }
+                        if(element.decorations.custom_emoji) {
+                            const customEmojiMatchArray = tellrawElement.text.match(/(\w+):\d+/);
+                            if(customEmojiMatchArray) tellrawElement.text = `:${(customEmojiMatchArray as RegExpMatchArray)[1]}:`;
                         }
                         tellrawData.push(tellrawElement);
                     }

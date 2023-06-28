@@ -1,4 +1,7 @@
 key	locale
+tellraw.text.unknown_user	unknown-member
+tellraw.text.unknown_role	deleted-role
+tellraw.text.unknown_channel	unknown-channel
 tellraw.text.attachments_before	%1$s's message has 
 tellraw.text.attachments_after	""
 tellraw.hover.open_url	Click to open URL

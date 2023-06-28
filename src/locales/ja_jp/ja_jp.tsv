@@ -1,4 +1,7 @@
 key	locale
+tellraw.text.unknown_user	不明なユーザー
+tellraw.text.unknown_role	削除されたロール
+tellraw.text.unknown_channel	不明
 tellraw.text.attachments_before	%1$sのメッセージには
 tellraw.text.attachments_after	が添付されています
 tellraw.hover.open_url	クリックしてURLを開く

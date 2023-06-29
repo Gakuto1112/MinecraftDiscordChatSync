@@ -69,22 +69,22 @@ function generateLocaleData(src: string, lang: string): void {
     log("Loading default lang data...");
     const defaultLangData = getLangData("./locales/en_us.json");
     try {
-        if(!fs.existsSync(`../${lang}/`)) fs.mkdirSync(`../${lang}/`);
+        if(!fs.existsSync(`./locales/${lang}/`)) fs.mkdirSync(`./locales/${lang}/`);
         //進捗データの出力
         log("Generating \"advancements.tsv\"...");
-        const advancements: fs.WriteStream = fs.createWriteStream(`../${lang}/advancements.tsv`);
+        const advancements: fs.WriteStream = fs.createWriteStream(`./locales/${lang}/advancements.tsv`);
         const advancementsKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^advancements\.\w+\.\w+\.title$/.test(key) && !/advancements\.\w+\.root\.title/.test(key));
         advancements.write("global\tlocal_title\tlocal_description\n");
         advancementsKeys.forEach((key: string) => advancements.write(`${defaultLangData[key].replace(/"/g, "\\\"")}\t${langData[key]}\t${langData[key.replace("title", "description")].replace(/\n/g, "\\n")}\n`));
         //死亡メッセージデータの出力
         log("Generating \"death.tsv\"...");
-        const death: fs.WriteStream = fs.createWriteStream(`../${lang}/death.tsv`);
+        const death: fs.WriteStream = fs.createWriteStream(`./locales/${lang}/death.tsv`);
         const deathKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^death\.\w+\.\w+/.test(key) && key != "death.attack.badRespawnPoint.link");
         death.write("global\tlocal\n");
         deathKeys.forEach((key: string) => death.write(`${defaultLangData[key]}\t${langData[key]}\n`));
         //エンティティデータの出力
         log("Generating \"entity.tsv\"...");
-        const entity: fs.WriteStream = fs.createWriteStream(`../${lang}/entity.tsv`);
+        const entity: fs.WriteStream = fs.createWriteStream(`./locales/${lang}/entity.tsv`);
         const entityKeys: string[] = Object.keys(defaultLangData).filter((key: string) => /^entity\.minecraft\.\w+$/.test(key) || key.startsWith("entity.minecraft.villager") || key == "death.attack.badRespawnPoint.link");
         entity.write("global\tlocal\n");
         entityKeys.forEach((key: string) => entity.write(key == "death.attack.badRespawnPoint.link" ? `[${defaultLangData[key]}]\t${langData[key]}\n` : `${defaultLangData[key]}\t${langData[key]}\n`));
@@ -280,15 +280,15 @@ async function main(path?: string, version?: string, lang?: string): Promise<voi
     generateLocaleData(targetLangHash.length == 0 ? "./locales/en_us.json" : `${gamePath}/assets/objects/${targetLangHash.substring(0, 2)}/${targetLangHash}`, targetLang);
     deleteTemporaryEnUs();
     print("Generating completed!");
-    if(!fs.existsSync(`../${targetLang}/${targetLang}.tsv`)) {
+    if(!fs.existsSync(`./locales/${targetLang}/${targetLang}.tsv`)) {
         log("Copying system locale data...");
         try {
-            fs.copyFileSync("../en_us/en_us.tsv", `../${targetLang}/${targetLang}.tsv`);
+            fs.copyFileSync("./locales/en_us/en_us.tsv", `./locales/${targetLang}/${targetLang}.tsv`);
         }
         catch(caughtError: any) {
             if(caughtError.code == "ENOENT") {
                 //ソースが存在しない
-                error("\"../en_us/en_us.tsv\" does not exist! This system cannot copy locale date for your language.");
+                error("\"./locales/en_us/en_us.tsv\" does not exist! This system cannot copy locale date for your language.");
             }
             else if(caughtError.code == "EPERM") {
                 //ディレクトリの読み取り権限ない

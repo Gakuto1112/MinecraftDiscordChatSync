@@ -42,7 +42,7 @@ export class PluginManager {
                                 }
                                 else {
                                     //その他エラー
-                                    MinecraftDiscordChatSync.logger.warn(`An error occurred while reading "${entry.name}". Skipping.\n${pluginError.stack}`);
+                                    MinecraftDiscordChatSync.logger.error(`An error occurred while reading "${entry.name}". Skipping.\n${pluginError.stack}`);
                                 }
                             }
                         }

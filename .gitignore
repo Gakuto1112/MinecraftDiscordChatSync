@@ -107,3 +107,4 @@ config.json
 Settings.json
 plugins/data/en_us.json
 plugins/data/ja_jp.json
+out/

@@ -19,10 +19,10 @@ export class PluginManager {
         if(!this.pluginLoaded) {
             MinecraftDiscordChatSync.logger.info("Loading plugins...");
             try {
-                const entries: fs.Dirent[] = fs.readdirSync("./src/plugins/", {withFileTypes: true});
+                const entries: fs.Dirent[] = fs.readdirSync("./out/plugins/", {withFileTypes: true});
                 for(const entry of entries) {
                     if(entry.isFile()) {
-                        if(entry.name.toLowerCase().endsWith(".ts")) {
+                        if(entry.name.toLowerCase().endsWith(".js")) {
                             try {
                                 const plugin = await import(`./plugins/${entry.name}`);
                                 Object.keys(plugin).forEach((className: string) => {

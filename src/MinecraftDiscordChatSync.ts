@@ -2,7 +2,7 @@ import { Logger } from "./Logger";
 import { ConfigManager } from "./ConfigManager";
 import { LocaleManager } from "./LocaleManager";
 import { LogObserver } from "./LogObserver";
-import { RConManager } from "./RconManager";
+import { RConManager } from "./RConManager";
 import { PluginManager } from "./PluginManager";
 import { BotManager } from "./BotManager";
 import { PluginBase } from "./PluginBase";

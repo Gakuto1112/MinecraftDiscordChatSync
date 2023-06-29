@@ -18,7 +18,7 @@ type IndexEntry = {
  */
 function deleteTemporaryEnUs(): void {
     try {
-        fs.unlinkSync("./en_us.json");
+        fs.unlinkSync("./locales/en_us.json");
     }
     catch(caughtError: any) {
         if(caughtError.code == "EPERM") {
@@ -67,7 +67,7 @@ function generateLocaleData(src: string, lang: string): void {
     log("Loading target lang data...");
     const langData: {[key: string]: string} = getLangData(src);
     log("Loading default lang data...");
-    const defaultLangData = getLangData("./en_us.json");
+    const defaultLangData = getLangData("./locales/en_us.json");
     try {
         if(!fs.existsSync(`../${lang}/`)) fs.mkdirSync(`../${lang}/`);
         //進捗データの出力
@@ -178,7 +178,7 @@ async function main(path?: string, version?: string, lang?: string): Promise<voi
     for await (const entity of fs.createReadStream(`${gamePath}/versions/${targetGameVersion}/${targetGameVersion}.jar`).pipe(unzipper.Parse({forceStream: true}))) {
         if(entity.path == "assets/minecraft/lang/en_us.json") {
             try {
-                entity.pipe(fs.createWriteStream("./en_us.json"));
+                entity.pipe(fs.createWriteStream("./locales/en_us.json"));
             }
             catch(caughtError: any) {
                 if(caughtError.code == "EPERM") {
@@ -277,7 +277,7 @@ async function main(path?: string, version?: string, lang?: string): Promise<voi
         deleteTemporaryEnUs();
         process.exit(1);
     }
-    generateLocaleData(targetLangHash.length == 0 ? "./en_us.json" : `${gamePath}/assets/objects/${targetLangHash.substring(0, 2)}/${targetLangHash}`, targetLang);
+    generateLocaleData(targetLangHash.length == 0 ? "./locales/en_us.json" : `${gamePath}/assets/objects/${targetLangHash.substring(0, 2)}/${targetLangHash}`, targetLang);
     deleteTemporaryEnUs();
     print("Generating completed!");
     if(!fs.existsSync(`../${targetLang}/${targetLang}.tsv`)) {

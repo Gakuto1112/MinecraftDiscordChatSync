@@ -31,7 +31,7 @@ export class ConfigManager {
      */
     private readonly config: {[key: string]: ConfigEntry} = {
         pathToLog: {
-            value: "../../logs/latest.log",
+            value: "../logs/latest.log",
             verificationFunction: (value: any): VerificationResult => {
                 if(typeof value == "string") {
                     return {
@@ -224,7 +224,7 @@ export class ConfigManager {
     public readConfigFile() {
         MinecraftDiscordChatSync.logger.info("Started reading config file.")
         try {
-            const configString: string = fs.readFileSync("../config.json", {encoding: "utf-8"});
+            const configString: string = fs.readFileSync("./config.json", {encoding: "utf-8"});
             try {
                 const newConfig: {[key: string]: any} = JSON.parse(configString);
                 Object.keys(newConfig).forEach((key: string) => {

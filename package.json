@@ -2,12 +2,18 @@
   "name": "minecraft-discord-chat-sync",
   "description": "Synchronizes Minecraft in-game chat and Discord chat",
   "version": "2.0.0",
+  "bin": {
+    "minecraft-discord-chat-sync": "./bin/minecraft-discord-chat-sync.js",
+    "locale-generator": "./bin/locale-generator.js"
+  },
   "scripts": {
+    "postinstall": "node ./out/npm_cli/Install.js $INIT_CWD",
     "start": "node ./out/MinecraftDiscordChatSync.js",
     "predebug": "tsc",
     "debug": "node ./out/MinecraftDiscordChatSync.js -c -d",
     "build": "tsc",
-    "generate_locale": "node ./out/locale_generator/LocaleDataGenerator.js"
+    "generate_locale": "node ./out/locale_generator/LocaleDataGenerator.js",
+    "prepack": "tsc"
   },
   "dependencies": {
     "discord.js": "^14.11.0",

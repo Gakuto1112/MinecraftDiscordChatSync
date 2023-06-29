@@ -182,7 +182,7 @@ export class ConfigManager {
         const configData: {[key: string]: string} = {};
         Object.keys(this.config).forEach((key: string) => configData[key] = this.config[key].value);
         try {
-            fs.writeFileSync("../config.json", JSON.stringify(configData, undefined, 4));
+            fs.writeFileSync("./config.json", JSON.stringify(configData, undefined, 4));
         }
         catch(writeError: any) {
             if(writeError.code == "EPERM") {

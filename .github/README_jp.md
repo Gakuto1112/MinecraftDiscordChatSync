@@ -39,28 +39,7 @@
   ![国際化](./README_images/internationalization.jpg)
 
 ## 環境構築
-### 1: ソースコードと実行環境の準備
-1. [node.js](https://nodejs.org/ja)をインストールします。バージョンはv20以上にして下さい。
-2. このレポジトリをダウンロード又はクローンして下さい。
-  - レポジトリのトップページの右上にある緑色の「<> Code」ボタン →  「Download ZIP」からダウンロード出来ます。
-3. ダウンロード/クローンしたソースコードを下の例を参考に配置して下さい。
-  ```
-  Server/
-  ├ MinecraftDiscordChatSync/          ← このフォルダを作る
-  │ ├ .github/
-  │ │ └ ...
-  │ ├ src/
-  │ │ ├ MinecraftDiscordChatSync.ts    ← エントリーファイル
-  │ │ └ ...
-  │ ├ .gitignore
-  | ├ package-lock.json
-  | └ package.json
-  ├ server.jar                         ← サーバー実行ファイル
-  ├ server.properties
-  └ ...
-  ```
-
-### 2: Discordのボットの作成
+### 1: Discordのボットの作成
 この情報は2023年6月現在の情報です。将来に仕様変更されている可能性があります。
 
 ボットを作成するにはDiscordのアカウントが必要です。もしアカウントを所有していな場合はアカウントを作成して下さい。既にアカウントを所有している場合はそのアカウントで問題ありません。
@@ -101,7 +80,7 @@
 
   ![ボットの作成7](./README_images//creating_bot/7.jpg)
 
-### 3: Rconの有効化
+### 2: Rconの有効化
 1. ゲームサーバーの設定ファイル（`server.properties`）を開きます。
 2. Rconの関する項目を以下のように設定します。
 
@@ -110,17 +89,6 @@
 | enable-rcon | true | |
 | rcon.port | 25575 | デフォルトの値が不都合の場合は別の値を設定して下さい。 |
 | rcon.password | <任意の文字列> | 第三者に推測されにくいパスワードにして下さい。 |
-
-
-### 4: システムの起動と設定
-1. ターミナルを開きます。
-2. カレントディレクトリを`../MinecraftDiscordChatSync/src/`にします。
-3. `npm install`と入力し、必要なモジュールをインストールします。
-4. `ts-node MinecraftDiscordChatSync.ts`と入力し、システムを起動します。
-5. 初回起動時はシステム設定ファイル（`config.json`）が生成され、そのまま終了します。
-6. [こちら](#システム設定について)を参考にシステムの設定を完了して下さい。
-7. 再び`ts-node MinecraftDiscordChatSync.ts`と入力し、システムを起動します。設定に問題がなければ、ボットにログインします。`Succeeded to login as "<bot_name>#0000".`と表示されれば正常にログイン出来ています。
-   - 設定に問題があればその旨が指摘されます。修正の上、システムを再起動して下さい。
 
 ## 起動オプションについて
 システム起動時にオプションを指定出来ます。

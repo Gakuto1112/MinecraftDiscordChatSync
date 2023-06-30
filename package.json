@@ -1,18 +1,24 @@
 {
-  "name": "minecraft-discord-chat-sync",
+  "name": "@gakuto1112/minecraft-discord-chat-sync",
   "description": "Synchronizes Minecraft in-game chat and Discord chat",
+  "author": "Gakuto1112",
   "version": "2.0.0",
+  "files": [
+    "locales/",
+    "npm_scripts/",
+    "out/",
+    "tsconfig.json"
+  ],
   "bin": {
-    "minecraft-discord-chat-sync": "./bin/minecraft-discord-chat-sync.js",
-    "locale-generator": "./bin/locale-generator.js"
+    "minecraft-discord-chat-sync": "./npm_scripts/minecraft-discord-chat-sync.js",
+    "locale-generator": "./npm_scripts/locale-generator.js"
   },
   "scripts": {
-    "postinstall": "node ./out/npm_cli/Install.js $INIT_CWD",
+    "postinstall": "node ./npm_scripts/install.js",
     "start": "node ./out/MinecraftDiscordChatSync.js",
+    "generate_locale": "node ./out/locale_generator/LocaleDataGenerator.js",
     "predebug": "tsc",
     "debug": "node ./out/MinecraftDiscordChatSync.js -c -d",
-    "build": "tsc",
-    "generate_locale": "node ./out/locale_generator/LocaleDataGenerator.js",
     "prepack": "tsc"
   },
   "dependencies": {
@@ -24,5 +30,17 @@
   "devDependencies": {
     "@types/unzipper": "^0.10.6",
     "ts-node": "^10.9.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gakuto1112/MinecraftDiscordChatSync.git"
+  },
+  "homepage": "https://github.com/Gakuto1112/MinecraftDiscordChatSync",
+  "bugs": {
+    "url": "https://github.com/Gakuto1112/MinecraftDiscordChatSync/issues"
   }
 }

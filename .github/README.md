@@ -37,6 +37,8 @@ This system synchronizes [Minecraft Java Edition](https://www.minecraft.net/en-u
   ![internationalization](./README_images/internationalization.jpg)
 
 ## Setup
+This sections is currently incomplete.
+
 ### 1: Creating Discord bot
 This information is current as of June 2023. It might be changed in the future.
 

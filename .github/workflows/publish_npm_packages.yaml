@@ -21,7 +21,7 @@ jobs:
           cache: npm
       - name: Install dependent npm modules
         run: npm install
-      - name: Publish package to Github packages
+      - name: Publish package
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -1,0 +1,27 @@
+name: PublishNpmPackages
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  PublishPackage:
+    runs-on: ubuntu-latest
+    environment:
+      name: npm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js@20.2.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.2.0
+          registry-url: 'https://registry.npmjs.org/'
+          cache: npm
+      - name: Install dependent npm modules
+        run: npm install
+      - name: Publish package to Github packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -23,7 +23,7 @@ jobs:
         run: npm install
       - name: Ganerate README for npm
         working-directory: ./.github/
-        run: ./node_modules/.bin/ts-node ./ReplaceREADMEImages.ts
+        run: ../node_modules/.bin/ts-node ./ReplaceREADMEImages.ts
       - name: Publish package
         run: npm publish
         env:

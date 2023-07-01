@@ -11,15 +11,16 @@
   ],
   "bin": {
     "minecraft-discord-chat-sync": "./npm_scripts/minecraft-discord-chat-sync.js",
-    "locale-generator": "./npm_scripts/locale-generator.js"
+    "generate-locale": "./npm_scripts/generate-locale.js"
   },
   "scripts": {
     "postinstall": "node ./npm_scripts/install.js",
+    "build": "./node_modules/.bin/tsc",
     "start": "node ./out/MinecraftDiscordChatSync.js",
     "generate_locale": "node ./out/locale_generator/LocaleDataGenerator.js",
-    "predebug": "tsc",
+    "predebug": "./node_modules/.bin/tsc",
     "debug": "node ./out/MinecraftDiscordChatSync.js -c -d",
-    "prepack": "tsc"
+    "prepack": "./node_modules/.bin/tsc"
   },
   "dependencies": {
     "discord.js": "^14.11.0",

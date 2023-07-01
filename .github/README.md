@@ -80,7 +80,7 @@ A Discord account is required to create Discord bot. If you have not had it yet,
 
   ![Creating bot7](./README_images/creating_bot/4.jpg)
 
-## Enabling Rcon
+### 2: Enabling Rcon
 1. Open game server config (`server.properties`).
 2. Set config related Rcon as following.
 
@@ -89,6 +89,60 @@ A Discord account is required to create Discord bot. If you have not had it yet,
 | enable-rcon | true | |
 | rcon.port | 25575 | Set another value if you cannot set default value. |
 | rcon.password | <any string> | Please make sure that the password is hard to guess by others. |
+
+### 3: Installing package
+1. Install [Node.js](https://nodejs.org)v20.2.0.
+
+There are 2 ways to install this package after this.
+
+#### 3-A: The way using npm
+2. Create a directory as follows.
+  ```
+  Server/
+  ├ MinecraftDiscordChatSync/          ← Make this directory
+  ├ server.jar                         ← Server launch file
+  ├ server.properties
+  └ ...
+  ```
+
+3. Open terminal.
+4. Set current directory to the directory created in 2.
+5. Type `npm install @gakuto1112/minecraft-discord-chat-sync` to install the package.
+
+#### 3-B: The way downloading this repository directly
+2. Download or clone this repository.
+   - You can download by clicking green "<> Code" button on the top-left corner and "Download ZIP" button.
+3. Place downloaded/cloned repository as follows.
+  ```
+  Server/
+  ├ MinecraftDiscordChatSync/          ← Make this directory
+  │ ├ .github/
+  │ │ └ ...
+  │ ├ src/
+  │ │ ├ MinecraftDiscordChatSync.ts
+  │ │ └ ...
+  │ ├ .gitignore
+  | ├ package-lock.json
+  | ├ package-lock.json
+  | └ tsconfig.json
+  ├ server.jar                         ← Server launch file
+  ├ server.properties
+  └ ...
+  ```
+
+4. Open terminal.
+5. Set current directory to `.../MinecraftDiscordChatSync/`.
+6. Type `npm install` to install dependent packages.
+7. Type `npm run build` to compile codes.
+
+### 4: Launching and configuring the system
+1. Open terminal.
+2. Set current directory to `.../MinecraftDiscordChatSync/`.
+3. Type `npx minecraft-discord-chat-sync` (If you used [3-A](#3-a-the-way-using-npm)) or `npm start` (If you used [3-B](#3-b-the-way-downloading-this-repository-directly)) to launch the system.
+4. The system will generate system config file (`config.json`) and then, it ends.
+5. Complete configuring by reference to [here](#system-config).
+6. Do 1. to launch the system again. If there is nothing wrong with config, the system will login to the discord bot. If the system succeeds to login to the bot, `Succeeded to login as "<bot_name>#0000".` will be displayed.
+   - The system will point out what wrong with config. Please correct the mistakes and restart the system.
 
 ## Launch options
 You can set some options when launching this system.
@@ -118,11 +172,14 @@ The system config (`config.json`) will be generated after first launch. Please s
 Locale data is stored at `./locales`. Only English and Japanese are provided by default, but you can create locale data by extracting game language data from game resources.
 
 1. Open terminal.
-2. Set current directory to `../MinecraftDiscordChatSync/src/locales/locale_generator`.
-3. If you haven't installed modules yet, type `npm install` to install modules.
-4. Type `ts-node LocaleDataGenerator.ts` to launch tool.
-5. Follow the instructions and enter the necessary information to generate locale data.
-6. `../<lang_code>/<lang_code>.tsv` is the locale data used by this system. Please open this and translate each key.
+2. Set current directory to `.../MinecraftDiscordChatSync/.
+3. Type `npx generate-locale` (If you used [3-A](#3-a-the-way-using-npm)) or `npm run generate_locale` (If you used [3-B](#3-b-the-way-downloading-this-repository-directly)) to launch the tool.
+4. Follow the instructions and enter the necessary information to generate locale data.
+5. `.../MinecraftDiscordChatSync/locales/<lang_code>/<lang_code>.tsv` is the locale data used by this system. Please open this and translate each key.
+
+[**Notes**]
+- You need to **install Minecraft and launch once** to use this tool.
+- This tool is for only vanilla data. If you want to add mod data, you need to add them manually.
 
 ## Notes
 - If the format of the game is changed by mods or plugins, this system may not work correctly.

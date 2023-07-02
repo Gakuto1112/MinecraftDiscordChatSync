@@ -2,7 +2,17 @@
   "name": "@gakuto1112/minecraft-discord-chat-sync",
   "description": "Synchronizes Minecraft in-game chat and Discord chat",
   "author": "Gakuto1112",
-  "version": "2.0.1",
+  "version": "2.0.2",
+  "license": "MIT",
+  "keywords": [
+    "minecraft",
+    "discord",
+    "cli"
+  ],
+  "homepage": "https://github.com/Gakuto1112/MinecraftDiscordChatSync",
+  "bugs": {
+    "url": "https://github.com/Gakuto1112/MinecraftDiscordChatSync/issues"
+  },
   "files": [
     "locales/",
     "npm_scripts/",
@@ -39,9 +49,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Gakuto1112/MinecraftDiscordChatSync.git"
-  },
-  "homepage": "https://github.com/Gakuto1112/MinecraftDiscordChatSync",
-  "bugs": {
-    "url": "https://github.com/Gakuto1112/MinecraftDiscordChatSync/issues"
   }
 }

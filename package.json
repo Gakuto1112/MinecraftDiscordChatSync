@@ -25,12 +25,12 @@
   },
   "scripts": {
     "postinstall": "node ./npm_scripts/install.js",
-    "build": "./node_modules/.bin/tsc",
+    "build": "tsc",
     "start": "node ./out/MinecraftDiscordChatSync.js",
     "generate_locale": "node ./out/locale_generator/LocaleDataGenerator.js",
-    "predebug": "./node_modules/.bin/tsc",
+    "predebug": "tsc",
     "debug": "node ./out/MinecraftDiscordChatSync.js -c -d",
-    "prepack": "./node_modules/.bin/tsc"
+    "prepack": "tsc"
   },
   "dependencies": {
     "discord.js": "^14.11.0",

@@ -7,6 +7,11 @@ import { PluginManager } from "./PluginManager";
 import { BotManager } from "./BotManager";
 import { PluginBase } from "./PluginBase";
 
+/**
+ * アプリケーションの動作モード
+ */
+type RunningMode = "DIRECT" | "MODULE";
+
 export class MinecraftDiscordChatSync {
     /**
      * ロガーのインスタンス
@@ -38,6 +43,10 @@ export class MinecraftDiscordChatSync {
     public static readonly bot: BotManager = new BotManager();
 
     /**
+     * システムの動作モード
+     */
+    private static runningMode: RunningMode;
+    /**
      * システムの読み込みカウンター
      */
     private static loadCount: number = 0;
@@ -47,9 +56,18 @@ export class MinecraftDiscordChatSync {
     private static rConInit: boolean;
 
     constructor(colorLog: boolean, logDebug: boolean, rConInit: boolean) {
+        MinecraftDiscordChatSync.runningMode = require.main == module ? "DIRECT" : "MODULE";
         MinecraftDiscordChatSync.logger.setColoredLog(colorLog);
         MinecraftDiscordChatSync.logger.setLogDebugLevel(logDebug);
         MinecraftDiscordChatSync.rConInit = rConInit;
+    }
+
+    /**
+     * システムの動作モードを返す。
+     * @returns システムの動作モード
+     */
+    public static getRunningMode(): RunningMode {
+        return this.runningMode;
     }
 
     /**
@@ -85,6 +103,7 @@ export class MinecraftDiscordChatSync {
      * メイン関数
      */
     public async main(): Promise<void> {
+        await MinecraftDiscordChatSync.logger.setRootPath(`${process.cwd()}${MinecraftDiscordChatSync.getRunningMode() == "MODULE" ? "/node_modules/@gakuto1112/minecraft-discord-chat-sync/out" : "/out"}`);
         await MinecraftDiscordChatSync.plugin.loadPlugins();
         MinecraftDiscordChatSync.config.readConfigFile();
         MinecraftDiscordChatSync.config.updateConfigFile();

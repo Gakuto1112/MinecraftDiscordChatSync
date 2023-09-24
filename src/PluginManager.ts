@@ -19,7 +19,7 @@ export class PluginManager {
         if(!this.pluginLoaded) {
             MinecraftDiscordChatSync.logger.info("Loading plugins...");
             try {
-                const entries: fs.Dirent[] = fs.readdirSync("./node_modules/@gakuto1112/minecraft-discord-chat-sync/out/plugins/", {withFileTypes: true});
+                const entries: fs.Dirent[] = fs.readdirSync(MinecraftDiscordChatSync.getRunningMode() == "MODULE" ? "./node_modules/@gakuto1112/minecraft-discord-chat-sync/out/plugins/" : "./out/plugins", {withFileTypes: true});
                 for(const entry of entries) {
                     if(entry.isFile()) {
                         if(entry.name.toLowerCase().endsWith(".js")) {

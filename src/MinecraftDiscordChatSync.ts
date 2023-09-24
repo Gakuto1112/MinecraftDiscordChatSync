@@ -11,7 +11,7 @@ export class MinecraftDiscordChatSync {
     /**
      * ロガーのインスタンス
      */
-    public static logger: Logger;
+    public static readonly logger: Logger = new Logger();
     /**
      * コンフィグマネージャーのインスタンス
      */
@@ -47,7 +47,8 @@ export class MinecraftDiscordChatSync {
     private static rConInit: boolean;
 
     constructor(colorLog: boolean, logDebug: boolean, rConInit: boolean) {
-        MinecraftDiscordChatSync.logger = new Logger(colorLog, logDebug);
+        MinecraftDiscordChatSync.logger.setColoredLog(colorLog);
+        MinecraftDiscordChatSync.logger.setLogDebugLevel(logDebug);
         MinecraftDiscordChatSync.rConInit = rConInit;
     }
 

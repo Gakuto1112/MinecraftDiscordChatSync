@@ -33,6 +33,7 @@
     "prepack": "tsc"
   },
   "dependencies": {
+    "@gakuto1112/nodejs-logger": "^1.0.0",
     "discord.js": "^14.11.0",
     "iconv-lite": "^0.6.3",
     "rcon-client": "^4.2.3",

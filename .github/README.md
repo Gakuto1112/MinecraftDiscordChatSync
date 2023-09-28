@@ -183,6 +183,6 @@ Locale data is stored at `./locales`. Only English and Japanese are provided by 
 
 ## Notes
 - If the format of the game is changed by mods or plugins, this system may not work correctly.
-- If players have prefix or suffix in their name by "[/team](https://minecraft.fandom.com/wiki/Commands/team)" commands, this system cannot detect events correctly.
+- If players have prefix or suffix in their name by "[/team](https://minecraft.wiki/w/Commands/team)" commands, this system cannot detect events correctly.
 - I am not responsible for any damages or troubles caused by the use of this system.
 - Please feel free to report any issues or suggestions to [Issues](https://github.com/Gakuto1112/MinecraftDiscordChatSync/issues).

@@ -190,6 +190,6 @@ ts-node MinecraftDiscordChatSync.ts <オプション1> <オプション2> ...
 
 ## 注意事項
 - modやプラグインによって出力されるログのフォーマットが変更されている場合は正常に動作しない可能性があります。
-- 「[/team](https://minecraft.fandom.com/wiki/Commands/team)」コマンドでプレイヤーに接頭語や接尾語が付与されている場合、システムは正常に検出できなくなります。
+- 「[/team](https://minecraft.wiki/w/Commands/team)」コマンドでプレイヤーに接頭語や接尾語が付与されている場合、システムは正常に検出できなくなります。
 - このアプリケーションを使用して発生したいかなる損害の責任は負いかねます。
 - 不具合や提案がありましたら、お気軽に[Issues](https://github.com/Gakuto1112/MinecraftDiscordChatSync/issues)へご報告ください。

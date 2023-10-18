@@ -2,7 +2,7 @@
   "name": "@gakuto1112/minecraft-discord-chat-sync",
   "description": "Synchronizes Minecraft in-game chat and Discord chat",
   "author": "Gakuto1112",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "license": "MIT",
   "keywords": [
     "minecraft",

@@ -8,8 +8,6 @@ on:
 jobs:
   PublishPackage:
     runs-on: ubuntu-latest
-    environment:
-      name: npm
     steps:
       - name: Checkout
         uses: actions/checkout@v3

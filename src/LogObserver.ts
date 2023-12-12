@@ -49,7 +49,7 @@ export class LogObserver {
                         MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error.stack}`);
                     }
                 });
-                const logData: RegExpMatchArray|null = line.match(/^(\[.*\]\s)*\[.*(\d{2}:\d{2}:\d{2}).*\]\s(\[.*\]\s)*\[(.+)\/(INFO|WARN|ERROR|FATAL)\](\s\[.*\])*:\s(.+)$/);
+                const logData: RegExpMatchArray|null = line.match(/^(\[.*\]\s)*\[.*(\d{2}:\d{2}:\d{2}).*\]\s(\[.*\]\s)*\[(.+)\/(INFO|WARN|ERROR|FATAL)\](\s\[.*\])*:\s(.+)/);
                 if(logData != null) {
                     const dateParse: RegExpMatchArray = (logData[2].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
                     const date: Date = new Date();

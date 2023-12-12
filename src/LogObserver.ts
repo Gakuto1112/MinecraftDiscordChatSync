@@ -38,7 +38,7 @@ export class LogObserver {
             }
         }
         await this.readLog(() => {});
-        fs.watchFile(logPath, {persistent: true, interval: 100}, async (current: fs.Stats, previous: fs.Stats) => {
+        fs.watchFile(logPath, {persistent: true, interval: MinecraftDiscordChatSync.config.getConfig("logInterval") as number}, async (current: fs.Stats, previous: fs.Stats) => {
             if(current.ino > 0) {
                 if(current.size < previous.size) this.linesPrev = 0;
                 await this.readLog((line: string) => {

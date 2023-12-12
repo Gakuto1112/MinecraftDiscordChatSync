@@ -64,6 +64,22 @@ export class ConfigManager {
                 }
             }
         },
+        logInterval: {
+            value: 100,
+            verificationFunction: (value: any): VerificationResult => {
+                if(typeof value == "number") {
+                    return {
+                        isValid: true
+                    }
+                }
+                else {
+                    return {
+                        isValid: false,
+                        message: `The provided config value type "${typeof value}" does not match valid type "number".`
+                    }
+                }
+            }
+        },
         locale: {
             value: "en_us",
             verificationFunction: (value: any): VerificationResult => {

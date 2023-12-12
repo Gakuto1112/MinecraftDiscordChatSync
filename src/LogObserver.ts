@@ -49,16 +49,16 @@ export class LogObserver {
                         MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error.stack}`);
                     }
                 });
-                const logData: RegExpMatchArray|null = line.match(/^\[(\d{2}:\d{2}:\d{2})\] \[(.+)\/([A-Z]+)\]: (.+)/);
+                const logData: RegExpMatchArray|null = line.match(/^(\[.*\]\s)*\[.*(\d{2}:\d{2}:\d{2}).*\]\s(\[.*\]\s)*\[(.+)\/(INFO|WARN|ERROR|FATAL)\](\s\[.*\])*:\s(.+)$/);
                 if(logData != null) {
-                    const dateParse: RegExpMatchArray = (logData[1].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
+                    const dateParse: RegExpMatchArray = (logData[2].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
                     const date: Date = new Date();
                     date.setHours(Number(dateParse[1]), Number(dateParse[2]), Number(dateParse[3]));
-                    if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[4]))) MinecraftDiscordChatSync.rCon.connect();
-                    else if(logData[4].startsWith("Stopping server")) MinecraftDiscordChatSync.rCon.disconnect();
+                    if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[7]))) MinecraftDiscordChatSync.rCon.connect();
+                    else if(logData[7].startsWith("Stopping server")) MinecraftDiscordChatSync.rCon.disconnect();
                     MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                         try {
-                            plugin.onNewLog(date, logData[2], logData[3] as LogType, logData[4]);
+                            plugin.onNewLog(date, logData[4], logData[5].toLowerCase() as LogType, logData[7]);
                         }
                         catch(error: any) {
                             MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLog()".\n${error.stack}`);

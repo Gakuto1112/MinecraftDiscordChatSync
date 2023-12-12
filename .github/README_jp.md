@@ -163,6 +163,7 @@ ts-node MinecraftDiscordChatSync.ts <オプション1> <オプション2> ...
 | - | - | - | - |
 | pathToLog | ゲームサーバーのログファイルまでの相対パス | ../../logs/latest.log | string（「.log」で終了すること） |
 | logCharCode | ログファイルの文字コード。Windowsの日本語環境の場合は「shift-jis」に設定するとよい。 | utf-8 | string（[サポートされている文字コード](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)）|
+| logInterval | ログの差分を確認する時間間隔（ミリ秒単位）。値を小さくするとログの変更への反応が機敏になるが、システムへの負荷が増大する。 | 100 | number |
 | locale | システムの使用言語 | en_us | string（ゲームの言語コードと同じ） |
 | token | ボットのトークン | | string |
 | listenChannels | システムがDiscordからのメッセージを検出するチャンネルのIDの一覧 | [] | string[] |

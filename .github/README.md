@@ -160,6 +160,7 @@ The system config (`config.json`) will be generated after first launch. Please s
 | - | - | - | - |
 | pathToLog | Path to the log file of the game server | ../../logs/latest.log | string (ends with ".log") |
 | logCharCode | Character code of the log file | utf-8 | string（[supported character codes](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings)）|
+| logInterval | Time interval to check log updates (unit: ms). Lower values make the response for log updates more quickly, but also increases the load on the system. | 100 | number |
 | locale | The language of this system | en_us | string（same as language name in the game） |
 | token | Bot token | | string |
 | listenChannels | The list of the channel IDs where this system detects messages from Discord. | [] | string[] |

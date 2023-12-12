@@ -39,34 +39,37 @@ export class LogObserver {
         }
         await this.readLog(() => {});
         fs.watchFile(logPath, {persistent: true, interval: 100}, async (current: fs.Stats, previous: fs.Stats) => {
-            if(current.size < previous.size) this.linesPrev = 0;
-            await this.readLog((line: string) => {
-                MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
-                    try {
-                        plugin.onNewLogRaw(line);
-                    }
-                    catch(error: any) {
-                        MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error.stack}`);
-                    }
-                });
-                const logData: RegExpMatchArray|null = line.match(/^(\[.*\]\s)*\[.*(\d{2}:\d{2}:\d{2}).*\]\s(\[.*\]\s)*\[(.+)\/(INFO|WARN|ERROR|FATAL)\](\s\[.*\])*:\s(.+)/);
-                if(logData != null) {
-                    const dateParse: RegExpMatchArray = (logData[2].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
-                    const date: Date = new Date();
-                    date.setHours(Number(dateParse[1]), Number(dateParse[2]), Number(dateParse[3]));
-                    if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[7]))) MinecraftDiscordChatSync.rCon.connect();
-                    else if(logData[7].startsWith("Stopping server")) MinecraftDiscordChatSync.rCon.disconnect();
+            if(current.ino > 0) {
+                if(current.size < previous.size) this.linesPrev = 0;
+                await this.readLog((line: string) => {
                     MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
                         try {
-                            plugin.onNewLog(date, logData[4], logData[5].toLowerCase() as LogType, logData[7]);
+                            plugin.onNewLogRaw(line);
                         }
                         catch(error: any) {
-                            MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLog()".\n${error.stack}`);
+                            MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLogRaw()".\n${error.stack}`);
                         }
                     });
-                }
-                MinecraftDiscordChatSync.logger.debug(line);
-            });
+                    const logData: RegExpMatchArray|null = line.match(/^(\[.*\]\s)*\[.*(\d{2}:\d{2}:\d{2}).*\]\s(\[.*\]\s)*\[(.+)\/(INFO|WARN|ERROR|FATAL)\](\s\[.*\])*:\s(.+)/);
+                    if(logData != null) {
+                        const dateParse: RegExpMatchArray = (logData[2].match(/^(\d{2}):(\d{2}):(\d{2})$/) as RegExpMatchArray);
+                        const date: Date = new Date();
+                        date.setHours(Number(dateParse[1]), Number(dateParse[2]), Number(dateParse[3]));
+                        if((/^RCON running on (\d{1,3}\.){3}\d{1,3}:\d{1,5}$/.test(logData[7]))) MinecraftDiscordChatSync.rCon.connect();
+                        else if(logData[7].startsWith("Stopping server")) MinecraftDiscordChatSync.rCon.disconnect();
+                        MinecraftDiscordChatSync.plugin.plugins.forEach((plugin: PluginBase) => {
+                            try {
+                                plugin.onNewLog(date, logData[4], logData[5].toLowerCase() as LogType, logData[7]);
+                            }
+                            catch(error: any) {
+                                MinecraftDiscordChatSync.logger.error(`An error occurred while executing "onNewLog()".\n${error.stack}`);
+                            }
+                        });
+                    }
+                    MinecraftDiscordChatSync.logger.debug(line);
+                });    
+            }
+            else MinecraftDiscordChatSync.logger.error("Could not find the log. This can be occurred rarely even if settings of the system are fine because this system tried to read the log while the game server re-creates it. You don't worry about this error if this system is working well.");
         });
     }
 

@@ -2,6 +2,7 @@ global	local
 [Intentional Game Design]	Intentional Game Design
 Allay	Allay
 Area Effect Cloud	Area Effect Cloud
+Armadillo	Armadillo
 Armor Stand	Armor Stand
 Arrow	Arrow
 Axolotl	Axolotl
@@ -10,6 +11,9 @@ Bee	Bee
 Blaze	Blaze
 Block Display	Block Display
 Boat	Boat
+Bogged	Bogged
+Breeze	Breeze
+Wind Charge	Wind Charge
 Camel	Camel
 Cat	Cat
 Cave Spider	Cave Spider
@@ -71,6 +75,7 @@ Minecart	Minecart
 Mooshroom	Mooshroom
 Mule	Mule
 Ocelot	Ocelot
+Ominous Item Spawner	Ominous Item Spawner
 Painting	Painting
 Panda	Panda
 Parrot	Parrot
@@ -131,6 +136,7 @@ Weaponsmith	Weaponsmith
 Vindicator	Vindicator
 Wandering Trader	Wandering Trader
 Warden	Warden
+Wind Charge	Wind Charge
 Witch	Witch
 Wither	Wither
 Wither Skeleton	Wither Skeleton

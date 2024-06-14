@@ -2,18 +2,25 @@ global	local_title	local_description
 Adventuring Time	Adventuring Time	Discover every biome
 Arbalistic	Arbalistic	Kill five unique mobs with one crossbow shot
 Sneak 100	Sneak 100	Sneak near a Sculk Sensor or Warden to prevent it from detecting you
+Blowback	Blowback	Kill a Breeze with a deflected Breeze-shot Wind Charge
+Isn't It Scute?	Isn't It Scute?	Get Armadillo Scutes from an Armadillo using a Brush
 Bullseye	Bullseye	Hit the bullseye of a Target block from at least 30 meters away
 Careful Restoration	Careful Restoration	Make a Decorated Pot out of 4 Pottery Sherds
+Crafters Crafting Crafters	Crafters Crafting Crafters	Be near a Crafter when it crafts a Crafter
 Caves & Cliffs	Caves & Cliffs	Free fall from the top of the world (build limit) to the bottom of the world and survive
 Hero of the Village	Hero of the Village	Successfully defend a village from a raid
 Sticky Situation	Sticky Situation	Jump into a Honey Block to break your fall
 Monster Hunter	Monster Hunter	Kill any hostile monster
 Monsters Hunted	Monsters Hunted	Kill one of every hostile monster
 It Spreads	It Spreads	Kill a mob near a Sculk Catalyst
+Lighten Up	Lighten Up	Scrape a Copper Bulb with an Axe to make it brighter
 Surge Protector	Surge Protector	Protect a Villager from an undesired shock without starting a fire
+Minecraft: Trial(s) Edition	Minecraft: Trial(s) Edition	Step foot in a Trial Chamber
 Ol' Betsy	Ol' Betsy	Shoot a Crossbow
+Over-Overkill	Over-Overkill	Deal 50 hearts of damage in a single hit using the Mace
 Sound of Music	Sound of Music	Make the Meadows come alive with the sound of music from a Jukebox
 The Power of Books	The Power of Books	Read the power signal of a Chiseled Bookshelf using a Comparator
+Revaulting	Revaulting	Unlock an Ominous Vault with an Ominous Trial Key
 Respecting the Remnants	Respecting the Remnants	Brush a Suspicious block to obtain a Pottery Sherd
 Take Aim	Take Aim	Shoot something with an Arrow
 Sweet Dreams	Sweet Dreams	Sleep in a Bed to change your respawn point
@@ -29,9 +36,11 @@ What a Deal!	What a Deal!	Successfully trade with a Villager
 Smithing with Style	Smithing with Style	Apply these smithing templates at least once: Spire, Snout, Rib, Ward, Silence, Vex, Tide, Wayfinder
 Crafting a New Look	Crafting a New Look	Craft a trimmed armor at a Smithing Table
 Two Birds, One Arrow	Two Birds, One Arrow	Kill two Phantoms with a piercing Arrow
+Under Lock and Key	Under Lock and Key	Unlock a Vault with a Trial Key
 Very Very Frightening	Very Very Frightening	Strike a Villager with lightning
 Voluntary Exile	Voluntary Exile	Kill a raid captain.\nMaybe consider staying away from villages for the time being...
 Light as a Rabbit	Light as a Rabbit	Walk on Powder Snow... without sinking in it
+Who Needs Rockets?	Who Needs Rockets?	Use a Wind Charge to launch yourself upward 8 blocks
 Who's the Pillager Now?	Who's the Pillager Now?	Give a Pillager a taste of their own medicine
 You Need a Mint	You Need a Mint	Collect Dragon's Breath in a Glass Bottle
 The Next Generation	The Next Generation	Hold the Dragon Egg
@@ -58,6 +67,8 @@ Serious Dedication	Serious Dedication	Use a Netherite Ingot to upgrade a Hoe, an
 Smells Interesting	Smells Interesting	Obtain a Sniffer Egg
 Planting the Past	Planting the Past	Plant any Sniffer seed
 A Seedy Place	A Seedy Place	Plant a seed and watch it grow
+Shear Brilliance	Shear Brilliance	Remove Wolf Armor from a Wolf using Shears
+Good as New	Good as New	Repair a damaged Wolf Armor using Armadillo Scutes
 Whatever Floats Your Goat!	Whatever Floats Your Goat!	Get in a Boat and float with a Goat
 Bee Our Guest	Bee Our Guest	Use a Campfire to collect Honey from a Beehive using a Glass Bottle without aggravating the Bees
 Total Beelocation	Total Beelocation	Move a Bee Nest, with 3 Bees inside, using Silk Touch
@@ -66,6 +77,7 @@ Bukkit Bukkit	Bukkit Bukkit	Catch a Tadpole in a Bucket
 Best Friends Forever	Best Friends Forever	Tame an animal
 Wax Off	Wax Off	Scrape Wax off of a Copper block!
 Wax On	Wax On	Apply Honeycomb to a Copper block!
+The Whole Pack	The Whole Pack	Tame one of each Wolf variant
 How Did We Get Here?	How Did We Get Here?	Have every effect applied at the same time
 A Furious Cocktail	A Furious Cocktail	Have every potion effect applied at the same time
 Local Brewery	Local Brewery	Brew a Potion

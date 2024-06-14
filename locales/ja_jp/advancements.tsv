@@ -2,18 +2,25 @@ global	local_title	local_description
 Adventuring Time	冒険の時間	すべての種類のバイオームを発見する
 Arbalistic	クロスボウの達人	5種類のMobをクロスボウを使って一度に倒す
 Sneak 100	スニーク100	スカルクセンサーまたはウォーデンの近くでスニークして感知されないようにする
+Blowback	逆風	ブリーズの放ったウィンドチャージを打ち返して倒す
+Isn't It Scute?	可鱗でしょう？	アルマジロにブラシを使い、アルマジロのウロコを手に入れる
 Bullseye	的中	30m以上離れた場所から的の中心を射抜く
 Careful Restoration	丁寧な修復作業	4つの壺の欠片から飾り壺を作る
+Crafters Crafting Crafters	自動作業台製自動作業台	自動作業台が自動作業台を作る様子を観察する
 Caves & Cliffs	洞窟と崖	ワールドの頂上（限界高度）からワールドの底へ落下し、生き残る
 Hero of the Village	村の英雄	襲撃から村を守る
 Sticky Situation	べとべとな状況	ハチミツブロックに飛び込み、落下を阻止する
 Monster Hunter	モンスターハンター	敵対的なモンスターを倒す
 Monsters Hunted	モンスター狩りの達人	すべての種類の敵対的なモンスターを倒す
 It Spreads	「それ」は侵食する	スカルクカタリストの近くでMobを倒す
+Lighten Up	明るくなーれ	斧で銅の電球の錆をとる
 Surge Protector	危機一髪	火事を起こすことなく不意な落雷から村人を守る
+Minecraft: Trial(s) Edition	Minecraft: トライアル版	試練の間に足を踏み入れる
 Ol' Betsy	おてんば	クロスボウを撃つ
+Over-Overkill	超・やり過ぎ	メイスを使って一撃でハート50個分のダメージを与える
 Sound of Music	サウンド・オブ・ミュージック	ジュークボックスの音楽で草地を盛り上げる
 The Power of Books	本は力なり	模様入りの本棚からレッドストーンコンパレーターを介して信号を読み取る
+Revaulting	怪錠	不吉な試練の鍵を使って不吉な宝物庫を解錠する
 Respecting the Remnants	文明の面影に敬意を	怪しげなブロックをブラシで払い、壺の欠片を手に入れる
 Take Aim	狙いを定めて	矢で何かを撃つ
 Sweet Dreams	良い夢見てね	ベッドで眠り、リスポーン地点を設定する
@@ -24,14 +31,16 @@ Is It a Bird?	あれは鳥？	望遠鏡を通してオウムを観察する
 Hired Help	お手伝いさん	村を守ってもらうためにアイアンゴーレムを召喚する
 A Throwaway Joke	もったいぶった一言	トライデントを投げつける。\n注意：唯一の武器を捨てることは良い考えではありません。
 Postmortal	死を超えて	不死のトーテムを使用して死を免れる
-Star Trader	星の商人	限界高度で村人と取引をする
+Star Trader	星の商人	建築限界高度で村人と取引をする
 What a Deal!	良い取引だ！	村人と取引をする
 Smithing with Style	オシャレな鍛冶職人	尖塔風、ブタの鼻風、あばら模様、監獄風、静寂、ヴェックス風、潮流風、先駆者風の防具装飾を、それぞれ最低一回以上施す
 Crafting a New Look	おニューの衣装	鍛冶台で防具に装飾を施す
 Two Birds, One Arrow	一石二鳥	矢を貫通させて2体のファントムを倒す
+Under Lock and Key	錠と鍵に隠されしもの	試練の鍵を使って宝物庫を解錠する
 Very Very Frightening	とてもとても恐ろしい	雷を村人に落とす
 Voluntary Exile	自主的な亡命	襲撃隊の大将を倒す。\n当分の間村から離れて過ごされてみてはいかがでしょうか…
 Light as a Rabbit	ウサギのように軽く	粉雪の上を歩く…沈むことなく
+Who Needs Rockets?	ロケットいらず	ウィンドチャージを使って8ブロック以上飛び上がる
 Who's the Pillager Now?	どっちが略奪者？	ピリジャーを奴らの手段で懲らしめる
 You Need a Mint	口臭に気をつけよう	ガラス瓶にドラゴンブレスを採取する
 The Next Generation	ザ・ネクストジェネレーション	ドラゴンの卵を持つ
@@ -58,14 +67,17 @@ Serious Dedication	真面目な献身	ネザライトインゴットでクワを
 Smells Interesting	興味深い匂い	スニッファーの卵を手に入れる
 Planting the Past	遥か古の植物	スニッファーが見つけた種を植える
 A Seedy Place	種だらけの場所	種を植え、成長を観察する
+Shear Brilliance	キレがいいね	ハサミを使ってオオカミから鎧を外す
+Good as New	まるで新品	アルマジロのウロコを使って損傷したオオカミの鎧を修復する
 Whatever Floats Your Goat!	あなたのヤギたい様に！	ヤギと一緒にボートに乗り、浮かぶ
-Bee Our Guest	秘蜜の晩餐会	焚き火を利用して、ミツバチを怒らせずにガラス瓶でハチミツを手に入れる
+Bee Our Guest	秘蜜の晩餐会	焚き火を利用して、ミツバチを怒らせずにガラス瓶にハチミツを採取する
 Total Beelocation	綿蜜な引越し	シルクタッチを使用して、3匹のミツバチが中に入っているハチの巣を移動する
 Tactical Fishing	戦術的漁業	魚を捕まえる…釣竿なしで！
 Bukkit Bukkit	おけおけ	バケツでオタマジャクシを捕まえる
 Best Friends Forever	永遠の親友となるだろう	動物を手懐ける
 Wax Off	錆止め落とし	銅ブロックの錆止めをこすり落とす！
 Wax On	錆止め	銅ブロックにハニカムを塗る！
+The Whole Pack	ワンチーム	すべての種類のオオカミを手懐ける
 How Did We Get Here?	どうやってここまで？	すべての種類の効果の付与を同時に受ける
 A Furious Cocktail	猛烈なカクテル	すべての種類のポーション効果の付与を同時に受ける
 Local Brewery	町のお薬屋さん	ポーションを醸造する
@@ -88,7 +100,7 @@ Feels Like Home	実家のような安心感	オーバーワールドの溶岩湖
 This Boat Has Legs	足のついたボート	歪んだキノコ付きの棒を持ってストライダーに乗る
 Withering Heights	荒が丘	ウィザーを召喚する
 Uneasy Alliance	不安な同盟	ガストをネザーから救出し、安全にオーバーワールドに持ち帰り…そして倒す。
-Country Lode, Take Me Home	この道をずっとゆけば	コンパスの指し示す先をロードストーンに固定する
+Country Lode, Take Me Home	この道をずっとゆけば	ロードストーンにコンパスを使用する
 Zombie Doctor	ゾンビドクター	村人ゾンビを弱らせてから治療する
 Not Today, Thank You	今日はやめておきます	盾で飛び道具を跳ね返す
 Enchanter	エンチャントの使い手	エンチャントテーブルでアイテムをエンチャントする

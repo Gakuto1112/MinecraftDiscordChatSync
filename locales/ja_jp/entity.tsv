@@ -2,6 +2,7 @@ global	local
 [Intentional Game Design]	ゲームの仕様
 Allay	アレイ
 Area Effect Cloud	エリアエフェクトクラウド
+Armadillo	アルマジロ
 Armor Stand	防具立て
 Arrow	矢
 Axolotl	ウーパールーパー
@@ -10,6 +11,9 @@ Bee	ミツバチ
 Blaze	ブレイズ
 Block Display	ブロック表示エンティティ
 Boat	ボート
+Bogged	ボグド
+Breeze	ブリーズ
+Wind Charge	ウィンドチャージ
 Camel	ラクダ
 Cat	ネコ
 Cave Spider	洞窟グモ
@@ -71,6 +75,7 @@ Minecart	トロッコ
 Mooshroom	ムーシュルーム
 Mule	ラバ
 Ocelot	ヤマネコ
+Ominous Item Spawner	不吉なアイテムスポナー
 Painting	絵画
 Panda	パンダ
 Parrot	オウム
@@ -131,6 +136,7 @@ Weaponsmith	武器鍛冶
 Vindicator	ヴィンディケーター
 Wandering Trader	行商人
 Warden	ウォーデン
+Wind Charge	ウィンドチャージ
 Witch	ウィッチ
 Wither	ウィザー
 Wither Skeleton	ウィザースケルトン
